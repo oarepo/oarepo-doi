@@ -1,0 +1,12 @@
+record:
+  use:
+    - invenio
+  module:
+    qualified: thesis
+  permissions:
+    presets: [ 'everyone' ]
+  properties:
+    metadata:
+     properties:
+      title:
+       type: keyword
