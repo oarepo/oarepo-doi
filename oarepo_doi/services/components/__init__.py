@@ -13,10 +13,14 @@ class DoiComponent(ServiceComponent):
         super().__init__(*args, **kwargs)
 
         self.mode = current_app.config.get("DATACITE_MODE")
+
+        #this will be changed after oarepo-communities release
         self.username = current_app.config.get("DATACITE_USERNAME")
         self.password = current_app.config.get("DATACITE_PASSWORD")
         self.url = current_app.config.get("DATACITE_URL")
         self.prefix = current_app.config.get("DATACITE_PREFIX")
+        #
+
         self.mapping = current_app.config.get("DATACITE_MAPPING")
 
     def create(self, identity, data=None, record=None, **kwargs):
