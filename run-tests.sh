@@ -32,6 +32,8 @@ source $VENV_TESTS/bin/activate
 pip install -U setuptools pip wheel
 pip install "oarepo[tests]==${OAREPO_VERSION}.*"
 pip install "./thesis[tests]"
+pip install -e ".[tests]"
+
 pytest ./thesis/tests -vvv
 
 pytest tests -vvv
