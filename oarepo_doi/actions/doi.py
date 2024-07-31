@@ -2,7 +2,7 @@ from invenio_requests.customizations import actions
 from flask import current_app
 from oarepo_doi.api import create_doi
 
-class CreateDoiAction(actions.AcceptAction):
+class CreateDoiAction(actions.CreateAction):
     log_event = True
 
     def __init__(self, *args, **kwargs):

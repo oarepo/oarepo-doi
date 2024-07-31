@@ -1,7 +1,7 @@
 from invenio_requests.customizations import RequestType
 from oarepo_runtime.i18n import lazy_gettext as _
-from ..actions.doi import DoiAction
-from .ref_types import ModelRefTypes
+from ..actions.doi import CreateDoiAction, EditDoiAction
+from oarepo_requests.types.ref_types import ModelRefTypes
 
 class CreateDoiRequestType(RequestType):
     type_id = "create_doi"
@@ -21,7 +21,7 @@ class EditDoiRequestType(RequestType):
 
     available_actions = {
         **RequestType.available_actions,
-        "accept": CreateDoiAction,
+        "accept": EditDoiAction,
     }
 
     receiver_can_be_none = True
