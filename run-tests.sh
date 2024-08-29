@@ -24,6 +24,11 @@ fi
 if test -d $VENV_TESTS ; then
 	rm -rf $VENV_TESTS
 fi
+pip install -U oarepo-model-builder \
+               oarepo-model-builder-tests \
+               oarepo-model-builder-requests \
+               oarepo-model-builder-drafts \
+               oarepo-model-builder-workflows
 oarepo-compile-model ./tests/thesis.yaml --output-directory ./thesis -vvv
 
 python3 -m venv $VENV_TESTS

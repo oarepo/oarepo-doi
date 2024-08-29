@@ -1,12 +1,23 @@
 record:
   use:
-    - invenio
+  - invenio
   module:
     qualified: thesis
   permissions:
     presets: [ 'everyone' ]
+  draft: {}
   properties:
     metadata:
-     properties:
-      title:
-       type: keyword
+      properties:
+        title:
+          type: fulltext
+        creators[]:
+          type: keyword
+        contributors[]:
+          type: keyword
+
+settings:
+  schema-server: 'local://'
+profiles:
+- record
+- draft
