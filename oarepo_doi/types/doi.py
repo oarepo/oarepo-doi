@@ -3,7 +3,7 @@ from oarepo_runtime.i18n import lazy_gettext as _
 from ..actions.doi import CreateDoiAction, ValidateDataForDoiAction
 from oarepo_requests.types.ref_types import ModelRefTypes
 
-class CreateDoiRequestType(RequestType):
+class AssignDoiRequestType(RequestType):
     type_id = "assign_doi"
     name = _("assign_doi")
 
