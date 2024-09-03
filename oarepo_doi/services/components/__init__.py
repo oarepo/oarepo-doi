@@ -51,8 +51,8 @@ class DoiComponent(ServiceComponent):
 
     def publish(self, identity, data=None, record=None, **kwargs):
         if self.mode == "AUTOMATIC":
-            self.credentials(data['parent']['communities']['default'])
+            self.credentials(record['parent']['communities']['default'])
             create_doi(self, record, data, "publish")
         if self.mode == "AUTOMATIC_DRAFT":
-            self.credentials(data['parent']['communities']['default'])
+            self.credentials(record['parent']['communities']['default'])
             edit_doi(self, record, "publish")
