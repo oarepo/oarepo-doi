@@ -15,6 +15,7 @@ class DoiComponent(ServiceComponent):
         self.mode = current_app.config.get("DATACITE_MODE")
         self.url = current_app.config.get("DATACITE_URL")
         self.mapping = current_app.config.get("DATACITE_MAPPING")
+        self.specified_doi = current_app.config.get("DATACITE_SPECIFIED_ID")
 
         self.username = None
         self.password = None
@@ -39,12 +40,12 @@ class DoiComponent(ServiceComponent):
             create_doi(self, record,data, None)
 
     def update_draft(self, identity, data=None, record=None, **kwargs):
-        if self.mode == "AUTOMATIC_DRAFT":
+        if self.mode == "AUTOMATIC_DRAFT" or self.mode == "ON_EVENT":
             self.credentials(data['parent']['communities']['default'])
             edit_doi(self, record)
 
     def update(self, identity, data=None, record=None, **kwargs):
-        if self.mode == "AUTOMATIC_DRAFT" or self.mode == "AUTOMATIC":
+        if self.mode == "AUTOMATIC_DRAFT" or self.mode == "AUTOMATIC" or self.mode == "ON_EVENT":
             self.credentials(data['parent']['communities']['default'])
             edit_doi(self, record)
 
