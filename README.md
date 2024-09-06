@@ -20,10 +20,11 @@ mode types:
   - `AUTOMATIC_DRAFT` - dois will be assigned automatically when draft is creadet
   - `AUTOMATIC` - dois will be assigned automatically after publish 
   - `ON_EVENT` - dois are assigned after request
-  - 
+
 DATACITE_SPECIFIED_ID
   - Default value - False
   - If true, the doi suffix will be the same as record pid
+    
 ### Mapping example
 
 ```python
