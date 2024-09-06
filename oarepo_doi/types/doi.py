@@ -8,7 +8,7 @@ class AssignDoiRequestType(NonDuplicableOARepoRequestType):
     name = _("assign_doi")
 
     available_actions = {
-        **RequestType.available_actions,
+        **NonDuplicableOARepoRequestType.available_actions,
         "accept": CreateDoiAction,
         "submit": ValidateDataForDoiAction,
     }
