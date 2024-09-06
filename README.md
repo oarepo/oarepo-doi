@@ -12,13 +12,18 @@ DATACITE_MODE = "AUTOMATIC_DRAFT"
 DATACITE_CREDENTIALS = {"generic": {"mode": "AUTOMATIC_DRAFT", "prefix": "10.23644" , "password": "yyyy", "username": "xxx"}}
 
 DATACITE_CREDENTIALS_DEFAULT = {"mode": "AUTOMATIC_DRAFT", "prefix": "10.23644" , "password": "yyy", "username": "xxxx"}
+
+DATACITE_SPECIFIED_ID = True
 ```
 
 mode types:
   - `AUTOMATIC_DRAFT` - dois will be assigned automatically when draft is creadet
   - `AUTOMATIC` - dois will be assigned automatically after publish 
   - `ON_EVENT` - dois are assigned after request
-
+  - 
+DATACITE_SPECIFIED_ID
+  - Default value - False
+  - If true, the doi suffix will be the same as record pid
 ### Mapping example
 
 ```python
