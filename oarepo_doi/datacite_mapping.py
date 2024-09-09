@@ -1,7 +1,7 @@
 from typing import Protocol
 
-class DataCiteMappingProtocol(Protocol):
 
+class DataCiteMappingProtocol(Protocol):
     def metadata_check(self, data, errors=[]) -> []:
         ...
 
@@ -11,5 +11,5 @@ class DataCiteMappingProtocol(Protocol):
     def get_doi(self, record) -> {}:
         ...
 
-    def add_doi(self, record, data,  doi_value) -> None:
+    def add_doi(self, record, data, doi_value) -> None:
         ...

@@ -1,6 +1,7 @@
 import os
-import yaml
+
 import pytest
+import yaml
 from flask_principal import Identity, Need, UserNeed
 from flask_security.utils import hash_password, login_user
 from invenio_access.models import ActionRoles
@@ -13,6 +14,7 @@ from invenio_requests.proxies import current_request_type_registry, current_requ
 from invenio_requests.records.api import Request, RequestEventFormat
 from thesis.proxies import current_service
 from thesis.records.api import ThesisRecord
+
 # from thesis.proxies import current_service
 # from thesis.records.api import ThesisRecord
 

@@ -1,4 +1,3 @@
-
 class OARepoDOI(object):
     """OARepo DOI extension."""
 
@@ -15,7 +14,7 @@ class OARepoDOI(object):
     def init_config(self, app):
         """Initialize configuration."""
         if "DATACITE_URL" not in app.config:
-            app.config["DATACITE_URL"] = 'https://api.datacite.org/dois'
+            app.config["DATACITE_URL"] = "https://api.datacite.org/dois"
         if "DATACITE_MODE" not in app.config:
             app.config["DATACITE_MODE"] = "ON_EVENT"
         if "DATACITE_SPECIFIED_ID" not in app.config:
