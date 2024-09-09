@@ -2,11 +2,11 @@ import json
 import uuid
 
 import requests
-from flask import current_app
 from invenio_access.permissions import system_identity
 from invenio_base.utils import obj_or_import_string
 from invenio_communities import current_communities
 from invenio_search.engine import dsl
+from marshmallow.exceptions import ValidationError
 from oarepo_runtime.datastreams.utils import get_record_service_for_record
 
 
@@ -19,8 +19,9 @@ def create_doi(service, record, data, event=None):
     record["links"] = record_service.links_item_tpl.expand(system_identity, record)
 
     if len(errors) > 0 and event:
-        return  # todo: dois can not be published with missing mandatory values
-
+        raise ValidationError(
+            message=f"Could not assigned doi due to validation error: {errors} "
+        )
     request_metadata = {"data": {"type": "dois", "attributes": {}}}
 
     payload = mapping.create_datacite_payload(data)
@@ -59,7 +60,9 @@ def edit_doi(service, record, event=None):
     record_service = get_record_service_for_record(record)
     record["links"] = record_service.links_item_tpl.expand(system_identity, record)
     if len(errors) > 0 and event:
-        return  # todo: dois can not be published with missing mandatory values
+        raise ValidationError(
+            message=f"Could not assigned doi due to validation error: {errors} "
+        )
 
     doi_value = mapping.get_doi(record)
     if doi_value:

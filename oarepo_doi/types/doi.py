@@ -1,6 +1,5 @@
 from flask import current_app
 from invenio_base.utils import obj_or_import_string
-from invenio_requests.customizations import RequestType
 from marshmallow.exceptions import ValidationError
 from oarepo_requests.types.generic import NonDuplicableOARepoRequestType
 from oarepo_requests.types.ref_types import ModelRefTypes
