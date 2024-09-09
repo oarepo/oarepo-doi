@@ -9,9 +9,9 @@ DATACITE_MAPPING = {'local://documents-1.0.0.json':"common.mapping.DataCiteMappi
 
 DATACITE_MODE = "AUTOMATIC_DRAFT"
 
-DATACITE_CREDENTIALS = {"generic": {"mode": "AUTOMATIC_DRAFT", "prefix": "10.23644" , "password": "yyyy", "username": "xxx"}}
+DATACITE_CREDENTIALS = {"generic": {"prefix": "10.23644" , "password": "yyyy", "username": "xxx"}}
 
-DATACITE_CREDENTIALS_DEFAULT = {"mode": "AUTOMATIC_DRAFT", "prefix": "10.23644" , "password": "yyy", "username": "xxxx"}
+DATACITE_CREDENTIALS_DEFAULT = {"prefix": "10.23644" , "password": "yyy", "username": "xxxx"}
 
 DATACITE_SPECIFIED_ID = True
 ```
