@@ -22,23 +22,22 @@ class CreateDoiAction(OARepoAcceptAction):
         self.prefix = None
 
     def credentials(self, community):
-        credentials_def = current_app.config.get("DATACITE_CREDENTIALS")
-
-        community_credentials = getattr(credentials_def, community, None)
-        if (
-            community_credentials is None
-            and "DATACITE_CREDENTIALS_DEFAULT" in current_app.config
-        ):
-            community_credentials = current_app.config.get(
+        if not community:
+            credentials = current_app.config.get(
                 "DATACITE_CREDENTIALS_DEFAULT"
             )
-        self.username = community_credentials["username"]
-        self.password = community_credentials["password"]
-        self.prefix = community_credentials["prefix"]
+        else:
+            credentials_def = current_app.config.get("DATACITE_CREDENTIALS")
+
+            credentials = credentials_def.get(community, None)
+
+        self.username = credentials["username"]
+        self.password = credentials["password"]
+        self.prefix = credentials["prefix"]
 
     def execute(self, identity, uow, *args, **kwargs):
         topic = self.request.topic.resolve()
-        slug = community_slug_for_credentials(topic.parent["communities"]["default"])
+        slug = community_slug_for_credentials(topic.parent["communities"].get("default", None))
 
         self.credentials(slug)
 

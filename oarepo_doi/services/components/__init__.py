@@ -18,24 +18,23 @@ class DoiComponent(ServiceComponent):
         self.prefix = None
 
     def credentials(self, community):
-        credentials_def = current_app.config.get("DATACITE_CREDENTIALS")
-
-        community_credentials = getattr(credentials_def, community, None)
-        if (
-            community_credentials is None
-            and "DATACITE_CREDENTIALS_DEFAULT" in current_app.config
-        ):
-            community_credentials = current_app.config.get(
+        if not community:
+            credentials = current_app.config.get(
                 "DATACITE_CREDENTIALS_DEFAULT"
             )
-        self.username = community_credentials["username"]
-        self.password = community_credentials["password"]
-        self.prefix = community_credentials["prefix"]
+        else:
+            credentials_def = current_app.config.get("DATACITE_CREDENTIALS")
+
+            credentials =  credentials_def.get(community, None)
+
+        self.username = credentials["username"]
+        self.password = credentials["password"]
+        self.prefix = credentials["prefix"]
 
     def create(self, identity, data=None, record=None, **kwargs):
         if self.mode == "AUTOMATIC_DRAFT":
             slug = community_slug_for_credentials(
-                record.parent["communities"]["default"]
+                record.parent["communities"].get("default", None)
             )
             self.credentials(slug)
             create_doi(self, record, data, None)
@@ -43,7 +42,7 @@ class DoiComponent(ServiceComponent):
     def update_draft(self, identity, data=None, record=None, **kwargs):
         if self.mode == "AUTOMATIC_DRAFT" or self.mode == "ON_EVENT":
             slug = community_slug_for_credentials(
-                record.parent["communities"]["default"]
+                record.parent["communities"].get("default", None)
             )
 
             self.credentials(slug)
@@ -56,7 +55,7 @@ class DoiComponent(ServiceComponent):
             or self.mode == "ON_EVENT"
         ):
             slug = community_slug_for_credentials(
-                record.parent["communities"]["default"]
+                record.parent["communities"].get("default", None)
             )
             self.credentials(slug)
             edit_doi(self, record)
@@ -64,13 +63,13 @@ class DoiComponent(ServiceComponent):
     def publish(self, identity, data=None, record=None, **kwargs):
         if self.mode == "AUTOMATIC":
             slug = community_slug_for_credentials(
-                record.parent["communities"]["default"]
+                record.parent["communities"].get("default", None)
             )
             self.credentials(slug)
             create_doi(self, record, data, "publish")
         if self.mode == "AUTOMATIC_DRAFT":
             slug = community_slug_for_credentials(
-                record.parent["communities"]["default"]
+                record.parent["communities"].get("default", None)
             )
             self.credentials(slug)
             edit_doi(self, record, "publish")
