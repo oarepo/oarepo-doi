@@ -90,6 +90,8 @@ def edit_doi(service, record, event=None):
 
 
 def community_slug_for_credentials(value):
+    if not value:
+        return None
     id_value = None
     slug = None
     try:
