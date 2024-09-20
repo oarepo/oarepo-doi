@@ -56,16 +56,16 @@ def edit_doi(service, record, event=None):
     """edit existing draft"""
 
     mapping = obj_or_import_string(service.mapping[record.schema])()
-    errors = mapping.metadata_check(record)
-    record_service = get_record_service_for_record(record)
-    record["links"] = record_service.links_item_tpl.expand(system_identity, record)
-    if len(errors) > 0 and event:
-        raise ValidationError(
-            message=f"Could not assigned doi due to validation error: {errors} "
-        )
-
     doi_value = mapping.get_doi(record)
+
     if doi_value:
+        errors = mapping.metadata_check(record)
+        record_service = get_record_service_for_record(record)
+        record["links"] = record_service.links_item_tpl.expand(system_identity, record)
+        if len(errors) > 0 and event:
+            raise ValidationError(
+                message=f"Could not assigned doi due to validation error: {errors} "
+            )
         if not service.url.endswith("/"):
             url = service.url + "/"
         else:

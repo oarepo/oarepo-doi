@@ -33,3 +33,12 @@ class AssignDoiRequestType(NonDuplicableOARepoRequestType):
                 message=f"Could not assigned doi due to validation error: {errors} "
             )
         super().can_create(identity, data, receiver, topic, creator, *args, **kwargs)
+
+    def can_possibly_create(self, identity, record , *args, **kwargs):
+        mapping_file = current_app.config.get("DATACITE_MAPPING")
+        mapping = obj_or_import_string(mapping_file[record.schema])()
+        doi_value = mapping.get_doi(record)
+        if doi_value:
+            return False
+        else:
+            return super().can_possibly_create(identity, record, *args, **kwargs)
