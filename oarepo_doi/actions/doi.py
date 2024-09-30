@@ -30,6 +30,10 @@ class CreateDoiAction(OARepoAcceptAction):
             credentials_def = current_app.config.get("DATACITE_CREDENTIALS")
 
             credentials = credentials_def.get(community, None)
+            if not credentials:
+                credentials = current_app.config.get(
+                    "DATACITE_CREDENTIALS_DEFAULT"
+                )
 
         self.username = credentials["username"]
         self.password = credentials["password"]
