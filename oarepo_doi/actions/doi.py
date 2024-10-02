@@ -47,6 +47,7 @@ class CreateDoiAction(AssignDoiAction):
 
         self.credentials(slug)
 
+        #todo - only public?
         if topic.is_draft:
             create_doi(self, topic, topic, None)
         else:
@@ -54,6 +55,17 @@ class CreateDoiAction(AssignDoiAction):
         super().execute(identity, uow)
 
 
+class RegisterDoiAction(AssignDoiAction):
+
+    def execute(self, identity, uow, *args, **kwargs):
+        topic = self.request.topic.resolve()
+        slug = community_slug_for_credentials(topic.parent["communities"].get("default", None))
+
+        self.credentials(slug)
+
+        create_doi(self, topic, topic, None)
+
+        super().execute(identity, uow)
 class ValidateDataForDoiAction(OARepoSubmitAction):
     log_event = True
 
