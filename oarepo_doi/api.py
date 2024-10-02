@@ -80,7 +80,10 @@ def edit_doi(service, record, event=None):
             url = service.url
         url = url + doi_value.replace("/", "%2F")
 
-        request_metadata = mapping.create_datacite_payload(record)
+        request_metadata = {"data": {"type": "dois", "attributes": {}}}
+        payload = mapping.create_datacite_payload(record)
+        request_metadata["data"]["attributes"] = payload
+        
         if event:
             request_metadata["data"]["attributes"]["event"] = event
 
