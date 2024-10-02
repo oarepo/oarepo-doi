@@ -1,10 +1,12 @@
 import json
 import uuid
-
 import requests
+
 from invenio_access.permissions import system_identity
 from invenio_base.utils import obj_or_import_string
 from invenio_communities import current_communities
+from invenio_db import db
+from invenio_pidstore.providers.base import BaseProvider
 from invenio_search.engine import dsl
 from marshmallow.exceptions import ValidationError
 from oarepo_runtime.datastreams.utils import get_record_service_for_record
@@ -50,6 +52,12 @@ def create_doi(service, record, data, event=None):
     json_content = json.loads(content)
     doi_value = json_content["data"]["id"]
     mapping.add_doi(record, data, doi_value)
+
+    if event:
+        pid_status = 'R' #registred
+    else: pid_status = 'K' #reserved
+    BaseProvider.create('doi', doi_value, 'rec', record.id, pid_status)
+    db.session.commit()
 
 
 def edit_doi(service, record, event=None):
