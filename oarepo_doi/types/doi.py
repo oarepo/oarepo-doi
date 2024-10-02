@@ -1,6 +1,6 @@
 from flask import current_app
 from invenio_base.utils import obj_or_import_string
-from marshmallow.exceptions import ValidationError
+from ..exceptions import DoiValidationError
 from oarepo_requests.types.generic import NonDuplicableOARepoRequestType
 from oarepo_requests.types.ref_types import ModelRefTypes
 from oarepo_runtime.i18n import lazy_gettext as _
@@ -29,8 +29,8 @@ class AssignDoiRequestType(NonDuplicableOARepoRequestType):
         mapping = obj_or_import_string(mapping_file[topic.schema])()
         errors = mapping.metadata_check(topic)
         if len(errors) > 0:
-            raise ValidationError(
-                message=f"Could not assigned doi due to validation error: {errors} "
+            raise DoiValidationError(
+                data=errors
             )
         super().can_create(identity, data, receiver, topic, creator, *args, **kwargs)
 

@@ -8,7 +8,7 @@ from invenio_communities import current_communities
 from invenio_search.engine import dsl
 from marshmallow.exceptions import ValidationError
 from oarepo_runtime.datastreams.utils import get_record_service_for_record
-
+from .exceptions import DoiValidationError
 
 def create_doi(service, record, data, event=None):
     """if event = None, doi will be created as a draft."""
@@ -19,8 +19,8 @@ def create_doi(service, record, data, event=None):
     record["links"] = record_service.links_item_tpl.expand(system_identity, record)
 
     if len(errors) > 0 and event:
-        raise ValidationError(
-            message=f"Could not assigned doi due to validation error: {errors} "
+        raise DoiValidationError(
+            data=errors
         )
     request_metadata = {"data": {"type": "dois", "attributes": {}}}
 
@@ -63,8 +63,8 @@ def edit_doi(service, record, event=None):
         record_service = get_record_service_for_record(record)
         record["links"] = record_service.links_item_tpl.expand(system_identity, record)
         if len(errors) > 0 and event:
-            raise ValidationError(
-                message=f"Could not assigned doi due to validation error: {errors} "
+            raise DoiValidationError(
+                data=errors
             )
         if not service.url.endswith("/"):
             url = service.url + "/"
