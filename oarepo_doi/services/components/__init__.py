@@ -43,7 +43,7 @@ class DoiComponent(ServiceComponent):
             create_doi(self, record, data, None)
 
     def update_draft(self, identity, data=None, record=None, **kwargs):
-        if self.mode == "AUTOMATIC_DRAFT" or self.mode == "ON_EVENT":
+        if self.mode == "AUTOMATIC_DRAFT" or self.mode == "ON_EVENT_DRAFT":
             slug = community_slug_for_credentials(
                 record.parent["communities"].get("default", None)
             )
@@ -56,6 +56,7 @@ class DoiComponent(ServiceComponent):
             self.mode == "AUTOMATIC_DRAFT"
             or self.mode == "AUTOMATIC"
             or self.mode == "ON_EVENT"
+            or self.mode == "ON_EVENT_DRAFT"
         ):
             slug = community_slug_for_credentials(
                 record.parent["communities"].get("default", None)
@@ -70,7 +71,7 @@ class DoiComponent(ServiceComponent):
             )
             self.credentials(slug)
             create_doi(self, record, record, "publish")
-        if self.mode == "AUTOMATIC_DRAFT":
+        if self.mode == "AUTOMATIC_DRAFT" or self.mode == "ON_EVENT_DRAFT":
             slug = community_slug_for_credentials(
                 record.parent["communities"].get("default", None)
             )
