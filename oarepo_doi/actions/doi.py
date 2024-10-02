@@ -2,7 +2,6 @@ from flask import current_app
 from invenio_base.utils import obj_or_import_string
 from marshmallow.exceptions import ValidationError
 from oarepo_requests.actions.generic import OARepoAcceptAction, OARepoSubmitAction
-from ..exceptions import DoiValidationError
 
 from oarepo_doi.api import community_slug_for_credentials, create_doi
 
@@ -66,8 +65,8 @@ class ValidateDataForDoiAction(OARepoSubmitAction):
         mapping = obj_or_import_string(self.mapping[topic.schema])()
         errors = mapping.metadata_check(topic)
         if len(errors) > 0:
-            raise DoiValidationError(
-                data=errors
+            raise ValidationError(
+                message=f"Could not assigned doi due to validation error: {errors} "
             )
 
         super().execute(identity, uow)
