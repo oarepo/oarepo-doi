@@ -5,8 +5,7 @@ from oarepo_requests.actions.generic import OARepoAcceptAction, OARepoSubmitActi
 
 from oarepo_doi.api import community_slug_for_credentials, create_doi
 
-
-class CreateDoiAction(OARepoAcceptAction):
+class AssignDoiAction(OARepoAcceptAction):
     log_event = True
 
     def __init__(self, *args, **kwargs):
@@ -38,6 +37,9 @@ class CreateDoiAction(OARepoAcceptAction):
         self.username = credentials["username"]
         self.password = credentials["password"]
         self.prefix = credentials["prefix"]
+
+class CreateDoiAction(AssignDoiAction):
+
 
     def execute(self, identity, uow, *args, **kwargs):
         topic = self.request.topic.resolve()
