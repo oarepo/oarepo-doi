@@ -65,7 +65,8 @@ def edit_doi(service, record, event=None):
 
     mapping = obj_or_import_string(service.mapping[record.schema])()
     doi_value = mapping.get_doi(record)
-
+    if not check_if_correct_doi(doi_value, service):
+        return
     if doi_value:
         errors = mapping.metadata_check(record)
         record_service = get_record_service_for_record(record)
@@ -83,7 +84,7 @@ def edit_doi(service, record, event=None):
         request_metadata = {"data": {"type": "dois", "attributes": {}}}
         payload = mapping.create_datacite_payload(record)
         request_metadata["data"]["attributes"] = payload
-        
+
         if event:
             request_metadata["data"]["attributes"]["event"] = event
 
@@ -99,6 +100,11 @@ def edit_doi(service, record, event=None):
                 "Expected status code 200, but got {}".format(request.status_code)
             )
 
+def check_if_correct_doi(value, service): #todo check if doi didnt changed in database
+    prefix = value.split("/")[0]
+    if prefix == service.prefix:
+        return True
+    else: return False
 
 def community_slug_for_credentials(value):
     if not value:
