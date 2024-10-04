@@ -30,7 +30,7 @@ class AssignDoiRequestType(NonDuplicableOARepoRequestType):
         errors = mapping.metadata_check(topic)
         if len(errors) > 0:
             raise ValidationError(
-                message=f"Could not assigned doi due to validation error: {errors} "
+                message=errors
             )
         super().can_create(identity, data, receiver, topic, creator, *args, **kwargs)
 

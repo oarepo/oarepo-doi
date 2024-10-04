@@ -80,7 +80,7 @@ class ValidateDataForDoiAction(OARepoSubmitAction):
         errors = mapping.metadata_check(topic)
         if len(errors) > 0:
             raise ValidationError(
-                message=f"Could not assigned doi due to validation error: {errors} "
+                message=errors
             )
 
         super().execute(identity, uow)

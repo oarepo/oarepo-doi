@@ -22,7 +22,7 @@ def create_doi(service, record, data, event=None):
 
     if len(errors) > 0 and event:
         raise ValidationError(
-            message=f"Could not assigned doi due to validation error: {errors} "
+            message=errors
         )
     request_metadata = {"data": {"type": "dois", "attributes": {}}}
 
@@ -73,7 +73,7 @@ def edit_doi(service, record, event=None):
         record["links"] = record_service.links_item_tpl.expand(system_identity, record)
         if len(errors) > 0 and event:
             raise ValidationError(
-                message=f"Could not assigned doi due to validation error: {errors} "
+                message=errors
             )
         if not service.url.endswith("/"):
             url = service.url + "/"
