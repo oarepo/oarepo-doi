@@ -17,6 +17,11 @@ def create_doi(service, record, data, event=None):
     """if event = None, doi will be created as a draft."""
 
     mapping = obj_or_import_string(service.mapping[record.schema])()
+    doi_value = mapping.get_doi(record)
+    if doi_value:
+        raise ValidationError(
+            message="DOI already associated with the record."
+        )
     errors = mapping.metadata_check(record)
     record_service = get_record_service_for_record(record)
     record["links"] = record_service.links_item_tpl.expand(system_identity, record)
