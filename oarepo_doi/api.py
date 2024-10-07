@@ -65,9 +65,10 @@ def edit_doi(service, record, event=None):
 
     mapping = obj_or_import_string(service.mapping[record.schema])()
     doi_value = mapping.get_doi(record)
-    if not check_if_correct_doi(doi_value, service):
-        return
+
     if doi_value:
+        if not check_if_correct_doi(doi_value, record):
+            return
         errors = mapping.metadata_check(record)
         record_service = get_record_service_for_record(record)
         record["links"] = record_service.links_item_tpl.expand(system_identity, record)
@@ -100,11 +101,19 @@ def edit_doi(service, record, event=None):
                 "Expected status code 200, but got {}".format(request.status_code)
             )
 
-def check_if_correct_doi(value, service): #todo check if doi didnt changed in database
-    prefix = value.split("/")[0]
-    if prefix == service.prefix:
+def check_if_correct_doi(value, record):
+    try:
+        doi = PersistentIdentifier.get_by_object('doi', "rec", record.id) #object has no doi in database == doi was added via created form by user
+    except PIDDoesNotExistError as e:
+        return False
+    try:
+        doi = BaseProvider.get( value,'doi')
         return True
-    else: return False
+    except PIDDoesNotExistError as e:
+        raise ValidationError(
+            message="Datacite doi updated by the user."
+        )
+
 
 def community_slug_for_credentials(value):
     if not value:
