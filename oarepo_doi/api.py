@@ -10,7 +10,8 @@ from invenio_pidstore.providers.base import BaseProvider
 from invenio_search.engine import dsl
 from marshmallow.exceptions import ValidationError
 from oarepo_runtime.datastreams.utils import get_record_service_for_record
-
+from invenio_pidstore.errors import PIDDoesNotExistError
+from invenio_pidstore.models import PersistentIdentifier
 
 def create_doi(service, record, data, event=None):
     """if event = None, doi will be created as a draft."""
