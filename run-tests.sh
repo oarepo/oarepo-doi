@@ -9,7 +9,7 @@ if test -d $BUILDER_VENV ; then
 	rm -rf $BUILDER_VENV
 fi
 
-python3.12 -m venv $BUILDER_VENV
+python3 -m venv $BUILDER_VENV
 . $BUILDER_VENV/bin/activate
 pip install "oarepo[tests]==${OAREPO_VERSION}.*"
 pip install -U setuptools pip wheel
@@ -26,7 +26,7 @@ if test -d $VENV_TESTS ; then
 fi
 oarepo-compile-model ./tests/thesis.yaml --output-directory ./thesis -vvv
 
-python3.12 -m venv $VENV_TESTS
+python3 -m venv $VENV_TESTS
 source $VENV_TESTS/bin/activate
 
 pip install -U setuptools pip wheel
