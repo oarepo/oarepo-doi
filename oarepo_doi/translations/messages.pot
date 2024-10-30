@@ -1,0 +1,64 @@
+# Translations template for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-10-30 12:26+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:14
+msgid "Assign Doi"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:25
+msgid "Request for DOI assignment"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:53
+#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:58
+msgid "Request DOI assignment"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:56
+msgid "DOI assignment requested"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:63
+msgid "Click to assign DOI."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:66
+msgid "Request permission to assign DOI."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:70
+msgid ""
+"Permission to assign DOI requested. You will be notified about the "
+"decision by email."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:75
+msgid ""
+"You have been asked to approve the request to assign DOI to a record. You"
+" can approve or reject the request."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:79
+msgid "Permission to assign DOI requested. "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:82
+msgid "Submit request to get permission to assign DOI."
+msgstr ""
+
