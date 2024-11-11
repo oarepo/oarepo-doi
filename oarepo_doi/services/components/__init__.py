@@ -2,7 +2,7 @@ from flask import current_app
 from invenio_records_resources.services.records.components import ServiceComponent
 
 from oarepo_doi.api import community_slug_for_credentials, create_doi, edit_doi
-
+from invenio_base.utils import obj_or_import_string
 
 class DoiComponent(ServiceComponent):
     def __init__(self, *args, **kwargs):
@@ -77,3 +77,10 @@ class DoiComponent(ServiceComponent):
             )
             self.credentials(slug)
             edit_doi(self, record, "publish")
+
+    def new_version(self, identity, draft=None, record=None, **kwargs):
+        """Update draft metadata."""
+        mapping = obj_or_import_string(self.mapping[record.schema])()
+        doi_value = mapping.get_doi(record)
+        if doi_value is not None:
+            mapping.remove_doi(draft)
