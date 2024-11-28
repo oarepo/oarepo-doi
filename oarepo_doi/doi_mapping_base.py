@@ -20,8 +20,8 @@ class DataCiteMappingBase(ABC):
         object_identifiers = record["metadata"].get("objectIdentifiers", [])
         doi = None
         for id in object_identifiers:
-            if id["scheme"] == "DOI":
-                doi = id["identifier"]
+            if id.get("scheme") == "DOI":
+                doi = id.get("identifier")
         return doi
 
     def add_doi(self, record, data, doi_value):
