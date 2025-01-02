@@ -13,10 +13,10 @@ from oarepo_runtime.datastreams.utils import get_record_service_for_record
 from invenio_pidstore.errors import PIDDoesNotExistError
 from invenio_pidstore.models import PersistentIdentifier
 
-def create_doi(service, record, data, event=None):
+def create_doi(doi_config, record, data, event=None):
     """if event = None, doi will be created as a draft."""
 
-    mapping = obj_or_import_string(service.mapping[record.schema])()
+    mapping = obj_or_import_string(doi_config.mapping[record.schema])()
     doi_value = mapping.get_doi(record)
     if doi_value:
         raise ValidationError(
@@ -34,19 +34,19 @@ def create_doi(service, record, data, event=None):
 
     payload = mapping.create_datacite_payload(data)
     request_metadata["data"]["attributes"] = payload
-    if service.specified_doi:
-        doi = f"{service.prefix}/{record['id']}"
+    if doi_config.specified_doi:
+        doi = f"{doi_config.prefix}/{record['id']}"
         request_metadata["data"]["attributes"]["doi"] = doi
     if event:
         request_metadata["data"]["attributes"]["event"] = event
 
-    request_metadata["data"]["attributes"]["prefix"] = str(service.prefix)
+    request_metadata["data"]["attributes"]["prefix"] = str(doi_config.prefix)
 
     request = requests.post(
-        url=service.url,
+        url=doi_config.url,
         json=request_metadata,
         headers={"Content-type": "application/vnd.api+json"},
-        auth=(service.username, service.password),
+        auth=(doi_config.username, doi_config.password),
     )
 
     if request.status_code != 201:
@@ -66,10 +66,10 @@ def create_doi(service, record, data, event=None):
     db.session.commit()
 
 
-def edit_doi(service, record, event=None):
+def edit_doi(doi_config, record, event=None):
     """edit existing draft"""
 
-    mapping = obj_or_import_string(service.mapping[record.schema])()
+    mapping = obj_or_import_string(doi_config.mapping[record.schema])()
     doi_value = mapping.get_doi(record)
     if not check_if_correct_doi(doi_value, record):
         return
@@ -81,10 +81,10 @@ def edit_doi(service, record, event=None):
             raise ValidationError(
                 message=errors
             )
-        if not service.url.endswith("/"):
-            url = service.url + "/"
+        if not doi_config.url.endswith("/"):
+            url = doi_config.url + "/"
         else:
-            url = service.url
+            url = doi_config.url
         url = url + doi_value.replace("/", "%2F")
 
         request_metadata = {"data": {"type": "dois", "attributes": {}}}
@@ -98,7 +98,7 @@ def edit_doi(service, record, event=None):
             url=url,
             json=request_metadata,
             headers={"Content-type": "application/vnd.api+json"},
-            auth=(service.username, service.password),
+            auth=(doi_config.username, doi_config.password),
         )
 
         if request.status_code != 200:

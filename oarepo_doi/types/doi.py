@@ -7,8 +7,9 @@ from oarepo_runtime.i18n import lazy_gettext as _
 from typing_extensions import override
 from oarepo_requests.utils import is_auto_approved, request_identity_matches
 from ..actions.doi import CreateDoiAction, ValidateDataForDoiAction
-
-
+from invenio_requests.records.api import Request
+from invenio_records_resources.services.uow import RecordCommitOp, UnitOfWork
+from invenio_requests.proxies import current_requests_service
 class AssignDoiRequestType(NonDuplicableOARepoRequestType):
     type_id = "assign_doi"
     name = _("Assign Doi")
@@ -44,6 +45,12 @@ class AssignDoiRequestType(NonDuplicableOARepoRequestType):
             return False
         else:
             return super().is_applicable_to(identity, topic, *args, **kwargs)
+
+
+    def topic_change(self, request: Request, new_topic: dict, uow: UnitOfWork) -> None:
+        """Change the topic of the request."""
+        request.topic = new_topic
+        uow.register(RecordCommitOp(request, indexer=current_requests_service.indexer))
 
     @override
     def stateful_name(self, identity, *, topic, request=None, **kwargs):
