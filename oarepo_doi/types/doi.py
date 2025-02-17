@@ -7,6 +7,7 @@ from oarepo_runtime.i18n import lazy_gettext as _
 from typing_extensions import override
 from oarepo_requests.utils import is_auto_approved, request_identity_matches
 from ..actions.doi import CreateDoiAction, ValidateDataForDoiAction
+from oarepo_doi.api import community_slug_for_credentials
 
 
 class AssignDoiRequestType(NonDuplicableOARepoRequestType):
@@ -38,12 +39,18 @@ class AssignDoiRequestType(NonDuplicableOARepoRequestType):
 
     def is_applicable_to(self, identity, topic, *args, **kwargs):
         mapping_file = current_app.config.get("DATACITE_MAPPING")
+        default_config = current_app.config.get("DATACITE_CREDENTIALS_DEFAULT", False)
         mapping = obj_or_import_string(mapping_file[topic.schema])()
         doi_value = mapping.get_doi(topic) #if doi already assigned, adding another is not possible
         if doi_value:
+
             return False
-        else:
-            return super().is_applicable_to(identity, topic, *args, **kwargs)
+        elif not default_config:
+            slug = community_slug_for_credentials(topic.parent["communities"].get("default", None))
+            credentials = current_app.config.get("DATACITE_CREDENTIALS", {})
+            if slug not in credentials:
+                return False
+        return super().is_applicable_to(identity, topic, *args, **kwargs)
 
     @override
     def stateful_name(self, identity, *, topic, request=None, **kwargs):
