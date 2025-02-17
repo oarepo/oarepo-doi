@@ -17,22 +17,16 @@ class DataCiteMappingBase(ABC):
     def get_doi(self, record):
         """Extracts DOI from the record."""
 
-        object_identifiers = record["metadata"].get("objectIdentifiers", [])
         doi = None
-        for id in object_identifiers:
-            if id.get("scheme") == "DOI":
-                doi = id.get("identifier")
+        if "doi" in record["pids"]:
+            doi = record["pids"]["doi"]
         return doi
+
 
     def add_doi(self, record, data, doi_value):
         """Adds a DOI to the record."""
 
-        doi = {"scheme": "DOI", "identifier": doi_value}
-
-        if "objectIdentifiers" in data["metadata"]:
-            data["metadata"]["objectIdentifiers"].append(doi)
-        else:
-            data["metadata"]["objectIdentifiers"] = [doi]
+        data["pids"]["doi"] = {"identifier": doi_value}
 
         record.update(data)
         record.commit()
@@ -40,9 +34,6 @@ class DataCiteMappingBase(ABC):
     def remove_doi(self, record):
         """Removes DOI from the record."""
 
-        if "objectIdentifiers" in record["metadata"]:
-            for id in record["metadata"]["objectIdentifiers"]:
-                if id["scheme"] == "DOI":
-                    record["metadata"]["objectIdentifiers"].remove(id)
-
+        if "doi" in record["pids"]:
+            del record["pids"]["doi"]
         record.commit()

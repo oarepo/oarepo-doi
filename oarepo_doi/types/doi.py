@@ -39,7 +39,7 @@ class AssignDoiRequestType(NonDuplicableOARepoRequestType):
     def is_applicable_to(self, identity, topic, *args, **kwargs):
         mapping_file = current_app.config.get("DATACITE_MAPPING")
         mapping = obj_or_import_string(mapping_file[topic.schema])()
-        doi_value = mapping.get_doi(topic) #if ANY doi already assigned, adding another is not possible
+        doi_value = mapping.get_doi(topic) #if doi already assigned, adding another is not possible
         if doi_value:
             return False
         else:
