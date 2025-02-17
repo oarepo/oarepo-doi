@@ -106,23 +106,6 @@ def edit_doi(service, record, event=None):
                 "Expected status code 200, but got {}".format(request.status_code)
             )
 
-# def check_if_correct_doi(value, record):
-#     try:
-#         doi = PersistentIdentifier.get_by_object('doi', "rec", record.id) #object has no doi in database == doi was added via created form by user
-#         if doi and not value: #doi deleted by user
-#             raise ValidationError(
-#                 message="Datacite doi deleted by the user."
-#             )
-#     except PIDDoesNotExistError as e:
-#         return False
-#     try:
-#         doi = BaseProvider.get( value,'doi')
-#         return True
-#     except PIDDoesNotExistError as e:
-#         raise ValidationError(
-#             message="Datacite doi updated by the user."
-#         )
-
 
 def community_slug_for_credentials(value):
     if not value:
