@@ -48,7 +48,7 @@ class CreateDoiAction(AssignDoiAction):
         self.credentials(slug)
 
         #todo - only public?
-        if topic.is_draft:
+        if getattr(topic, "is_draft", False):
             create_doi(self, topic, topic, None)
         else:
             create_doi(self, topic, topic, "publish")

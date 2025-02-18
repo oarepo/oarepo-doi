@@ -6,13 +6,77 @@ from oarepo_requests.types.ref_types import ModelRefTypes
 from oarepo_runtime.i18n import lazy_gettext as _
 from typing_extensions import override
 from oarepo_requests.utils import is_auto_approved, request_identity_matches
-from ..actions.doi import CreateDoiAction, ValidateDataForDoiAction
+from ..actions.doi import CreateDoiAction, ValidateDataForDoiAction, DeleteDoiAction
 from oarepo_doi.api import community_slug_for_credentials
+from oarepo_requests.actions.generic import OARepoSubmitAction
 
+class UnregisterDoiRequesteType(NonDuplicableOARepoRequestType):
+    type_id = "unregister_doi"
+    name = _("Cancel DOI registration")
+
+    @classmethod
+    @property
+    def available_actions(cls):
+        return {
+            **super().available_actions,
+            "accept": DeleteDoiAction,
+            "submit": OARepoSubmitAction, #only accept?
+        }
+
+    description = _("Request for deletion of a registered DOI")
+    receiver_can_be_none = True
+    allowed_topic_ref_types = ModelRefTypes(published=True, draft=True)
+
+    #do we have to check this again in create method?
+    def is_applicable_to(self, identity, topic, *args, **kwargs):
+        mapping_file = current_app.config.get("DATACITE_MAPPING")
+        mapping = obj_or_import_string(mapping_file[topic.schema])()
+        doi_value = mapping.get_doi(topic) #only make sense if there is registered doi
+        #it is possible to cancel registration for only draft dois, which are associated only to record drafts.
+        if doi_value and getattr(topic, "is_draft", False):
+            return True
+        else:
+            return False
+
+    @override
+    def stateful_name(self, identity, *, topic, request=None, **kwargs):
+        if is_auto_approved(self, identity=identity, topic=topic):
+            return self.name
+        if not request:
+            return _("Request DOI cancellation")
+        match request.status:
+            case "submitted":
+                return _("DOI cancellation requested")
+            case _:
+                return _("Request DOI cancellation")
+
+    @override
+    def stateful_description(self, identity, *, topic, request=None, **kwargs):
+        if is_auto_approved(self, identity=identity, topic=topic):
+            return _("Click to cancel DOI registration.")
+
+        if not request:
+            return _("Request permission to cancel DOI registration.")
+        match request.status:
+            case "submitted":
+                if request_identity_matches(request.created_by, identity):
+                    return _(
+                        "Permission to cancel DOI registration requested. "
+                        "You will be notified about the decision by email."
+                    )
+                if request_identity_matches(request.receiver, identity):
+                    return _(
+                        "You have been asked to approve the request to cancel DOI registration to a record. "
+                        "You can approve or reject the request."
+                    )
+                return _("Permission to cancel DOI registration requested. ")
+            case _:
+                if request_identity_matches(request.created_by, identity):
+                    return _("Submit request to get permission to cancel DOI registration.")
 
 class AssignDoiRequestType(NonDuplicableOARepoRequestType):
     type_id = "assign_doi"
-    name = _("Assign Doi")
+    name = _("Assign DOI")
 
     @classmethod
     @property
