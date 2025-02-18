@@ -65,14 +65,33 @@ def create_doi(service, record, data, event=None):
     BaseProvider.create('doi', doi_value, 'rec', record.id, pid_status)
     db.session.commit()
 
+def delete_doi(service, record, data, event=None):
+
+    mapping = obj_or_import_string(service.mapping[record.schema])()
+    doi_value = mapping.get_doi(record)
+    if not service.url.endswith("/"):
+        url = service.url + "/"
+    else:
+        url = service.url
+    url = url + doi_value.replace("/", "%2F")
+
+    headers = {
+        "Content-Type": "application/vnd.api+json"
+    }
+
+    response = requests.delete(url=url, headers=headers, auth=(service.username, service.password))
+
+    if response.status_code != 204:
+        raise requests.ConnectionError(
+            "Expected status code 204, but got {}".format(request.status_code)
+        )
+
 
 def edit_doi(service, record, event=None):
     """edit existing draft"""
 
     mapping = obj_or_import_string(service.mapping[record.schema])()
     doi_value = mapping.get_doi(record)
-    # if not check_if_correct_doi(doi_value, record):
-    #     return
     if doi_value:
         errors = mapping.metadata_check(record)
         record_service = get_record_service_for_record(record)
