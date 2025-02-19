@@ -7,7 +7,7 @@ from oarepo_runtime.i18n import lazy_gettext as _
 from typing_extensions import override
 from oarepo_requests.utils import is_auto_approved, request_identity_matches
 from ..actions.doi import CreateDoiAction, ValidateDataForDoiAction, DeleteDoiAction
-from oarepo_doi.api import community_slug_for_credentials
+from oarepo_doi.api import community_slug_for_credentials, get_doi_value
 from oarepo_requests.actions.generic import OARepoSubmitAction
 
 class UnregisterDoiRequesteType(NonDuplicableOARepoRequestType):
@@ -29,9 +29,8 @@ class UnregisterDoiRequesteType(NonDuplicableOARepoRequestType):
 
     #do we have to check this again in create method?
     def is_applicable_to(self, identity, topic, *args, **kwargs):
-        mapping_file = current_app.config.get("DATACITE_MAPPING")
-        mapping = obj_or_import_string(mapping_file[topic.schema])()
-        doi_value = mapping.get_doi(topic) #only make sense if there is registered doi
+
+        doi_value = get_doi_value(topic) #only make sense if there is registered doi
         #it is possible to cancel registration for only draft dois, which are associated only to record drafts.
         if doi_value and getattr(topic, "is_draft", False):
             return True
@@ -102,10 +101,9 @@ class AssignDoiRequestType(NonDuplicableOARepoRequestType):
         super().can_create(identity, data, receiver, topic, creator, *args, **kwargs)
 
     def is_applicable_to(self, identity, topic, *args, **kwargs):
-        mapping_file = current_app.config.get("DATACITE_MAPPING")
         default_config = current_app.config.get("DATACITE_CREDENTIALS_DEFAULT", False)
-        mapping = obj_or_import_string(mapping_file[topic.schema])()
-        doi_value = mapping.get_doi(topic) #if doi already assigned, adding another is not possible
+
+        doi_value = get_doi(topic) #if doi already assigned, adding another is not possible
         if doi_value:
 
             return False
