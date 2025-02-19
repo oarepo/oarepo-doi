@@ -3,7 +3,7 @@ from invenio_base.utils import obj_or_import_string
 from marshmallow.exceptions import ValidationError
 from oarepo_requests.actions.generic import OARepoAcceptAction, OARepoSubmitAction
 
-from oarepo_doi.api import community_slug_for_credentials, create_doi
+from oarepo_doi.api import community_slug_for_credentials, create_doi, delete_doi
 
 class AssignDoiAction(OARepoAcceptAction):
     log_event = True
@@ -47,13 +47,23 @@ class CreateDoiAction(AssignDoiAction):
 
         self.credentials(slug)
 
-        #todo - only public?
-        if topic.is_draft:
+        if getattr(topic, "is_draft", False):
             create_doi(self, topic, topic, None)
         else:
             create_doi(self, topic, topic, "publish")
         super().execute(identity, uow)
 
+class DeleteDoiAction(AssignDoiAction):
+
+    def execute(self, identity, uow, *args, **kwargs):
+        topic = self.request.topic.resolve()
+        slug = community_slug_for_credentials(topic.parent["communities"].get("default", None))
+
+        self.credentials(slug)
+
+        delete_doi(self, topic, topic, None)
+
+        super().execute(identity, uow)
 
 class RegisterDoiAction(AssignDoiAction):
 
@@ -66,6 +76,8 @@ class RegisterDoiAction(AssignDoiAction):
         create_doi(self, topic, topic, None)
 
         super().execute(identity, uow)
+
+
 class ValidateDataForDoiAction(OARepoSubmitAction):
     log_event = True
 

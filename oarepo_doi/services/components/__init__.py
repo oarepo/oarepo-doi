@@ -74,6 +74,7 @@ class DoiComponent(ServiceComponent):
         if self.mode == "AUTOMATIC_DRAFT" or self.mode == "ON_EVENT_DRAFT":
             slug = community_slug_for_credentials(
                 record.parent["communities"].get("default", None)
+
             )
             self.credentials(slug)
             edit_doi(self, record, "publish")

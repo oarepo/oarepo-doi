@@ -17,11 +17,13 @@ def create_doi(service, record, data, event=None):
     """if event = None, doi will be created as a draft."""
 
     mapping = obj_or_import_string(service.mapping[record.schema])()
-    doi_value = mapping.get_doi(record)
+    doi_value = get_doi_value(record)
+
     if doi_value:
         raise ValidationError(
             message="DOI already associated with the record."
         )
+
     errors = mapping.metadata_check(record)
     record_service = get_record_service_for_record(record)
     record["links"] = record_service.links_item_tpl.expand(system_identity, record)
@@ -57,7 +59,8 @@ def create_doi(service, record, data, event=None):
     content = request.content.decode("utf-8")
     json_content = json.loads(content)
     doi_value = json_content["data"]["id"]
-    mapping.add_doi(record, data, doi_value)
+
+    add_doi_value(record, doi_value)
 
     if event:
         pid_status = 'R' #registred
@@ -65,14 +68,37 @@ def create_doi(service, record, data, event=None):
     BaseProvider.create('doi', doi_value, 'rec', record.id, pid_status)
     db.session.commit()
 
+def delete_doi(service, record, data, event=None):
+
+    doi_value = get_doi_value(record)
+
+    if not service.url.endswith("/"):
+        url = service.url + "/"
+    else:
+        url = service.url
+    url = url + doi_value.replace("/", "%2F")
+
+    headers = {
+        "Content-Type": "application/vnd.api+json"
+    }
+
+    response = requests.delete(url=url, headers=headers, auth=(service.username, service.password))
+
+    if response.status_code != 204:
+        raise requests.ConnectionError(
+            "Expected status code 204, but got {}".format(response.status_code)
+        )
+    else:
+        remove_doi_value(record)
+
 
 def edit_doi(service, record, event=None):
     """edit existing draft"""
 
     mapping = obj_or_import_string(service.mapping[record.schema])()
-    doi_value = mapping.get_doi(record)
-    if not check_if_correct_doi(doi_value, record):
-        return
+
+    doi_value = get_doi_value(record)
+
     if doi_value:
         errors = mapping.metadata_check(record)
         record_service = get_record_service_for_record(record)
@@ -106,23 +132,29 @@ def edit_doi(service, record, event=None):
                 "Expected status code 200, but got {}".format(request.status_code)
             )
 
-def check_if_correct_doi(value, record):
-    try:
-        doi = PersistentIdentifier.get_by_object('doi', "rec", record.id) #object has no doi in database == doi was added via created form by user
-        if doi and not value: #doi deleted by user
-            raise ValidationError(
-                message="Datacite doi deleted by the user."
-            )
-    except PIDDoesNotExistError as e:
-        return False
-    try:
-        doi = BaseProvider.get( value,'doi')
-        return True
-    except PIDDoesNotExistError as e:
-        raise ValidationError(
-            message="Datacite doi updated by the user."
-        )
+def get_doi_value(record):
 
+    pids = record.pids
+
+    if "doi" in pids:
+        return pids["doi"]["identifier"]
+    else:
+        return False
+
+def add_doi_value(record, doi_value):
+    """Adds a DOI to the record."""
+
+    record.pids["doi"] = {"identifier": doi_value, "provider": "datacite"}
+
+    record.commit()
+
+def remove_doi_value(record):
+    """Removes DOI from the record."""
+
+    if "doi" in record.pids:
+        del record.pids["doi"]
+
+    record.commit()
 
 def community_slug_for_credentials(value):
     if not value:
