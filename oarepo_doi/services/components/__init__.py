@@ -66,6 +66,8 @@ class DoiComponent(ServiceComponent):
 
     def publish(self, identity, data=None, record=None, draft=None, **kwargs):
         record.pids = draft.pids #todo because of excluded pids components pids are not in published record, this needs to be solved better
+        if record.pids is None: 
+            record.pids = {}
         if self.mode == "AUTOMATIC":
             slug = community_slug_for_credentials(
                 record.parent["communities"].get("default", None)
