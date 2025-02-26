@@ -17,32 +17,32 @@ class DataCiteMappingBase(ABC):
     def get_doi(self, record):
         """Extracts DOI from the record."""
 
-        object_identifiers = record["metadata"].get("objectIdentifiers", [])
+        pids = record.get('pids', {})
+        if pids is None:
+            pids = {}
         doi = None
-        for id in object_identifiers:
-            if id.get("scheme") == "DOI":
-                doi = id.get("identifier")
+        if 'doi' in pids:
+            doi = pids['doi']['identifier']
         return doi
 
     def add_doi(self, record, data, doi_value):
         """Adds a DOI to the record."""
-
-        doi = {"scheme": "DOI", "identifier": doi_value}
-
-        if "objectIdentifiers" in data["metadata"]:
-            data["metadata"]["objectIdentifiers"].append(doi)
-        else:
-            data["metadata"]["objectIdentifiers"] = [doi]
-
+        pids = record.get('pids', {})
+        if pids is None:
+            pids = {}
+        pids["doi"] = {"provider": "datacite", "identifier": doi_value}
+        try:
+            data.pids = pids
+        except:
+            data["pids"] = pids
         record.update(data)
         record.commit()
 
     def remove_doi(self, record):
         """Removes DOI from the record."""
-
-        if "objectIdentifiers" in record["metadata"]:
-            for id in record["metadata"]["objectIdentifiers"]:
-                if id["scheme"] == "DOI":
-                    record["metadata"]["objectIdentifiers"].remove(id)
-
+        pids = record.get('pids', {})
+        if pids is None:
+            pids = {}
+        if "doi" in pids:
+            pids.pop("doi")
         record.commit()

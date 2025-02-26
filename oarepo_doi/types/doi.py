@@ -37,10 +37,14 @@ class AssignDoiRequestType(NonDuplicableOARepoRequestType):
         super().can_create(identity, data, receiver, topic, creator, *args, **kwargs)
 
     def is_applicable_to(self, identity, topic, *args, **kwargs):
+
+        mode = current_app.config.get("DATACITE_MODE")
+        if mode == "AUTOMATIC" or mode == "AUTOMATIC_DRAFT":
+            return False
         mapping_file = current_app.config.get("DATACITE_MAPPING")
         mapping = obj_or_import_string(mapping_file[topic.schema])()
         doi_value = mapping.get_doi(topic) #if ANY doi already assigned, adding another is not possible
-        if doi_value:
+        if doi_value is not None:
             return False
         else:
             return super().is_applicable_to(identity, topic, *args, **kwargs)

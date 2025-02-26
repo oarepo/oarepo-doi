@@ -26,13 +26,13 @@ def create_doi(service, record, data, event=None):
     record_service = get_record_service_for_record(record)
     record["links"] = record_service.links_item_tpl.expand(system_identity, record)
 
-    if len(errors) > 0 and event:
+    if len(errors) > 0:
         raise ValidationError(
             message=errors
         )
     request_metadata = {"data": {"type": "dois", "attributes": {}}}
 
-    payload = mapping.create_datacite_payload(data)
+    payload = mapping.create_datacite_payload(record)
     request_metadata["data"]["attributes"] = payload
     if service.specified_doi:
         doi = f"{service.prefix}/{record['id']}"
@@ -71,8 +71,6 @@ def edit_doi(service, record, event=None):
 
     mapping = obj_or_import_string(service.mapping[record.schema])()
     doi_value = mapping.get_doi(record)
-    if not check_if_correct_doi(doi_value, record):
-        return
     if doi_value:
         errors = mapping.metadata_check(record)
         record_service = get_record_service_for_record(record)
@@ -105,23 +103,6 @@ def edit_doi(service, record, event=None):
             raise requests.ConnectionError(
                 "Expected status code 200, but got {}".format(request.status_code)
             )
-
-def check_if_correct_doi(value, record):
-    try:
-        doi = PersistentIdentifier.get_by_object('doi', "rec", record.id) #object has no doi in database == doi was added via created form by user
-        if doi and not value: #doi deleted by user
-            raise ValidationError(
-                message="Datacite doi deleted by the user."
-            )
-    except PIDDoesNotExistError as e:
-        return False
-    try:
-        doi = BaseProvider.get( value,'doi')
-        return True
-    except PIDDoesNotExistError as e:
-        raise ValidationError(
-            message="Datacite doi updated by the user."
-        )
 
 
 def community_slug_for_credentials(value):
