@@ -1,64 +1,109 @@
 # Translations template for PROJECT.
-# Copyright (C) 2024 ORGANIZATION
+# Copyright (C) 2025 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-29 11:11+0100\n"
+"POT-Creation-Date: 2025-03-04 14:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
+"Generated-By: Babel 2.15.0\n"
 
-#: /Users/alzbetapokorna/cesnet/nr/tmp2211/oarepo-doi/oarepo_doi/types/doi.py:14
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:14
+msgid "Cancel DOI registration"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:25
+msgid "Request for deletion of a registered DOI"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:45
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:50
+msgid "Request DOI cancellation"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:48
+msgid "DOI cancellation requested"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:55
+msgid "Click to cancel DOI registration."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:58
+msgid "Request permission to cancel DOI registration."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:62
+msgid ""
+"Permission to cancel DOI registration requested. You will be notified "
+"about the decision by email."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:67
+msgid ""
+"You have been asked to approve the request to cancel DOI registration to "
+"a record. You can approve or reject the request."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:71
+msgid "Permission to cancel DOI registration requested. "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:74
+msgid "Submit request to get permission to cancel DOI registration."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:78
 msgid "Assign Doi"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/nr/tmp2211/oarepo-doi/oarepo_doi/types/doi.py:25
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:89
 msgid "Request for DOI assignment"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/nr/tmp2211/oarepo-doi/oarepo_doi/types/doi.py:53
-#: /Users/alzbetapokorna/cesnet/nr/tmp2211/oarepo-doi/oarepo_doi/types/doi.py:58
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:121
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:126
 msgid "Request DOI assignment"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/nr/tmp2211/oarepo-doi/oarepo_doi/types/doi.py:56
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:124
 msgid "DOI assignment requested"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/nr/tmp2211/oarepo-doi/oarepo_doi/types/doi.py:63
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:131
 msgid "Click to assign DOI."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/nr/tmp2211/oarepo-doi/oarepo_doi/types/doi.py:66
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:134
 msgid "Request permission to assign DOI."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/nr/tmp2211/oarepo-doi/oarepo_doi/types/doi.py:70
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:138
 msgid ""
 "Permission to assign DOI requested. You will be notified about the "
 "decision by email."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/nr/tmp2211/oarepo-doi/oarepo_doi/types/doi.py:75
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:143
 msgid ""
 "You have been asked to approve the request to assign DOI to a record. You"
 " can approve or reject the request."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/nr/tmp2211/oarepo-doi/oarepo_doi/types/doi.py:79
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:147
 msgid "Permission to assign DOI requested. "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/nr/tmp2211/oarepo-doi/oarepo_doi/types/doi.py:82
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:150
 msgid "Submit request to get permission to assign DOI."
 msgstr ""
 

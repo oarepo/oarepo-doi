@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-03-27 11:31+0100\n"
-"PO-Revision-Date: 2024-10-30 12:26+0100\n"
+"PO-Revision-Date: 2025-03-04 14:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: cs <LL@li.org>\n"
 "Language: cs\n"
@@ -41,8 +41,8 @@ msgid ""
 "Permission to assign DOI requested. You will be notified about the decision "
 "by email."
 msgstr ""
-"Zažádáno o povolení pro přidělení DOI. O rozhodnutí budete informováni "
-"e-mailem."
+"Zažádáno o povolení pro přidělení DOI. O rozhodnutí budete informováni e-"
+"mailem."
 
 #: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:75
 msgid ""
@@ -54,7 +54,7 @@ msgstr ""
 
 #: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:79
 msgid "Permission to assign DOI requested. "
-msgstr "Zažádáno o povolení k přidělení DOI."
+msgstr "Zažádáno o povolení k přidělení DOI. "
 
 #: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:82
 msgid "Submit request to get permission to assign DOI."
@@ -63,3 +63,52 @@ msgstr "Podejte žádost o povolení k přidělení DOI."
 #: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:56
 msgid "DOI assignment requested"
 msgstr "Zažádáno o přidělení DOI"
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:14
+msgid "Cancel DOI registration"
+msgstr "Zrušit registraci DOI"
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:25
+msgid "Request for deletion of a registered DOI"
+msgstr "Žádost o vymazání registrovaného DOI"
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:45
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:50
+msgid "Request DOI cancellation"
+msgstr "Žádost o zrušení DOI"
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:48
+msgid "DOI cancellation requested"
+msgstr "Zažádáno o zrušení DOI"
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:55
+msgid "Click to cancel DOI registration."
+msgstr "Kliknutím zrušíte registraci DOI."
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:58
+msgid "Request permission to cancel DOI registration."
+msgstr "Žádost o povolení zrušit registraci DOI."
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:62
+msgid ""
+"Permission to cancel DOI registration requested. You will be notified about "
+"the decision by email."
+msgstr ""
+"Žádost o povolení zrušit registraci DOI. O rozhodnutí budete informováni e-"
+"mailem."
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:67
+msgid ""
+"You have been asked to approve the request to cancel DOI registration to a "
+"record. You can approve or reject the request."
+msgstr ""
+"Byli jste požádáni o schválení žádosti o zrušení registrace DOI. Žádost "
+"můžete schválit nebo zamítnout."
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:71
+msgid "Permission to cancel DOI registration requested. "
+msgstr "Žádost o povolení zrušit registraci DOI. "
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:74
+msgid "Submit request to get permission to cancel DOI registration."
+msgstr "Podejte žádost o povolení zrušit registraci DOI."

@@ -84,6 +84,6 @@ class DoiComponent(ServiceComponent):
     def new_version(self, identity, draft=None, record=None, **kwargs):
         """Update draft metadata."""
         mapping = obj_or_import_string(self.mapping[record.schema])()
-        doi_value = mapping.get_doi(record)
+        doi_value = mapping.get_doi_value(record)
         if doi_value is not None:
-            mapping.remove_doi(draft)
+            mapping.remove_doi_value(draft)

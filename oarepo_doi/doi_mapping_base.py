@@ -14,7 +14,7 @@ class DataCiteMappingBase(ABC):
         pass
 
 
-    def get_doi(self, record):
+    def get_doi_value(self, record):
         """Extracts DOI from the record."""
 
         pids = record.get('pids', {})
@@ -25,7 +25,7 @@ class DataCiteMappingBase(ABC):
             doi = pids['doi']['identifier']
         return doi
 
-    def add_doi(self, record, data, doi_value):
+    def add_doi_value(self, record, data, doi_value):
         """Adds a DOI to the record."""
         pids = record.get('pids', {})
         if pids is None:
@@ -38,7 +38,7 @@ class DataCiteMappingBase(ABC):
         record.update(data)
         record.commit()
 
-    def remove_doi(self, record):
+    def remove_doi_value(self, record):
         """Removes DOI from the record."""
         pids = record.get('pids', {})
         if pids is None:
