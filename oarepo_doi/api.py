@@ -17,7 +17,7 @@ def create_doi(service, record, data, event=None):
     """if event = None, doi will be created as a draft."""
 
     mapping = obj_or_import_string(service.mapping[record.schema])()
-    doi_value = mapping.get_doi(record)
+    doi_value = mapping.get_doi_value(record)
     if doi_value:
         raise ValidationError(
             message="DOI already associated with the record."
@@ -57,7 +57,7 @@ def create_doi(service, record, data, event=None):
     content = request.content.decode("utf-8")
     json_content = json.loads(content)
     doi_value = json_content["data"]["id"]
-    mapping.add_doi(record, data, doi_value)
+    mapping.add_doi_value(record, data, doi_value)
 
     if event:
         pid_status = 'R' #registred
@@ -70,7 +70,7 @@ def edit_doi(service, record, event=None):
     """edit existing draft"""
 
     mapping = obj_or_import_string(service.mapping[record.schema])()
-    doi_value = mapping.get_doi(record)
+    doi_value = mapping.get_doi_value(record)
     if doi_value:
         errors = mapping.metadata_check(record)
         record_service = get_record_service_for_record(record)
@@ -104,6 +104,28 @@ def edit_doi(service, record, event=None):
                 "Expected status code 200, but got {}".format(request.status_code)
             )
 
+def delete_doi(service, record):
+    mapping = obj_or_import_string(service.mapping[record.schema])()
+    doi_value = mapping.get_doi_value(record)
+
+    if not service.url.endswith("/"):
+        url = service.url + "/"
+    else:
+        url = service.url
+    url = url + doi_value.replace("/", "%2F")
+
+    headers = {
+        "Content-Type": "application/vnd.api+json"
+    }
+
+    response = requests.delete(url=url, headers=headers, auth=(service.username, service.password))
+
+    if response.status_code != 204:
+        raise requests.ConnectionError(
+            "Expected status code 204, but got {}".format(response.status_code)
+        )
+    else:
+        mapping.remove_doi_value(record)
 
 def community_slug_for_credentials(value):
     if not value:

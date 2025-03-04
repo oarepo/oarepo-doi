@@ -59,3 +59,48 @@ msgstr ""
 #: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:56
 msgid "DOI assignment requested"
 msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:14
+msgid "Cancel DOI registration"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:25
+msgid "Request for deletion of a registered DOI"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:45
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:50
+msgid "Request DOI cancellation"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:48
+msgid "DOI cancellation requested"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:55
+msgid "Click to cancel DOI registration."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:58
+msgid "Request permission to cancel DOI registration."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:62
+msgid ""
+"Permission to cancel DOI registration requested. You will be notified about "
+"the decision by email."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:67
+msgid ""
+"You have been asked to approve the request to cancel DOI registration to a "
+"record. You can approve or reject the request."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:71
+msgid "Permission to cancel DOI registration requested. "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:74
+msgid "Submit request to get permission to cancel DOI registration."
+msgstr ""
