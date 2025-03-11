@@ -53,22 +53,4 @@ class DataCiteMappingNRDocs:
    
         return payload
     
-    def get_doi(self, record):
-        object_identifiers = record["metadata"].get("objectIdentifiers", [])
-        doi = None
-        for id in object_identifiers:
-            if id["scheme"] == "DOI":
-                doi = id["identifier"]
-        return doi
-
-    def add_doi(self, record, data,  doi_value):
-        doi = {"scheme": "DOI", "identifier": doi_value}
-
-        if "objectIdentifiers" in data["metadata"]:
-            data["metadata"]["objectIdentifiers"].append(doi)
-        else:
-            data["metadata"]["objectIdentifiers"] = [doi]
-        
-        record.update(data)
-        record.commit()
 ```
