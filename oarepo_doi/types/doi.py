@@ -91,9 +91,14 @@ class AssignDoiRequestType(NonDuplicableOARepoRequestType):
     allowed_topic_ref_types = ModelRefTypes(published=True, draft=True)
 
     def can_create(self, identity, data, receiver, topic, creator, *args, **kwargs):
-        mapping_file = current_app.config.get("DATACITE_MAPPING")
-        mapping = obj_or_import_string(mapping_file[topic.schema])()
-        errors = mapping.metadata_check(topic)
+        providers = current_app.config.get("RDM_PERSISTENT_IDENTIFIER_PROVIDERS")
+
+        for _provider in providers:
+            if _provider.name == "datacite":
+                provider = _provider
+                break
+
+        errors = provider.metadata_check(topic)
         if len(errors) > 0:
             raise ValidationError(
                 message=errors

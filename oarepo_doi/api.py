@@ -22,6 +22,7 @@ def create_doi(service, record, data, event=None):
         raise ValidationError(
             message="DOI already associated with the record."
         )
+
     errors = mapping.metadata_check(record)
     record_service = get_record_service_for_record(record)
     record["links"] = record_service.links_item_tpl.expand(system_identity, record)
