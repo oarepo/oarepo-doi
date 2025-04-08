@@ -16,7 +16,6 @@ class AssignDoiAction(OARepoAcceptAction):
         self.mapping = current_app.config.get("DATACITE_MAPPING")
         self.specified_doi = current_app.config.get("DATACITE_SPECIFIED_ID")
         self.provider = self._provider
-
         self.username = None
         self.password = None
         self.prefix = None
@@ -30,7 +29,6 @@ class AssignDoiAction(OARepoAcceptAction):
                 provider = _provider
                 break
         return provider
-
     def credentials(self, community):
         if not community:
             credentials = current_app.config.get(
@@ -93,13 +91,24 @@ class ValidateDataForDoiAction(OARepoSubmitAction):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.provider = self._provider
 
         self.mapping = current_app.config.get("DATACITE_MAPPING")
 
+    @property
+    def _provider(self):
+        providers = current_app.config.get("RDM_PERSISTENT_IDENTIFIER_PROVIDERS")
+
+        for _provider in providers:
+            if _provider.name == "datacite":
+                provider = _provider
+                break
+        return provider
+
     def execute(self, identity, uow, *args, **kwargs):
         topic = self.request.topic.resolve()
-        mapping = obj_or_import_string(self.mapping[topic.schema])()
-        errors = mapping.metadata_check(topic)
+        errors = self.provider.metadata_check(topic)
+
         if len(errors) > 0:
             raise ValidationError(
                 message=errors

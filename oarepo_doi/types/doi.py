@@ -13,6 +13,7 @@ class DeleteDoiRequestType(NonDuplicableOARepoRequestType):
     type_id = "delete_doi"
     name = _("Cancel DOI registration")
 
+
     @classmethod
     @property
     def available_actions(cls):
@@ -110,6 +111,7 @@ class AssignDoiRequestType(NonDuplicableOARepoRequestType):
         mode = current_app.config.get("DATACITE_MODE")
         if mode == "AUTOMATIC" or mode == "AUTOMATIC_DRAFT":
             return False
+
         mapping_file = current_app.config.get("DATACITE_MAPPING")
         mapping = obj_or_import_string(mapping_file[topic.schema])()
         doi_value = mapping.get_doi_value(topic) #if ANY doi already assigned, adding another is not possible

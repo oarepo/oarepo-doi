@@ -23,7 +23,7 @@ def create_doi(service, record, data, event=None):
             message="DOI already associated with the record."
         )
 
-    errors = mapping.metadata_check(record)
+    errors = service.provider.metadata_check(record)
     record_service = get_record_service_for_record(record)
     record["links"] = record_service.links_item_tpl.expand(system_identity, record)
 
@@ -73,7 +73,7 @@ def edit_doi(service, record, event=None):
     mapping = obj_or_import_string(service.mapping[record.schema])()
     doi_value = mapping.get_doi_value(record)
     if doi_value:
-        errors = mapping.metadata_check(record)
+        errors = service.provider.metadata_check(record)
         record_service = get_record_service_for_record(record)
         record["links"] = record_service.links_item_tpl.expand(system_identity, record)
         if len(errors) > 0 and event:

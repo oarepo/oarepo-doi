@@ -12,10 +12,21 @@ class DoiComponent(ServiceComponent):
         self.url = current_app.config.get("DATACITE_URL")
         self.mapping = current_app.config.get("DATACITE_MAPPING")
         self.specified_doi = current_app.config.get("DATACITE_SPECIFIED_ID")
+        self.provider = self._provider
 
         self.username = None
         self.password = None
         self.prefix = None
+
+    @property
+    def _provider(self):
+        providers = current_app.config.get("RDM_PERSISTENT_IDENTIFIER_PROVIDERS")
+
+        for _provider in providers:
+            if _provider.name == "datacite":
+                provider = _provider
+                break
+        return provider
 
     def credentials(self, community):
         if not community:
