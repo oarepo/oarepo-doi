@@ -5,8 +5,6 @@
 ```
 DATACITE_URL = 'https://api.test.datacite.org/dois'
 
-DATACITE_MAPPING = {'local://documents-1.0.0.json':"common.mapping.DataCiteMappingNRDocs"}
-
 DATACITE_MODE = "AUTOMATIC_DRAFT"
 
 DATACITE_CREDENTIALS = {"generic": {"prefix": "10.23644" , "password": "yyyy", "username": "xxx"}}
@@ -25,18 +23,22 @@ DATACITE_SPECIFIED_ID
   - Default value - False
   - If true, the doi suffix will be the same as record pid
     
-### Mapping example
+### Providers
+The DOI request is made through providers. To implement a new provider, you need to create a custom class that inherits from the `OarepoDataCitePIDProvider` from the `oarepo_doi.services.provider` module. This custom provider class should include your own metadata mapping.
 
+Example of custom provider implementation:
 ```python
-class DataCiteMappingNRDocs:
+from oarepo_doi.services.provider import OarepoDataCitePIDProvider
 
-    def metadata_check(self, data, errors=[]):
+class NRDocsDataCitePIDProvider(OarepoDataCitePIDProvider):
+
+    def metadata_check(self, record):
         
-        data = data["metadata"]
+        data = record["metadata"]
         if "title" not in data:
-            errors.append("Title is mandatory")
+            record.append("Title is mandatory")
         
-        return errors
+        return record
 
     def create_datacite_payload(self, data):
         titles = {"title": "xy"}
@@ -53,4 +55,40 @@ class DataCiteMappingNRDocs:
    
         return payload
     
+```
+Next, the provider must be added to the Invenio configuration (invenio.cfg). For DOI client communication, the `DataCiteClient` from `invenio_rdm_records.services.pids.providers` is used.
+
+Example of the configuration:
+```
+RDM_PERSISTENT_IDENTIFIER_PROVIDERS = [
+    # DataCite Concept DOI provider
+    NRDocsDataCitePIDProvider(
+        "datacite",
+        client=DataCiteClient("datacite", config_prefix="DATACITE"),
+        label=_("DOI"),
+    ),
+]
+RDM_PERSISTENT_IDENTIFIERS = {
+    "doi": {
+        "providers": ["datacite"],
+        "label": _("DOI"),
+        "is_enabled": NRDocsDataCitePIDProvider.is_enabled,
+    },
+    }
+RDM_PARENT_PERSISTENT_IDENTIFIER_PROVIDERS = [
+    # DataCite Concept DOI provider
+    NRDocsDataCitePIDProvider(
+        "datacite",
+        client=DataCiteClient("datacite", config_prefix="DATACITE"),
+        label=_("DOI"),
+    ),
+]
+
+RDM_PARENT_PERSISTENT_IDENTIFIERS = {
+    "doi": {
+        "providers": ["datacite"],
+        "label": _("DOI"),
+        "is_enabled": NRDocsDataCitePIDProvider.is_enabled,
+    },
+}
 ```

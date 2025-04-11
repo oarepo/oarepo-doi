@@ -8,10 +8,25 @@ from typing_extensions import override
 from oarepo_requests.utils import is_auto_approved, request_identity_matches
 from ..actions.doi import CreateDoiAction, ValidateDataForDoiAction,  DeleteDoiAction
 from oarepo_requests.actions.generic import OARepoSubmitAction
+from functools import cached_property
 
-class DeleteDoiRequestType(NonDuplicableOARepoRequestType):
+class DoiRequest(NonDuplicableOARepoRequestType):
+
+
+    @cached_property
+    def provider(self):
+        providers = current_app.config.get("RDM_PERSISTENT_IDENTIFIER_PROVIDERS")
+
+        for _provider in providers:
+            if _provider.name == "datacite":
+                provider = _provider
+                break
+        return provider
+
+class DeleteDoiRequestType(DoiRequest):
     type_id = "delete_doi"
     name = _("Cancel DOI registration")
+
 
     @classmethod
     @property
@@ -26,11 +41,8 @@ class DeleteDoiRequestType(NonDuplicableOARepoRequestType):
     receiver_can_be_none = True
     allowed_topic_ref_types = ModelRefTypes(published=False, draft=True)
 
-    #do we have to check this again in create method?
     def is_applicable_to(self, identity, topic, *args, **kwargs):
-        mapping_file = current_app.config.get("DATACITE_MAPPING")
-        mapping = obj_or_import_string(mapping_file[topic.schema])()
-        doi_value = mapping.get_doi_value(topic) #only make sense if there is registered doi
+        doi_value = self.provider.get_doi_value(topic) #only make sense if there is registered doi
         #it is possible to cancel registration for only draft dois, which are associated only to record drafts.
         if doi_value and topic.is_draft and getattr(topic, "is_draft", False):
             return super().is_applicable_to(identity, topic, *args, **kwargs)
@@ -73,7 +85,7 @@ class DeleteDoiRequestType(NonDuplicableOARepoRequestType):
                 if request_identity_matches(request.created_by, identity):
                     return _("Submit request to get permission to cancel DOI registration.")
 
-class AssignDoiRequestType(NonDuplicableOARepoRequestType):
+class AssignDoiRequestType(DoiRequest):
     type_id = "assign_doi"
     name = _("Assign Doi")
 
@@ -91,23 +103,21 @@ class AssignDoiRequestType(NonDuplicableOARepoRequestType):
     allowed_topic_ref_types = ModelRefTypes(published=True, draft=True)
 
     def can_create(self, identity, data, receiver, topic, creator, *args, **kwargs):
-        mapping_file = current_app.config.get("DATACITE_MAPPING")
-        mapping = obj_or_import_string(mapping_file[topic.schema])()
-        errors = mapping.metadata_check(topic)
+
+        errors = self.provider.metadata_check(topic)
         if len(errors) > 0:
             raise ValidationError(
                 message=errors
             )
+
         super().can_create(identity, data, receiver, topic, creator, *args, **kwargs)
 
     def is_applicable_to(self, identity, topic, *args, **kwargs):
-
         mode = current_app.config.get("DATACITE_MODE")
         if mode == "AUTOMATIC" or mode == "AUTOMATIC_DRAFT":
             return False
-        mapping_file = current_app.config.get("DATACITE_MAPPING")
-        mapping = obj_or_import_string(mapping_file[topic.schema])()
-        doi_value = mapping.get_doi_value(topic) #if ANY doi already assigned, adding another is not possible
+
+        doi_value = self.provider.get_doi_value(topic) #if ANY doi already assigned, adding another is not possible
         if doi_value is not None:
             return False
         else:
