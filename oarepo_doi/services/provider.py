@@ -22,7 +22,7 @@ from invenio_rdm_records.services.pids.providers import DataCiteClient
 
 from invenio_rdm_records.services.pids.providers.base import PIDProvider
 from invenio_access.permissions import system_identity
-
+from invenio_pidstore.models import PersistentIdentifier
 
 class OarepoDataCitePIDProvider(PIDProvider):
     """DataCite Provider class.
@@ -153,10 +153,12 @@ class OarepoDataCitePIDProvider(PIDProvider):
             return c._source.slug
         return slug
 
-    def get_doi_value(self, record):
+    def get_doi_value(self, record, parent = False):
         """Extracts DOI from the record."""
-
-        pids = record.get('pids', {})
+        if not parent:
+            pids = record.get('pids', {})
+        else:
+            pids = record.parent.get('pids', {})
         if pids is None:
             pids = {}
         doi = None
@@ -164,21 +166,37 @@ class OarepoDataCitePIDProvider(PIDProvider):
             doi = pids['doi']['identifier']
         return doi
 
-    def add_doi_value(self, record, data, doi_value):
+    def get_pid_doi_value(self, record, parent = False):
+        """Extracts DOI from the record."""
+        if not parent:
+            id = record.id
+        else:
+            id = record.parent.id
+        try:
+            doi = PersistentIdentifier.get_by_object('doi', "rec", id)
+            return doi
+        except:
+            return None
+
+    def add_doi_value(self, record, data, doi_value, parent = False):
         """Adds a DOI to the record."""
-        pids = record.get('pids', {})
+        if not parent:
+            pids = record.get('pids', {})
+        else:
+            pids = record.parent.get('pids', {})
         if pids is None:
             pids = {}
         pids["doi"] = {"provider": "datacite", "identifier": doi_value}
 
-        data.pids = pids
-        data.parent.pids = pids
+        if not parent:
+            data.pids = pids
+            record.update(data)
+            record.commit()
+        else:
+            data.parent.pids = pids
+            record.update(data)
+            record.parent.commit()
 
-
-        record.update(data)
-
-        record.parent.commit()
-        record.commit()
 
     def remove_doi_value(self, record):
         """Removes DOI from the record."""
@@ -192,7 +210,8 @@ class OarepoDataCitePIDProvider(PIDProvider):
     def create(self, record, **kwargs):
         pass
 
-    def create_and_reserve(self, record, **kwargs):
+
+    def datacite_request(self, record, **kwargs):
         """Create and reserve a DOI for the given record, and update the record with the reserved DOI."""
         doi_value = self.get_doi_value(record)
         if doi_value:
@@ -221,7 +240,49 @@ class OarepoDataCitePIDProvider(PIDProvider):
 
         # request_metadata["data"]["attributes"]["event"] = "publish"
         request_metadata["data"]["attributes"]["prefix"] = str(self.prefix)
+        return request_metadata
 
+
+    def create_and_reserve(self, record, **kwargs):
+        request_metadata = self.datacite_request(record, **kwargs)
+        request = requests.post(
+            url=self.url,
+            json=request_metadata,
+            headers={"Content-type": "application/vnd.api+json"},
+            auth=(self.username, self.password),
+        )
+
+        if request.status_code != 201:
+            raise requests.ConnectionError(
+                "Expected status code 201, but got {}".format(request.status_code)
+            )
+        content =  request.content.decode("utf-8")
+
+
+
+        json_content = json.loads(content)
+        doi_value = json_content["data"]["id"]
+        self.add_doi_value(record, record, doi_value)
+        if "event" in kwargs:
+            pid_status = 'R'  # registred
+            parent_doi = self.get_pid_doi_value(record, parent=True)
+            if parent_doi is None:
+                self.register_parent_doi(record,request_metadata)
+            elif parent_doi and record.versions.is_latest :
+                self.update_parent_doi(record,request_metadata)
+
+        else:
+            pid_status = 'K'  # reserved
+
+
+        BaseProvider.create('doi', doi_value, 'rec', record.id, pid_status)
+        db.session.commit()
+
+
+
+    def register_parent_doi(self, record, request_metadata):
+        request_metadata["data"]["attributes"]["prefix"] = str(self.prefix)
+        request_metadata["data"]["attributes"]["event"] = "publish"
         request = requests.post(
             url=self.url,
             json=request_metadata,
@@ -237,13 +298,30 @@ class OarepoDataCitePIDProvider(PIDProvider):
         content = request.content.decode("utf-8")
         json_content = json.loads(content)
         doi_value = json_content["data"]["id"]
-        self.add_doi_value(record, record, doi_value)
-        if "event" in kwargs:
-            pid_status = 'R'  # registred
-        else:
-            pid_status = 'K'  # reserved
-        BaseProvider.create('doi', doi_value, 'rec', record.id, pid_status)
+        pid_status = 'R'  # registred
+
+        BaseProvider.create('doi', doi_value, 'rec', record.parent.id, pid_status)
+        self.add_doi_value(record, record, doi_value, parent=True)
         db.session.commit()
+
+    def update_parent_doi(self, record, request_metadata):
+        if not self.url.endswith("/"):
+            url = self.url + "/"
+        else:
+            url = self.url
+        url = url + self.get_doi_value(record, parent= True).replace("/", "%2F")
+        request = requests.put(
+            url=url,
+            json=request_metadata,
+            headers={"Content-type": "application/vnd.api+json"},
+            auth=(self.username, self.password),
+        )
+
+        if request.status_code != 200:
+            raise requests.ConnectionError(
+                "Expected status code 200, but got {}".format(request.status_code)
+            )
+
 
     def update(self, record, url=None, **kwargs):
 
@@ -267,9 +345,14 @@ class OarepoDataCitePIDProvider(PIDProvider):
             request_metadata = {"data": {"type": "dois", "attributes": {}}}
             payload = self.create_datacite_payload(record)
             request_metadata["data"]["attributes"] = payload
-
+            parent_doi = self.get_pid_doi_value(record, parent=True)
+            if parent_doi is None and "event" in kwargs:
+                self.register_parent_doi(record, request_metadata)
+            elif parent_doi and record.versions.is_latest:
+                self.update_parent_doi(record, request_metadata)
             if "event" in kwargs:
                request_metadata["data"]["attributes"]["event"] = kwargs["event"]
+
 
             request = requests.put(
                 url=url,
@@ -282,7 +365,10 @@ class OarepoDataCitePIDProvider(PIDProvider):
                 raise requests.ConnectionError(
                     "Expected status code 200, but got {}".format(request.status_code)
                 )
-
+            if "event" in kwargs:
+                pid_value = self.get_pid_doi_value(record)
+                if hasattr(pid_value, "status") and pid_value.status == "K":
+                    pid_value.register()
     def restore(self, pid, **kwargs):
         """Restore previously deactivated DOI."""
         pass
@@ -326,8 +412,6 @@ class OarepoDataCitePIDProvider(PIDProvider):
         """Remove the DOI if the record is restricted."""
         if record["access"]["record"] == "restricted":
             return False
-
-
 
 
 

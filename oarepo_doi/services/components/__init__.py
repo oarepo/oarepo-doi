@@ -40,3 +40,9 @@ class DoiComponent(ServiceComponent):
         doi_value = self.provider.get_doi_value(record)
         if doi_value is not None:
             self.provider.remove_doi_value(draft)
+
+
+    def delete_draft(self, identity, draft=None, record=None, force=False):
+        doi_value = self.provider.get_doi_value(record)
+        if doi_value is not None:
+            self.provider.delete(draft)

@@ -3,6 +3,12 @@ from marshmallow.exceptions import ValidationError
 from oarepo_requests.actions.generic import OARepoAcceptAction, OARepoSubmitAction
 
 from functools import cached_property
+from typing_extensions import override
+from flask_principal import Identity
+from oarepo_requests.actions.components import RequestActionState
+from invenio_records_resources.services.uow import UnitOfWork
+from typing import Any
+
 
 class OarepoDoiActionMixin:
     @cached_property
@@ -21,8 +27,15 @@ class AssignDoiAction(OARepoAcceptAction, OarepoDoiActionMixin):
 
 class CreateDoiAction(AssignDoiAction):
 
-
-    def execute(self, identity, uow, *args, **kwargs):
+    @override
+    def apply(
+            self,
+            identity: Identity,
+            state: RequestActionState,
+            uow: UnitOfWork,
+            *args: Any,
+            **kwargs: Any,
+    ) -> None:
 
         topic = self.request.topic.resolve()
 
@@ -30,30 +43,51 @@ class CreateDoiAction(AssignDoiAction):
             self.provider.create_and_reserve(topic)
         else:
             self.provider.create_and_reserve(topic, event="publish")
-        super().execute(identity, uow)
 
 class DeleteDoiAction(AssignDoiAction):
 
-    def execute(self, identity, uow, *args, **kwargs):
+    @override
+    def apply(
+            self,
+            identity: Identity,
+            state: RequestActionState,
+            uow: UnitOfWork,
+            *args: Any,
+            **kwargs: Any,
+    ) -> None:
         topic = self.request.topic.resolve()
 
         self.provider.delete(topic)
 
-        super().execute(identity, uow)
 
 class RegisterDoiAction(AssignDoiAction):
 
-    def execute(self, identity, uow, *args, **kwargs):
+    @override
+    def apply(
+            self,
+            identity: Identity,
+            state: RequestActionState,
+            uow: UnitOfWork,
+            *args: Any,
+            **kwargs: Any,
+    ) -> None:
         topic = self.request.topic.resolve()
 
         self.provider.create_and_reserve(topic)
 
-        super().execute(identity, uow)
 
 class ValidateDataForDoiAction(OARepoSubmitAction, OarepoDoiActionMixin):
     log_event = True
 
-    def execute(self, identity, uow, *args, **kwargs):
+    @override
+    def apply(
+            self,
+            identity: Identity,
+            state: RequestActionState,
+            uow: UnitOfWork,
+            *args: Any,
+            **kwargs: Any,
+    ) -> None:
         topic = self.request.topic.resolve()
         errors = self.provider.metadata_check(topic)
 
@@ -62,4 +96,3 @@ class ValidateDataForDoiAction(OARepoSubmitAction, OarepoDoiActionMixin):
                 message=errors
             )
 
-        super().execute(identity, uow)
