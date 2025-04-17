@@ -42,7 +42,12 @@ class DeleteDoiRequestType(DoiRequest):
     allowed_topic_ref_types = ModelRefTypes(published=False, draft=True)
 
     def is_applicable_to(self, identity, topic, *args, **kwargs):
-        doi_value = self.provider.get_doi_value(topic) #only make sense if there is registered doi
+        doi_value = self.provider.get_doi_value(topic)
+        pid_value = self.provider.get_pid_doi_value(topic)
+        if pid_value is not None and pid_value.status.value == 'R':
+            return False
+
+        #only make sense if there is registered doi
         #it is possible to cancel registration for only draft dois, which are associated only to record drafts.
         if doi_value and topic.is_draft and getattr(topic, "is_draft", False):
             return super().is_applicable_to(identity, topic, *args, **kwargs)
