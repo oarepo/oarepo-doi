@@ -1,6 +1,4 @@
 import json
-import warnings
-from collections import ChainMap
 from json import JSONDecodeError
 import uuid
 from invenio_communities import current_communities
@@ -23,6 +21,8 @@ from invenio_rdm_records.services.pids.providers import DataCiteClient
 from invenio_rdm_records.services.pids.providers.base import PIDProvider
 from invenio_access.permissions import system_identity
 from invenio_pidstore.models import PersistentIdentifier
+import importlib_metadata
+
 
 class OarepoDataCitePIDProvider(PIDProvider):
     """DataCite Provider class.
@@ -52,6 +52,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
         self.username = None
         self.password = None
         self.prefix = None
+        self.serializer = self.get_serializer
 
     @property
     def mode(self):
@@ -64,6 +65,19 @@ class OarepoDataCitePIDProvider(PIDProvider):
     @property
     def specified_doi(self):
         return current_app.config.get("DATACITE_SPECIFIED_ID")
+
+    @property
+    def get_serializer(self):
+        entrypoint_response_handlers = {}
+        for x in importlib_metadata.entry_points(
+                group="invenio.documents.response_handlers"
+        ):
+            entrypoint_response_handlers.update(x.load())
+
+            for ep in entrypoint_response_handlers.values():
+                if hasattr(ep, "export_code") and ep.export_code == "datacite":
+                    return ep.serializer
+            return None
 
     def credentials(self, record):
         slug = self.community_slug_for_credentials(
@@ -220,8 +234,6 @@ class OarepoDataCitePIDProvider(PIDProvider):
             )
         self.credentials(record)
         errors = self.metadata_check(record)
-        record_service = get_record_service_for_record(record)
-        record["links"] = record_service.links_item_tpl.expand(system_identity, record)
 
         if len(errors) > 0:
             raise ValidationError(
@@ -229,7 +241,14 @@ class OarepoDataCitePIDProvider(PIDProvider):
             )
         request_metadata = {"data": {"type": "dois", "attributes": {}}}
 
-        payload = self.create_datacite_payload(record)
+        if self.serializer is None:
+            payload = self.create_datacite_payload(record)
+        else:
+            payload = self.serializer.serialize_object(record)
+        record_service = get_record_service_for_record(record)
+
+        payload["url"] = record_service.links_item_tpl.expand(system_identity, record)["self_html"]
+        request_metadata["data"]["attributes"] = payload
         request_metadata["data"]["attributes"] = payload
         if self.specified_doi:
             doi = f"{self.prefix}/{record['id']}"
@@ -330,8 +349,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
         if doi_value:
             self.credentials(record)
             errors = self.metadata_check(record)
-            record_service = get_record_service_for_record(record)
-            record["links"] = record_service.links_item_tpl.expand(system_identity, record)
+
             if len(errors) > 0:
                 raise ValidationError(
                     message=errors
@@ -343,7 +361,14 @@ class OarepoDataCitePIDProvider(PIDProvider):
             url = url + doi_value.replace("/", "%2F")
 
             request_metadata = {"data": {"type": "dois", "attributes": {}}}
-            payload = self.create_datacite_payload(record)
+            if self.serializer is None:
+                payload = self.create_datacite_payload(record)
+            else:
+                payload = self.serializer.serialize_object(record)
+            record_service = get_record_service_for_record(record)
+
+            payload["url"] = record_service.links_item_tpl.expand(system_identity, record)["self_html"]
+            request_metadata["data"]["attributes"] = payload
             request_metadata["data"]["attributes"] = payload
             parent_doi = self.get_pid_doi_value(record, parent=True)
             if parent_doi is None and "event" in kwargs:
