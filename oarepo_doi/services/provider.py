@@ -36,7 +36,6 @@ class OarepoDataCitePIDProvider(PIDProvider):
         self,
         id_,
         client=None,
-        serializer=None,
         pid_type="doi",
         default_status=PIDStatus.NEW,
         **kwargs,
@@ -48,11 +47,10 @@ class OarepoDataCitePIDProvider(PIDProvider):
             pid_type=pid_type,
             default_status=default_status,
         )
-        self.serializer = serializer
         self.username = None
         self.password = None
         self.prefix = None
-        self.serializer = self.get_serializer
+        self.service_id = None
 
     @property
     def mode(self):
@@ -67,7 +65,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
         return current_app.config.get("DATACITE_SPECIFIED_ID")
 
     @property
-    def get_serializer(self):
+    def serializer(self):
         entrypoint_response_handlers = {}
         for x in importlib_metadata.entry_points(
                 group="invenio.documents.response_handlers"
