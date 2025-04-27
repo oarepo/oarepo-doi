@@ -8,17 +8,27 @@ from flask_principal import Identity
 from oarepo_requests.actions.components import RequestActionState
 from invenio_records_resources.services.uow import UnitOfWork
 from typing import Any
+import importlib_metadata
+from flask import current_app
 
 
 class OarepoDoiActionMixin:
-    @cached_property
-    def provider(self):
+    def provider(self, topic):
+
+        for x in importlib_metadata.entry_points(
+                group='invenio_base.apps'
+        ):
+            if x.name == "oarepo_rdm":
+                rdm = x.load()
+                break
+        service_id = rdm(app=current_app).record_service_from_pid_type(topic.pid.pid_type, topic.is_draft).id
         providers = current_app.config.get("RDM_PERSISTENT_IDENTIFIER_PROVIDERS")
 
         for _provider in providers:
             if _provider.name == "datacite":
                 provider = _provider
                 break
+        provider.service_id = service_id
         return provider
 
 class AssignDoiAction(OARepoAcceptAction, OarepoDoiActionMixin):
@@ -40,9 +50,9 @@ class CreateDoiAction(AssignDoiAction):
         topic = self.request.topic.resolve()
 
         if topic.is_draft:
-            self.provider.create_and_reserve(topic)
+            self.provider(topic).create_and_reserve(topic)
         else:
-            self.provider.create_and_reserve(topic, event="publish")
+            self.provider(topic).create_and_reserve(topic, event="publish")
 
 class DeleteDoiAction(AssignDoiAction):
 
@@ -57,7 +67,7 @@ class DeleteDoiAction(AssignDoiAction):
     ) -> None:
         topic = self.request.topic.resolve()
 
-        self.provider.delete(topic)
+        self.provider(topic).delete(topic)
 
 
 class RegisterDoiAction(AssignDoiAction):
@@ -73,7 +83,7 @@ class RegisterDoiAction(AssignDoiAction):
     ) -> None:
         topic = self.request.topic.resolve()
 
-        self.provider.create_and_reserve(topic)
+        self.provider(topic).create_and_reserve(topic)
 
 
 class ValidateDataForDoiAction(OARepoSubmitAction, OarepoDoiActionMixin):
@@ -89,7 +99,7 @@ class ValidateDataForDoiAction(OARepoSubmitAction, OarepoDoiActionMixin):
             **kwargs: Any,
     ) -> None:
         topic = self.request.topic.resolve()
-        errors = self.provider.metadata_check(topic)
+        errors = self.provider(topic).metadata_check(topic)
 
         if len(errors) > 0:
             raise ValidationError(

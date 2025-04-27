@@ -9,18 +9,28 @@ from oarepo_requests.utils import is_auto_approved, request_identity_matches
 from ..actions.doi import CreateDoiAction, ValidateDataForDoiAction,  DeleteDoiAction
 from oarepo_requests.actions.generic import OARepoSubmitAction
 from functools import cached_property
+import importlib_metadata
+from flask import current_app
+
 
 class DoiRequest(NonDuplicableOARepoRequestType):
 
+    def provider(self, topic):
 
-    @cached_property
-    def provider(self):
+        for x in importlib_metadata.entry_points(
+                group='invenio_base.apps'
+        ):
+            if x.name == "oarepo_rdm":
+                rdm = x.load()
+                break
+        service_id = rdm(app=current_app).record_service_from_pid_type(topic.pid.pid_type, topic.is_draft).id
         providers = current_app.config.get("RDM_PERSISTENT_IDENTIFIER_PROVIDERS")
 
         for _provider in providers:
             if _provider.name == "datacite":
                 provider = _provider
                 break
+        provider.service_id = service_id
         return provider
 
 class DeleteDoiRequestType(DoiRequest):
@@ -42,8 +52,8 @@ class DeleteDoiRequestType(DoiRequest):
     allowed_topic_ref_types = ModelRefTypes(published=False, draft=True)
 
     def is_applicable_to(self, identity, topic, *args, **kwargs):
-        doi_value = self.provider.get_doi_value(topic)
-        pid_value = self.provider.get_pid_doi_value(topic)
+        doi_value = self.provider(topic).get_doi_value(topic)
+        pid_value = self.provider(topic).get_pid_doi_value(topic)
         if pid_value is not None and pid_value.status.value == 'R':
             return False
 
@@ -109,7 +119,7 @@ class AssignDoiRequestType(DoiRequest):
 
     def can_create(self, identity, data, receiver, topic, creator, *args, **kwargs):
 
-        errors = self.provider.metadata_check(topic)
+        errors = self.provider(topic).metadata_check(topic)
         if len(errors) > 0:
             raise ValidationError(
                 message=errors
@@ -122,7 +132,7 @@ class AssignDoiRequestType(DoiRequest):
         if mode == "AUTOMATIC" or mode == "AUTOMATIC_DRAFT":
             return False
 
-        doi_value = self.provider.get_doi_value(topic) #if ANY doi already assigned, adding another is not possible
+        doi_value = self.provider(topic).get_doi_value(topic) #if ANY doi already assigned, adding another is not possible
         if doi_value is not None:
             return False
         else:
