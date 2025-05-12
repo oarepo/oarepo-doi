@@ -120,7 +120,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
 
     def can_modify(self, pid, **kwargs):
         """Checks if the PID can be modified."""
-        return not pid.is_registered() and not pid.is_reserved()
+        return not pid.is_registered()
 
     def register(self, pid, record, **kwargs):
         """Register a DOI via the DataCite API.
