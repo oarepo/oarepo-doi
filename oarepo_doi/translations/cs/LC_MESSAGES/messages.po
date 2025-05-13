@@ -16,7 +16,7 @@ msgstr ""
 "X-Generator: Poedit 3.5\n"
 
 #: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:13
-msgid "Assign Doi"
+msgid "Assign DOI"
 msgstr "Přidělit DOI"
 
 #: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:25
@@ -41,8 +41,8 @@ msgid ""
 "Permission to assign DOI requested. You will be notified about the decision "
 "by email."
 msgstr ""
-"Zažádáno o povolení pro přidělení DOI. O rozhodnutí budete informováni e-"
-"mailem."
+"Zažádáno o povolení pro přidělení DOI. O rozhodnutí budete informováni "
+"e-mailem."
 
 #: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:75
 msgid ""
@@ -94,8 +94,8 @@ msgid ""
 "Permission to cancel DOI registration requested. You will be notified about "
 "the decision by email."
 msgstr ""
-"Žádost o povolení zrušit registraci DOI. O rozhodnutí budete informováni e-"
-"mailem."
+"Žádost o povolení zrušit registraci DOI. O rozhodnutí budete informováni "
+"e-mailem."
 
 #: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:67
 msgid ""
