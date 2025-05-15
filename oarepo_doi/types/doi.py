@@ -1,17 +1,18 @@
-from flask import current_app
-from invenio_base.utils import obj_or_import_string
-from marshmallow.exceptions import ValidationError
-from oarepo_requests.types.generic import NonDuplicableOARepoRequestType
-from oarepo_requests.types.ref_types import ModelRefTypes
-from oarepo_runtime.i18n import lazy_gettext as _
-from typing_extensions import override
-from oarepo_requests.utils import is_auto_approved, request_identity_matches
-from ..actions.doi import CreateDoiAction, ValidateDataForDoiAction,  DeleteDoiAction
-from oarepo_requests.actions.generic import OARepoSubmitAction
 from functools import cached_property
 
-class DoiRequest(NonDuplicableOARepoRequestType):
+from flask import current_app
+from marshmallow.exceptions import ValidationError
+from oarepo_requests.actions.generic import OARepoSubmitAction
+from oarepo_requests.types.generic import NonDuplicableOARepoRequestType
+from oarepo_requests.types.ref_types import ModelRefTypes
+from oarepo_requests.utils import is_auto_approved, request_identity_matches
+from oarepo_runtime.i18n import lazy_gettext as _
+from typing_extensions import override
 
+from ..actions.doi import CreateDoiAction, DeleteDoiAction, ValidateDataForDoiAction
+
+
+class DoiRequest(NonDuplicableOARepoRequestType):
 
     @cached_property
     def provider(self):
@@ -23,10 +24,10 @@ class DoiRequest(NonDuplicableOARepoRequestType):
                 break
         return provider
 
+
 class DeleteDoiRequestType(DoiRequest):
     type_id = "delete_doi"
     name = _("Cancel DOI registration")
-
 
     @classmethod
     @property
@@ -34,7 +35,7 @@ class DeleteDoiRequestType(DoiRequest):
         return {
             **super().available_actions,
             "accept": DeleteDoiAction,
-            "submit": OARepoSubmitAction, #only accept?
+            "submit": OARepoSubmitAction,  # only accept?
         }
 
     description = _("Request for deletion of a registered DOI")
@@ -44,11 +45,11 @@ class DeleteDoiRequestType(DoiRequest):
     def is_applicable_to(self, identity, topic, *args, **kwargs):
         doi_value = self.provider.get_doi_value(topic)
         pid_value = self.provider.get_pid_doi_value(topic)
-        if pid_value is not None and pid_value.status.value == 'R':
+        if pid_value is not None and pid_value.status.value == "R":
             return False
 
-        #only make sense if there is registered doi
-        #it is possible to cancel registration for only draft dois, which are associated only to record drafts.
+        # only make sense if there is registered doi
+        # it is possible to cancel registration for only draft dois, which are associated only to record drafts.
         if doi_value and topic.is_draft and getattr(topic, "is_draft", False):
             return super().is_applicable_to(identity, topic, *args, **kwargs)
         else:
@@ -88,11 +89,14 @@ class DeleteDoiRequestType(DoiRequest):
                 return _("Permission to cancel DOI registration requested. ")
             case _:
                 if request_identity_matches(request.created_by, identity):
-                    return _("Submit request to get permission to cancel DOI registration.")
+                    return _(
+                        "Submit request to get permission to cancel DOI registration."
+                    )
+
 
 class AssignDoiRequestType(DoiRequest):
     type_id = "assign_doi"
-    name = _("Assign Doi")
+    name = _("Assign DOI")
 
     @classmethod
     @property
@@ -111,9 +115,7 @@ class AssignDoiRequestType(DoiRequest):
 
         errors = self.provider.metadata_check(topic)
         if len(errors) > 0:
-            raise ValidationError(
-                message=errors
-            )
+            raise ValidationError(message=errors)
 
         super().can_create(identity, data, receiver, topic, creator, *args, **kwargs)
 
@@ -122,7 +124,9 @@ class AssignDoiRequestType(DoiRequest):
         if mode == "AUTOMATIC" or mode == "AUTOMATIC_DRAFT":
             return False
 
-        doi_value = self.provider.get_doi_value(topic) #if ANY doi already assigned, adding another is not possible
+        doi_value = self.provider.get_doi_value(
+            topic
+        )  # if ANY doi already assigned, adding another is not possible
         if doi_value is not None:
             return False
         else:

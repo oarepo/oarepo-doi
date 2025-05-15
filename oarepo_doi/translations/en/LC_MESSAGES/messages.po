@@ -16,8 +16,8 @@ msgstr ""
 "X-Generator: Poedit 3.4.4\n"
 
 #: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:13
-msgid "Assign Doi"
-msgstr "Assign Doi"
+msgid "Assign DOI"
+msgstr "Assign DOI"
 
 #: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:25
 msgid "Request for DOI assignment"
