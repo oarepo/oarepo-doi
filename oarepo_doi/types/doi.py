@@ -43,8 +43,11 @@ class DeleteDoiRequestType(DoiRequest):
     allowed_topic_ref_types = ModelRefTypes(published=False, draft=True)
 
     def is_applicable_to(self, identity, topic, *args, **kwargs):
+        if not self.provider.credentials(topic): #no credentials for community and no default credentials
+            return False
         doi_value = self.provider.get_doi_value(topic)
         pid_value = self.provider.get_pid_doi_value(topic)
+
         if pid_value is not None and pid_value.status.value == "R":
             return False
 
@@ -112,7 +115,8 @@ class AssignDoiRequestType(DoiRequest):
     allowed_topic_ref_types = ModelRefTypes(published=True, draft=True)
 
     def can_create(self, identity, data, receiver, topic, creator, *args, **kwargs):
-
+        if not self.provider.credentials(topic): #no credentials for community and no default credentials
+            return False
         errors = self.provider.metadata_check(topic)
         if len(errors) > 0:
             raise ValidationError(message=errors)
@@ -120,6 +124,8 @@ class AssignDoiRequestType(DoiRequest):
         super().can_create(identity, data, receiver, topic, creator, *args, **kwargs)
 
     def is_applicable_to(self, identity, topic, *args, **kwargs):
+        if not self.provider.credentials(topic):  # no credentials for community and no default credentials
+            return False
         mode = current_app.config.get("DATACITE_MODE")
         if mode == "AUTOMATIC" or mode == "AUTOMATIC_DRAFT":
             return False

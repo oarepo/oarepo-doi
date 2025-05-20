@@ -71,7 +71,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
         )
         if not slug:
             credentials = current_app.config.get(
-                "DATACITE_CREDENTIALS_DEFAULT"
+                "DATACITE_CREDENTIALS_DEFAULT", None
             )
         else:
             credentials_def = current_app.config.get("DATACITE_CREDENTIALS")
@@ -79,11 +79,16 @@ class OarepoDataCitePIDProvider(PIDProvider):
             credentials = credentials_def.get(slug, None)
             if not credentials:
                 credentials = current_app.config.get(
-                    "DATACITE_CREDENTIALS_DEFAULT"
+                    "DATACITE_CREDENTIALS_DEFAULT", None
                 )
+        if credentials is None:
+            return False
+
         self.username = credentials["username"]
         self.password = credentials["password"]
         self.prefix = credentials["prefix"]
+
+        return True
 
     @staticmethod
     def _log_errors(exception):
@@ -218,7 +223,11 @@ class OarepoDataCitePIDProvider(PIDProvider):
             raise ValidationError(
                 message="DOI already associated with the record."
             )
-        self.credentials(record)
+
+        if not self.credentials(record):
+            raise ValidationError(
+                message="No credentials provided."
+            )
         errors = self.metadata_check(record)
         record_service = get_record_service_for_record(record)
         record["links"] = record_service.links_item_tpl.expand(system_identity, record)
@@ -328,7 +337,10 @@ class OarepoDataCitePIDProvider(PIDProvider):
 
         doi_value = self.get_doi_value(record)
         if doi_value:
-            self.credentials(record)
+            if not self.credentials(record):
+                raise ValidationError(
+                    message="No credentials provided."
+                )
             errors = self.metadata_check(record)
             record_service = get_record_service_for_record(record)
             record["links"] = record_service.links_item_tpl.expand(system_identity, record)
@@ -387,7 +399,10 @@ class OarepoDataCitePIDProvider(PIDProvider):
             "Content-Type": "application/vnd.api+json"
         }
 
-        self.credentials(record)
+        if not self.credentials(record):
+            raise ValidationError(
+                message="No credentials provided."
+            )
 
         response = requests.delete(url=url, headers=headers, auth=(self.username, self.password))
 
