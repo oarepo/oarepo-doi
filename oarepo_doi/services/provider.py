@@ -220,9 +220,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
         """Create and reserve a DOI for the given record, and update the record with the reserved DOI."""
         doi_value = self.get_doi_value(record)
         if doi_value:
-            raise ValidationError(
-                message="DOI already associated with the record."
-            )
+            pass
 
         if not self.credentials(record):
             raise ValidationError(
