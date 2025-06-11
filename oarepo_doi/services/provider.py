@@ -409,6 +409,39 @@ class OarepoDataCitePIDProvider(PIDProvider):
                 "Expected status code 204, but got {}".format(response.status_code)
             )
         else:
+            pid_value = self.get_pid_doi_value(record)
+            pid_value.delete()
+            self.remove_doi_value(record)
+
+    def delete_published(self, record, **kwargs):
+
+        doi_value = self.get_doi_value(record)
+
+        if not self.url.endswith("/"):
+            url = self.url + "/"
+        else:
+            url = self.url
+        url = url + doi_value.replace("/", "%2F")
+
+        if not self.credentials(record):
+            raise ValidationError(
+                message="No credentials provided."
+            )
+        request_metadata = {"data": {"type": "dois", "attributes": {"event": "hide"}}}
+        request = requests.put(
+            url=url,
+            json=request_metadata,
+            headers={"Content-type": "application/vnd.api+json"},
+            auth=(self.username, self.password),
+        )
+
+        if request.status_code != 200:
+            raise requests.ConnectionError(
+                "Expected status code 200, but got {}".format(request.status_code)
+            )
+        else:
+            pid_value = self.get_pid_doi_value(record)
+            pid_value.delete()
             self.remove_doi_value(record)
 
     def create_datacite_payload(self, data):
