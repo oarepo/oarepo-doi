@@ -145,22 +145,6 @@ class AssignDoiDeclineAction(OARepoDeclineAction):
         )
         return super().apply(identity, state, uow, *args, **kwargs)
 
-# class RegisterDoiAction(AssignDoiAction):
-#
-#     @override
-#     def apply(
-#             self,
-#             identity: Identity,
-#             state: RequestActionState,
-#             uow: UnitOfWork,
-#             *args: Any,
-#             **kwargs: Any,
-#     ) -> None:
-#         topic = self.request.topic.resolve()
-#
-#         self.provider.create_and_reserve(topic)
-#
-
 class ValidateDataForDoiAction(OARepoSubmitAction, OarepoDoiActionMixin):
     log_event = True
 
