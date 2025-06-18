@@ -9,7 +9,7 @@ from oarepo_requests.utils import is_auto_approved, request_identity_matches
 from oarepo_runtime.i18n import lazy_gettext as _
 from typing_extensions import override
 
-from ..actions.doi import CreateDoiAction, DeleteDoiAction, ValidateDataForDoiAction
+from ..actions.doi import CreateDoiAction, DeleteDoiAction, ValidateDataForDoiAction, AssignDoiDeclineAction, DeleteDoiDeclineAction, DeleteDoiSubmitAction
 
 
 class DoiRequest(NonDuplicableOARepoRequestType):
@@ -35,7 +35,8 @@ class DeleteDoiRequestType(DoiRequest):
         return {
             **super().available_actions,
             "accept": DeleteDoiAction,
-            "submit": OARepoSubmitAction,  # only accept?
+            "submit": DeleteDoiSubmitAction,
+            "decline": DeleteDoiDeclineAction,
         }
 
     description = _("Request for deletion of a registered DOI")
@@ -47,6 +48,7 @@ class DeleteDoiRequestType(DoiRequest):
             return False
         doi_value = self.provider.get_doi_value(topic)
         pid_value = self.provider.get_pid_doi_value(topic)
+
 
         if pid_value is not None and pid_value.status.value == "R":
             return False
@@ -108,6 +110,7 @@ class AssignDoiRequestType(DoiRequest):
             **super().available_actions,
             "accept": CreateDoiAction,
             "submit": ValidateDataForDoiAction,
+            "decline": AssignDoiDeclineAction
         }
 
     description = _("Request for DOI assignment")

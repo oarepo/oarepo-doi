@@ -1,0 +1,33 @@
+{% set request = notification.context.request %}
+{% set topic = request.topic %}
+{% set topic_id = request.topic.id %}
+{% set topic_title = topic.get("metadata", {}).get("title", topic_id) %}
+{% set request_html_page = request.links.self_html %}
+
+{%- block subject -%}
+    {{ _("Request to assign DOI to record {topic_title}").format(topic_title=topic_title) }}
+{%- endblock subject -%}
+
+{%- block html_body -%}
+    {% trans topic_title=topic_title, link=request_html_page %}
+    <p>
+    You have been asked to approve a DOI assignment for the record "{{topic_title}}".
+    </p>
+    <p>
+        <a type="button" href='{{link}}'>Accept or Decline the request</a>
+    </p>
+    {% endtrans %}
+
+    <table style="font-family:'Lato',Helvetica,Arial,sans-serif;border-spacing:15px">
+        <tr>
+            <td style="font-size:smaller">{{ _("This is an auto-generated message. To manage notifications, visit your")}} <a href="{{account_settings_link}}">{{ _("account settings")}}</a>.</td>
+        </tr>
+    </table>
+{%- endblock html_body -%}
+
+{%- block plain_body -%}
+    {% trans topic_title=topic_title, link=request_html_page %}
+    You have been asked to approve a DOI assignment for the record "{{topic_title}}".
+    Accept or Decline the request at {{link}}
+    {% endtrans %}
+{%- endblock plain_body -%}

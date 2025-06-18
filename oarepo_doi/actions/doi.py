@@ -1,15 +1,22 @@
 from flask import current_app
 from marshmallow.exceptions import ValidationError
-from oarepo_requests.actions.generic import OARepoAcceptAction, OARepoSubmitAction
-
+from oarepo_requests.actions.generic import OARepoAcceptAction, OARepoSubmitAction, OARepoDeclineAction, AddTopicLinksOnPayloadMixin
+from oarepo_runtime.i18n import lazy_gettext as _
 from functools import cached_property
 from typing_extensions import override
 from flask_principal import Identity
 from oarepo_requests.actions.components import RequestActionState
 from invenio_records_resources.services.uow import UnitOfWork
 from typing import Any
-
-
+from invenio_notifications.services.uow import NotificationOp
+from oarepo_doi.notifications.builders.assign_doi import (AssignDoiRequestSubmitNotificationBuilder,
+                                                          AssignDoiRequestAcceptNotificationBuilder,
+                                                          AssignDoiRequestDeclineNotificationBuilder
+                                                          )
+from oarepo_doi.notifications.builders.delete_doi import (DeleteDoiRequestSubmitNotificationBuilder,
+                                                          DeleteDoiRequestAcceptNotificationBuilder,
+                                                          DeleteDoiRequestDeclineNotificationBuilder
+                                                          )
 class OarepoDoiActionMixin:
     @cached_property
     def provider(self):
@@ -35,7 +42,7 @@ class CreateDoiAction(AssignDoiAction):
             uow: UnitOfWork,
             *args: Any,
             **kwargs: Any,
-    ) -> None:
+    ):
 
         topic = self.request.topic.resolve()
 
@@ -43,6 +50,14 @@ class CreateDoiAction(AssignDoiAction):
             self.provider.create_and_reserve(topic)
         else:
             self.provider.create_and_reserve(topic, event="publish")
+
+        uow.register(
+            NotificationOp(
+                AssignDoiRequestAcceptNotificationBuilder.build(
+                    request=self.request
+                )
+            )
+        )
 
 class DeleteDoiAction(AssignDoiAction):
 
@@ -58,9 +73,15 @@ class DeleteDoiAction(AssignDoiAction):
         topic = self.request.topic.resolve()
 
         self.provider.delete(topic)
+        uow.register(
+            NotificationOp(
+                DeleteDoiRequestAcceptNotificationBuilder.build(
+                    request=self.request
+                )
+            )
+        )
 
-
-class RegisterDoiAction(AssignDoiAction):
+class DeleteDoiSubmitAction(OARepoSubmitAction):
 
     @override
     def apply(
@@ -73,8 +94,72 @@ class RegisterDoiAction(AssignDoiAction):
     ) -> None:
         topic = self.request.topic.resolve()
 
-        self.provider.create_and_reserve(topic)
+        uow.register(
+            NotificationOp(
+                DeleteDoiRequestSubmitNotificationBuilder.build(
+                    request=self.request
+                )
+            )
+        )
 
+class DeleteDoiDeclineAction(OARepoDeclineAction):
+
+    @override
+    def apply(
+            self,
+            identity: Identity,
+            state: RequestActionState,
+            uow: UnitOfWork,
+            *args: Any,
+            **kwargs: Any,
+    ) -> None:
+        topic = self.request.topic.resolve()
+
+        uow.register(
+            NotificationOp(
+                DeleteDoiRequestDeclineNotificationBuilder.build(
+                    request=self.request
+                )
+            )
+        )
+
+class AssignDoiDeclineAction(OARepoDeclineAction):
+    """Decline action for assign doi requests."""
+
+    name = _("Return for correction")
+
+    def apply(
+        self,
+        identity: Identity,
+        state: RequestActionState,
+        uow: UnitOfWork,
+        *args: Any,
+        **kwargs: Any,
+    ):
+        uow.register(
+            NotificationOp(
+                AssignDoiRequestDeclineNotificationBuilder.build(
+                    request=self.request
+                )
+            )
+        )
+        return super().apply(identity, state, uow, *args, **kwargs)
+
+# class RegisterDoiAction(AssignDoiAction):
+#
+#     @override
+#     def apply(
+#             self,
+#             identity: Identity,
+#             state: RequestActionState,
+#             uow: UnitOfWork,
+#             *args: Any,
+#             **kwargs: Any,
+#     ) -> None:
+#         topic = self.request.topic.resolve()
+#
+#         self.provider.create_and_reserve(topic)
+#
 
 class ValidateDataForDoiAction(OARepoSubmitAction, OarepoDoiActionMixin):
     log_event = True
@@ -95,4 +180,11 @@ class ValidateDataForDoiAction(OARepoSubmitAction, OarepoDoiActionMixin):
             raise ValidationError(
                 message=errors
             )
+        uow.register(
+            NotificationOp(
+                AssignDoiRequestSubmitNotificationBuilder.build(
+                    request=self.request
+                )
+            )
+        )
 
