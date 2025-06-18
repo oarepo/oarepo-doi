@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-13 18:36+0200\n"
+"POT-Creation-Date: 2025-06-18 10:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,93 +17,283 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:30
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/actions/doi.py:129
+msgid "Return for correction"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:9
+#, python-brace-format
+msgid "DOI assignment request for '{topic_title}' has been approved"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:13
+#, python-format
+msgid ""
+"\n"
+"<p>\n"
+"Your request to assign a DOI to the record \"%(topic_title)s\" has been "
+"approved. You can view the updated record at\n"
+"<a href=\"%(link)s\">%(link)s</a>\n"
+"</p>\n"
+"    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:21
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:21
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:23
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:21
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:21
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:23
+msgid "This is an auto-generated message. To manage notifications, visit your"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:21
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:21
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:23
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:21
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:21
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:23
+msgid "account settings"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:27
+#, python-format
+msgid ""
+"\n"
+"Your request to assign a DOI to the record \"%(topic_title)s\" has been "
+"approved. You can view the updated record at\n"
+"%(link)s\n"
+"    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:9
+#, python-brace-format
+msgid "Request for DOI assignment to record '{topic_title}' was declined"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:13
+#, python-format
+msgid ""
+"\n"
+"<p>\n"
+"Request for assigning a DOI to the record \"%(topic_title)s\" was "
+"declined. You can see the request details at\n"
+"<a href=\"%(link)s\">%(link)s</a>\n"
+"</p>\n"
+"    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:27
+#, python-format
+msgid ""
+"\n"
+"Request for assigning a DOI to the record \"%(topic_title)s\" was "
+"declined. You can see the request details at\n"
+"%(link)s\n"
+"    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:8
+#, python-brace-format
+msgid "Request to assign DOI to record {topic_title}"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:12
+#, python-format
+msgid ""
+"\n"
+"    <p>\n"
+"    You have been asked to approve a DOI assignment for the record "
+"\"%(topic_title)s\".\n"
+"    </p>\n"
+"    <p>\n"
+"        <a type=\"button\" href='%(link)s'>Accept or Decline the "
+"request</a>\n"
+"    </p>\n"
+"    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:29
+#, python-format
+msgid ""
+"\n"
+"    You have been asked to approve a DOI assignment for the record "
+"\"%(topic_title)s\".\n"
+"    Accept or Decline the request at %(link)s\n"
+"    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:9
+#, python-brace-format
+msgid "DOI deletion request for '{topic_title}' has been approved"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:13
+#, python-format
+msgid ""
+"\n"
+"<p>\n"
+"Your request to delete the DOI from the record \"%(topic_title)s\" has "
+"been approved. You can view the updated record at\n"
+"<a href=\"%(link)s\">%(link)s</a>\n"
+"</p>\n"
+"    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:27
+#, python-format
+msgid ""
+"\n"
+"Your request to delete the DOI from the record \"%(topic_title)s\" has "
+"been approved. You can view the updated record at\n"
+"%(link)s\n"
+"    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:9
+#, python-brace-format
+msgid "Request for DOI deletion from record '{topic_title}' was declined"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:13
+#, python-format
+msgid ""
+"\n"
+"<p>\n"
+"Request for deleting the DOI from the record \"%(topic_title)s\" was "
+"declined. You can see the request details at\n"
+"<a href=\"%(link)s\">%(link)s</a>\n"
+"</p>\n"
+"    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:27
+#, python-format
+msgid ""
+"\n"
+"Request for deleting the DOI from the record \"%(topic_title)s\" was "
+"declined. You can see the request details at\n"
+"%(link)s\n"
+"    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:8
+#, python-brace-format
+msgid "Request to delete DOI from record {topic_title}"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:12
+#, python-format
+msgid ""
+"\n"
+"    <p>\n"
+"    You have been asked to approve a DOI deletion for the record "
+"\"%(topic_title)s\".\n"
+"    </p>\n"
+"    <p>\n"
+"        <a type=\"button\" href='%(link)s'>Accept or Decline the "
+"request</a>\n"
+"    </p>\n"
+"    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:29
+#, python-format
+msgid ""
+"\n"
+"    You have been asked to approve a DOI deletion for the record "
+"\"%(topic_title)s\".\n"
+"    Accept or Decline the request at %(link)s\n"
+"    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:30
 msgid "Cancel DOI registration"
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:41
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:42
 msgid "Request for deletion of a registered DOI"
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:63
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:68
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:68
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:73
 msgid "Request DOI cancellation"
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:66
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:71
 msgid "DOI cancellation requested"
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:73
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:78
 msgid "Click to cancel DOI registration."
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:76
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:81
 msgid "Request permission to cancel DOI registration."
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:81
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:86
 msgid ""
 "Permission to cancel DOI registration requested. You will be notified "
 "about the decision by email."
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:86
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:91
 msgid ""
 "You have been asked to approve the request to cancel DOI registration to "
 "a record. You can approve or reject the request."
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:89
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:94
 msgid "Permission to cancel DOI registration requested. "
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:93
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:98
 msgid "Submit request to get permission to cancel DOI registration."
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:99
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:104
 msgid "Assign DOI"
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:110
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:116
 msgid "Request for DOI assignment"
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:140
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:145
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:149
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:154
 msgid "Request DOI assignment"
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:143
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:152
 msgid "DOI assignment requested"
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:150
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:159
 msgid "Click to assign DOI."
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:153
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:162
 msgid "Request permission to assign DOI."
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:158
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:167
 msgid ""
 "Permission to assign DOI requested. You will be notified about the "
 "decision by email."
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:163
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:172
 msgid ""
 "You have been asked to approve the request to assign DOI to a record. You"
 " can approve or reject the request."
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:166
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:175
 msgid "Permission to assign DOI requested. "
 msgstr ""
 
-#: /Users/m/w/cesnet/oarepo-doi/oarepo_doi/types/doi.py:169
+#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/types/doi.py:178
 msgid "Submit request to get permission to assign DOI."
 msgstr ""
 

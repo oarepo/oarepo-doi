@@ -1,0 +1,31 @@
+{% set request = notification.context.request %}
+{% set topic = request.topic %}
+{% set topic_id = request.topic.id %}
+{% set topic_title = topic.get("metadata", {}).get("title", topic_id) %}
+{% set request_html_page = request.links.self_html %}
+{% set topic_html_page = topic.get("links", {}).get("self_html") %}
+
+{%- block subject -%}
+    {{ _("DOI deletion request for '{topic_title}' has been approved").format(topic_title=topic_title) }}
+{%- endblock subject -%}
+
+{%- block html_body -%}
+    {% trans topic_title=topic_title, link=topic_html_page %}
+<p>
+Your request to delete the DOI from the record "{{topic_title}}" has been approved. You can view the updated record at
+<a href="{{link}}">{{link}}</a>
+</p>
+    {% endtrans %}
+    <table style="font-family:'Lato',Helvetica,Arial,sans-serif;border-spacing:15px">
+        <tr>
+            <td style="font-size:smaller">{{ _("This is an auto-generated message. To manage notifications, visit your")}} <a href="{{account_settings_link}}">{{ _("account settings")}}</a>.</td>
+        </tr>
+    </table>
+{%- endblock html_body -%}
+
+{%- block plain_body -%}
+    {% trans topic_title=topic_title, link=topic_html_page %}
+Your request to delete the DOI from the record "{{topic_title}}" has been approved. You can view the updated record at
+{{link}}
+    {% endtrans %}
+{%- endblock plain_body -%}
