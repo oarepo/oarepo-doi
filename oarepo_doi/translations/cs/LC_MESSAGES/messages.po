@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-03-27 11:31+0100\n"
-"PO-Revision-Date: 2025-06-18 10:41+0200\n"
+"PO-Revision-Date: 2025-06-19 12:55+0200\n"
 "Last-Translator: \n"
 "Language-Team: cs <LL@li.org>\n"
 "Language: cs\n"
@@ -344,3 +344,18 @@ msgstr ""
 "        <a type=\"button\" href='%(link)s'>Schválit nebo zamítnout žádost</a>\n"
 "    </p>\n"
 "    "
+
+#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:31
+#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:31
+#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:33
+#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:31
+#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:31
+#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:33
+#, python-format
+msgid ""
+"\n"
+"    This is an auto-generated message. To manage notifications, visit your account setting at: %(account_settings_link)s.\n"
+"    "
+msgstr ""
+"Toto je automaticky generovaná zpráva. Pokud tyto zprávy nechcete nadále "
+"dostávat, změňte si nastavení ve svém profilu na %(account_settings_link)s."

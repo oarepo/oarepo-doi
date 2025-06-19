@@ -304,3 +304,16 @@ msgid ""
 "    </p>\n"
 "    "
 msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:31
+#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:31
+#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:33
+#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:31
+#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:31
+#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:33
+#, python-format
+msgid ""
+"\n"
+"    This is an auto-generated message. To manage notifications, visit your account setting at: %(account_settings_link)s.\n"
+"    "
+msgstr ""

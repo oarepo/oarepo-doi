@@ -145,10 +145,10 @@ class OarepoDataCitePIDProvider(PIDProvider):
             request_metadata["data"]["attributes"]["event"] = kwargs["event"]
 
         request_metadata["data"]["attributes"]["prefix"] = str(prefix)
-        return request_metadata, username, password
+        return request_metadata, username, password, prefix
 
     def create_and_reserve(self, record, **kwargs):
-        request_metadata, username, password = self.datacite_request(record, **kwargs)
+        request_metadata, username, password, prefix = self.datacite_request(record, **kwargs)
         request = requests.post(
             url=self.url,
             json=request_metadata,
@@ -166,7 +166,8 @@ class OarepoDataCitePIDProvider(PIDProvider):
             pid_status = 'R'
             parent_doi = self.get_pid_doi_value(record, parent=True)
             if parent_doi is None:
-                self.register_parent_doi(record, request_metadata, username, password)
+
+                self.register_parent_doi(record, request_metadata, username, password, prefix)
             elif parent_doi and record.versions.is_latest:
                 self.update_parent_doi(record, request_metadata, username, password)
         else:
@@ -175,7 +176,8 @@ class OarepoDataCitePIDProvider(PIDProvider):
         BaseProvider.create('doi', doi_value, 'rec', record.id, pid_status)
         db.session.commit()
 
-    def register_parent_doi(self, record, request_metadata, username, password):
+    def register_parent_doi(self, record, request_metadata, username, password, prefix):
+        request_metadata["data"]["attributes"]["prefix"] = str(prefix)
         request_metadata["data"]["attributes"]["event"] = "publish"
         request = requests.post(
             url=self.url,
@@ -225,7 +227,8 @@ class OarepoDataCitePIDProvider(PIDProvider):
 
             parent_doi = self.get_pid_doi_value(record, parent=True)
             if parent_doi is None and "event" in kwargs:
-                self.register_parent_doi(record, request_metadata, username, password)
+
+                self.register_parent_doi(record, request_metadata, username, password, prefix)
             elif parent_doi and record.versions.is_latest:
                 self.update_parent_doi(record, request_metadata, username, password)
 
