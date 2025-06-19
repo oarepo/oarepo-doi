@@ -23,7 +23,6 @@ def test_submit_notifications(
         # check notification is build on submit
         assert len(outbox) == 1
         sent_mail = outbox[0]
-
         assert 'Request to assign DOI to record blabla' in sent_mail.subject
         assert 'You have been asked to approve a DOI assignment for the record "blabla"' in sent_mail.body
         assert 'You have been asked to approve a DOI assignment for the record "blabla"' in sent_mail.html
