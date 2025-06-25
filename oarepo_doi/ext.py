@@ -1,3 +1,6 @@
+from .config import NOTIFICATIONS_BUILDERS
+from deepmerge import conservative_merger
+
 class OARepoDOI(object):
     """OARepo DOI extension."""
 
@@ -19,3 +22,10 @@ class OARepoDOI(object):
             app.config["DATACITE_MODE"] = "ON_EVENT"
         if "DATACITE_SPECIFIED_ID" not in app.config:
             app.config["DATACITE_SPECIFIED_ID"] = False
+
+        app_notification_builders = app.config.setdefault(
+            "NOTIFICATIONS_BUILDERS", {}
+        )
+        app.config["NOTIFICATIONS_BUILDERS"] = conservative_merger.merge(
+            app_notification_builders, NOTIFICATIONS_BUILDERS
+        )
