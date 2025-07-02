@@ -1,6 +1,4 @@
 import json
-import warnings
-from collections import ChainMap
 from json import JSONDecodeError
 import uuid
 from invenio_communities import current_communities
@@ -23,6 +21,7 @@ from invenio_rdm_records.services.pids.providers import DataCiteClient
 from invenio_rdm_records.services.pids.providers.base import PIDProvider
 from invenio_access.permissions import system_identity
 from invenio_pidstore.models import PersistentIdentifier
+from oarepo_doi.settings.models import CommunityDoiSettings
 
 class OarepoDataCitePIDProvider(PIDProvider):
     def __init__(
@@ -61,14 +60,17 @@ class OarepoDataCitePIDProvider(PIDProvider):
         if not slug:
             credentials = current_app.config.get("DATACITE_CREDENTIALS_DEFAULT", None)
         else:
-            credentials_def = current_app.config.get("DATACITE_CREDENTIALS")
-            credentials = credentials_def.get(slug, None)
-            if not credentials:
+            doi_settings = db.session.query(CommunityDoiSettings).filter_by(community_slug=slug).first()
+            if doi_settings is None:
                 credentials = current_app.config.get("DATACITE_CREDENTIALS_DEFAULT", None)
+            else:
+                credentials = doi_settings
         if credentials is None:
             return None
 
-        return credentials["username"], credentials["password"], credentials["prefix"]
+        return credentials.username, credentials.password, credentials.prefix
+
+
 
     def generate_id(self, record, **kwargs):
         pass  # done at DataCite level
