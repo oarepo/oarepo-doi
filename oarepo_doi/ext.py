@@ -20,7 +20,7 @@ class OARepoDOI(object):
 
 
     def init_config(self, app):
-        """Initialize settings."""
+        """Initialize configuration."""
         if "DATACITE_URL" not in app.config:
             app.config["DATACITE_URL"] = "https://api.datacite.org/dois"
         if "DATACITE_MODE" not in app.config:
