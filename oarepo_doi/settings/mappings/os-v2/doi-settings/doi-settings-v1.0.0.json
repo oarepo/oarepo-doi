@@ -1,0 +1,43 @@
+{
+    "mappings": {
+        "properties": {
+             "$schema": {
+                "type": "keyword",
+                "index": "false"
+            },
+            "id": {
+                "type": "keyword"
+            },
+            "pid" : {
+                "type": "keyword"
+            },
+            "username": {
+                "type": "keyword"
+            },
+            "prefix": {
+                "type": "keyword"
+            },
+            "community_slug": {
+                "type": "keyword"
+            },
+            "created": {
+                "type": "date"
+            },
+            "updated": {
+                "type": "date"
+            },
+            "uuid": {
+                "type": "keyword"
+            },
+            "version_id": {
+                "type": "integer"
+            },
+            "password": {
+              "enabled": false
+            },
+            "indexed_at": {
+                "type": "date"
+            }
+        }
+    }
+}
