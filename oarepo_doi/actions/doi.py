@@ -72,7 +72,10 @@ class DeleteDoiAction(AssignDoiAction):
     ) -> None:
         topic = self.request.topic.resolve()
 
-        self.provider.delete(topic)
+        if topic.is_draft:
+            self.provider.delete_draft(topic)
+        else:
+            self.provider.delete_published(topic)
         uow.register(
             NotificationOp(
                 DeleteDoiRequestAcceptNotificationBuilder.build(
