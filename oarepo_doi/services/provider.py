@@ -267,6 +267,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
             raise requests.ConnectionError(f"Expected status code 204, but got {response.status_code}")
         pid_value = self.get_pid_doi_value(record)
         pid_value.delete()
+        pid_value.unassign()
         self.remove_doi_value(record)
 
     def delete_published(self, record, **kwargs):
