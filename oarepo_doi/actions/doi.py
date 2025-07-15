@@ -72,10 +72,13 @@ class DeleteDoiAction(AssignDoiAction):
     ) -> None:
         topic = self.request.topic.resolve()
 
+        """
+        it is not allowed to delete DOI within the published record, the doi is changed to "registered" 
+        by the component when deleting the published record
+        """
         if topic.is_draft:
             self.provider.delete_draft(topic)
-        else:
-            self.provider.delete_published(topic)
+
         uow.register(
             NotificationOp(
                 DeleteDoiRequestAcceptNotificationBuilder.build(
