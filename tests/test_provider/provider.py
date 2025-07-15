@@ -26,5 +26,5 @@ class ThesisTestDataCitePIDProvider(OarepoDataCitePIDProvider):
     def create_and_reserve(self, record, **kwargs):
         pass
 
-    def delete(self, record, **kwargs):
+    def delete_draft(self, record, **kwargs):
         pass
