@@ -53,4 +53,4 @@ class DoiComponent(ServiceComponent):
         pid_doi = self.provider.get_pid_doi_value(draft)
         if hasattr(pid_doi, "status") and pid_doi.status.value == "K":
             if doi_value is not None:
-                self.provider.delete(draft)
+                self.provider.delete_draft(draft)

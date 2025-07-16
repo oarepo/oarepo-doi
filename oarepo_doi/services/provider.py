@@ -250,8 +250,10 @@ class OarepoDataCitePIDProvider(PIDProvider):
                 pid_value = self.get_pid_doi_value(record)
                 if hasattr(pid_value, "status") and pid_value.status == "K":
                     pid_value.register()
+    def delete(self, record, url=None, **kwargs):
+        pass
 
-    def delete(self, record, **kwargs):
+    def delete_draft(self, record, **kwargs):
         creds = self.credentials(record)
         if creds is None:
             raise ValidationError("No credentials provided.")
@@ -267,6 +269,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
             raise requests.ConnectionError(f"Expected status code 204, but got {response.status_code}")
         pid_value = self.get_pid_doi_value(record)
         pid_value.delete()
+        pid_value.unassign()
         self.remove_doi_value(record)
 
     def delete_published(self, record, **kwargs):
@@ -287,6 +290,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
             raise requests.ConnectionError(f"Expected status code 200, but got {request.status_code}")
         pid_value = self.get_pid_doi_value(record)
         pid_value.delete()
+        pid_value.unassign()
         self.remove_doi_value(record)
 
     def create_datacite_payload(self, data):
