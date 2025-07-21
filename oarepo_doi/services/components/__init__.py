@@ -21,8 +21,9 @@ class DoiComponent(ServiceComponent):
             self.provider.create_and_reserve(record)
 
     def update_draft(self, identity, data=None, record=None, **kwargs):
-        if self.mode == "AUTOMATIC_DRAFT" or self.mode == "ON_EVENT_DRAFT":
-            self.provider.update(record)
+        if not record.is_draft or not record.is_published:
+            if self.mode == "AUTOMATIC_DRAFT" or self.mode == "ON_EVENT_DRAFT":
+                self.provider.update(record)
 
     def update(self, identity, data=None, record=None, **kwargs):
         self.provider.update(record)
