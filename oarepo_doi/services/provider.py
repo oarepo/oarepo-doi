@@ -216,12 +216,6 @@ class OarepoDataCitePIDProvider(PIDProvider):
 
         new_version_modified_relations_count += self.add_relation(parent_doi, new_related_identifiers, "IsVersionOf")
 
-        # if not any(item['relatedIdentifier'] == parent_doi for item in new_related_identifiers):
-        #     new_related_identifiers.append({
-        #         "relationType": "IsVersionOf",
-        #         "relatedIdentifier": parent_doi,
-        #         "relatedIdentifierType": "DOI"
-        #     })
         previous_version = self.get_previous_version(record)
         if previous_version:
             url = self.url.rstrip("/") + "/" + previous_version.replace("/", "%2F")
@@ -235,28 +229,10 @@ class OarepoDataCitePIDProvider(PIDProvider):
                 previous_related_identifiers = []
             new_version_modified_relations_count += self.add_relation(previous_version, new_related_identifiers,
                                                                       "IsNewVersionOf")
-            # if not any(item['relatedIdentifier'] == previous_version for item in new_related_identifiers):
-            #     new_related_identifiers.append({
-            #         "relationType": "IsNewVersionOf",
-            #         "relatedIdentifier": previous_version,
-            #         "relatedIdentifierType": "DOI"
-            #     })
             previous_version_modified_relations_count += self.add_relation(doi_value, previous_related_identifiers,
                                                                       "IsPreviousVersionOf")
-            # if not any(item['relatedIdentifier'] == doi_value for item in previous_related_identifiers):
-            #     previous_related_identifiers.extend([{
-            #         "relationType": "IsPreviousVersionOf",
-            #         "relatedIdentifier": doi_value,
-            #         "relatedIdentifierType": "DOI"
-            #     }])
             previous_version_modified_relations_count += self.add_relation(parent_doi, previous_related_identifiers,
                                                                            "IsVersionOf")
-            # if not any(item['relatedIdentifier'] == parent_doi for item in previous_related_identifiers):
-            #     previous_related_identifiers.extend([{
-            #         "relationType": "IsVersionOf",
-            #         "relatedIdentifier": parent_doi,
-            #         "relatedIdentifierType": "DOI"
-            #     }])
             if previous_version_modified_relations_count > 0:
                 previous_version_request_metadata ={"data": {"type": "dois", "attributes": {"relatedIdentifiers":previous_related_identifiers}}}
 
@@ -463,8 +439,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
 
             if is_latest and is_published and doi:
                 return doi['identifier']
-                # if "versions" in version and "is_latest" in version["versions"] and (version["versions"]["is_latest"] and version["is_published"]) and "pids" in version and "doi" in version["pids"]:
-            #     return version["pids"]["doi"]["identifier"]
+            
         return None
 
     def get_doi_versions(self, record):
