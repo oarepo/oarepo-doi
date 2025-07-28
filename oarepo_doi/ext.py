@@ -1,7 +1,15 @@
-from .config import NOTIFICATIONS_BUILDERS, DOI_SETTINGS_SEARCH, DOI_SETTINGS_FACETS, DOI_SETTINGS_SORT_OPTIONS
+from functools import cached_property
+
 from deepmerge import conservative_merger
 from invenio_base.utils import obj_or_import_string
-from functools import cached_property
+
+from .config import (
+    DOI_SETTINGS_FACETS,
+    DOI_SETTINGS_SEARCH,
+    DOI_SETTINGS_SORT_OPTIONS,
+    NOTIFICATIONS_BUILDERS,
+)
+
 
 class OARepoDOI(object):
     """OARepo DOI extension."""

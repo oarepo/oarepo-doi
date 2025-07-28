@@ -1,22 +1,32 @@
-from flask import current_app
-from marshmallow.exceptions import ValidationError
-from oarepo_requests.actions.generic import OARepoAcceptAction, OARepoSubmitAction, OARepoDeclineAction, AddTopicLinksOnPayloadMixin
-from oarepo_runtime.i18n import lazy_gettext as _
 from functools import cached_property
-from typing_extensions import override
-from flask_principal import Identity
-from oarepo_requests.actions.components import RequestActionState
-from invenio_records_resources.services.uow import UnitOfWork
 from typing import Any
+
+from flask import current_app
+from flask_principal import Identity
 from invenio_notifications.services.uow import NotificationOp
-from oarepo_doi.notifications.builders.assign_doi import (AssignDoiRequestSubmitNotificationBuilder,
-                                                          AssignDoiRequestAcceptNotificationBuilder,
-                                                          AssignDoiRequestDeclineNotificationBuilder
-                                                          )
-from oarepo_doi.notifications.builders.delete_doi import (DeleteDoiRequestSubmitNotificationBuilder,
-                                                          DeleteDoiRequestAcceptNotificationBuilder,
-                                                          DeleteDoiRequestDeclineNotificationBuilder
-                                                          )
+from invenio_records_resources.services.uow import UnitOfWork
+from marshmallow.exceptions import ValidationError
+from oarepo_requests.actions.components import RequestActionState
+from oarepo_requests.actions.generic import (
+    OARepoAcceptAction,
+    OARepoDeclineAction,
+    OARepoSubmitAction,
+)
+from oarepo_runtime.i18n import lazy_gettext as _
+from typing_extensions import override
+
+from oarepo_doi.notifications.builders.assign_doi import (
+    AssignDoiRequestAcceptNotificationBuilder,
+    AssignDoiRequestDeclineNotificationBuilder,
+    AssignDoiRequestSubmitNotificationBuilder,
+)
+from oarepo_doi.notifications.builders.delete_doi import (
+    DeleteDoiRequestAcceptNotificationBuilder,
+    DeleteDoiRequestDeclineNotificationBuilder,
+    DeleteDoiRequestSubmitNotificationBuilder,
+)
+
+
 class OarepoDoiActionMixin:
     @cached_property
     def provider(self):

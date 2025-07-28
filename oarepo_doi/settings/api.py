@@ -1,4 +1,3 @@
-from datetime import datetime
 from uuid import UUID
 
 from invenio_db import db
@@ -6,7 +5,7 @@ from invenio_records.dumpers import SearchDumper
 from invenio_records.dumpers.indexedat import IndexedAtDumperExt
 from invenio_records.systemfields import ModelField
 from invenio_records_resources.records.systemfields import IndexField
-from invenio_users_resources.records.api import BaseAggregate, AggregatePID
+from invenio_users_resources.records.api import AggregatePID, BaseAggregate
 
 from .models import CommunityDoiSettings, CommunityDoiSettingsAggregateModel
 

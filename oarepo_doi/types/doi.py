@@ -2,14 +2,20 @@ from functools import cached_property
 
 from flask import current_app
 from marshmallow.exceptions import ValidationError
-from oarepo_requests.actions.generic import OARepoSubmitAction
 from oarepo_requests.types.generic import NonDuplicableOARepoRequestType
 from oarepo_requests.types.ref_types import ModelRefTypes
 from oarepo_requests.utils import is_auto_approved, request_identity_matches
 from oarepo_runtime.i18n import lazy_gettext as _
 from typing_extensions import override
 
-from ..actions.doi import CreateDoiAction, DeleteDoiAction, ValidateDataForDoiAction, AssignDoiDeclineAction, DeleteDoiDeclineAction, DeleteDoiSubmitAction
+from ..actions.doi import (
+    AssignDoiDeclineAction,
+    CreateDoiAction,
+    DeleteDoiAction,
+    DeleteDoiDeclineAction,
+    DeleteDoiSubmitAction,
+    ValidateDataForDoiAction,
+)
 
 
 class DoiRequest(NonDuplicableOARepoRequestType):

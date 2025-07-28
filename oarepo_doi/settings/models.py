@@ -1,13 +1,13 @@
-from sqlalchemy.ext.declarative import declared_attr
-from sqlalchemy_utils.types import UUIDType
-from invenio_db import db
+import uuid
 
 from invenio_communities.communities.records.models import CommunityMetadata
-import uuid
-from invenio_users_resources.records.models import AggregateMetadata
-from sqlalchemy_utils import  Timestamp
-from sqlalchemy_utils import EncryptedType
+from invenio_db import db
 from invenio_oauthclient.models import _secret_key
+from invenio_users_resources.records.models import AggregateMetadata
+from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy_utils import EncryptedType, Timestamp
+from sqlalchemy_utils.types import UUIDType
+
 
 class CommunityDoiSettings(db.Model, Timestamp):
     """Model for Community DOI settings."""

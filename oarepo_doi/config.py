@@ -1,14 +1,15 @@
+from invenio_i18n import lazy_gettext as _
+
 from oarepo_doi.notifications.builders.assign_doi import (
-    AssignDoiRequestSubmitNotificationBuilder,
     AssignDoiRequestAcceptNotificationBuilder,
-    AssignDoiRequestDeclineNotificationBuilder
+    AssignDoiRequestDeclineNotificationBuilder,
+    AssignDoiRequestSubmitNotificationBuilder,
 )
 from oarepo_doi.notifications.builders.delete_doi import (
-    DeleteDoiRequestSubmitNotificationBuilder,
     DeleteDoiRequestAcceptNotificationBuilder,
-    DeleteDoiRequestDeclineNotificationBuilder
+    DeleteDoiRequestDeclineNotificationBuilder,
+    DeleteDoiRequestSubmitNotificationBuilder,
 )
-from invenio_i18n import lazy_gettext as _
 from oarepo_doi.settings import facets
 
 NOTIFICATIONS_BUILDERS = {

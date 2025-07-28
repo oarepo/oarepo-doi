@@ -2,23 +2,16 @@
 
 import marshmallow as ma
 from flask import g
-from invenio_records_resources.resources import (
-    RecordResource,
-    RecordResourceConfig,
-)
+from flask_resources import resource_requestctx, response_handler
+from invenio_records_resources.resources import RecordResource, RecordResourceConfig
 from invenio_records_resources.resources.errors import ErrorHandlersMixin
 from invenio_records_resources.resources.records.resource import (
-    request_view_args,
+    request_data,
     request_extra_args,
     request_headers,
-    request_data
+    request_view_args,
 )
-from flask_resources import (
 
-    resource_requestctx,
-    response_handler,
-
-)
 
 class CommunityDoiSettingsResourceConfig(RecordResourceConfig):
     """DOI settings resource configuration."""

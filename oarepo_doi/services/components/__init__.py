@@ -1,6 +1,7 @@
 from flask import current_app
 from invenio_records_resources.services.records.components import ServiceComponent
 
+
 class DoiComponent(ServiceComponent):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

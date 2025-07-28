@@ -1,7 +1,8 @@
-from invenio_notifications.services.generators import EntityResolve
 
+from oarepo_requests.notifications.builders.oarepo import (
+    OARepoRequestActionNotificationBuilder,
+)
 from oarepo_requests.notifications.generators import EntityRecipient
-from oarepo_requests.notifications.builders.oarepo import OARepoRequestActionNotificationBuilder
 
 
 class DeleteDoiRequestSubmitNotificationBuilder(

@@ -1,7 +1,6 @@
 import logging
 
 from invenio_db import db
-
 from invenio_records_resources.services import (
     RecordService,
     RecordServiceConfig,
@@ -12,9 +11,7 @@ from invenio_records_resources.services.base.config import (
     FromConfig,
     SearchOptionsMixin,
 )
-from invenio_records_resources.services.errors import (
-    PermissionDeniedError,
-)
+from invenio_records_resources.services.errors import PermissionDeniedError
 from invenio_records_resources.services.records.config import SearchOptions
 from invenio_records_resources.services.records.params import (
     FacetsParam,
@@ -22,21 +19,17 @@ from invenio_records_resources.services.records.params import (
     QueryStrParam,
     SortParam,
 )
-
 from invenio_users_resources.services.common import Link
 
-
-
-
-from .models import CommunityDoiSettings, CommunityDoiSettingsAggregateModel
 from . import facets
 from .api import CommunityDoiSettingsAggregate
+from .models import CommunityDoiSettings
+from .permissions import DoiSettingsPermissionPolicy
 from .results import CommunityDoiSettingsItem, CommunityDoiSettingsList
 from .schema import CommunityDoiSettingsSchema
-from .permissions import DoiSettingsPermissionPolicy
+
 log = logging.getLogger(__name__)
 from .components import DoiSettingsComponent
-
 
 
 class CommunityDoiSettingsSearchOptions(SearchOptions, SearchOptionsMixin):

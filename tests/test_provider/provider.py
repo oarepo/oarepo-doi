@@ -1,6 +1,7 @@
 
 from oarepo_doi.services.provider import OarepoDataCitePIDProvider
 
+
 class ThesisTestDataCitePIDProvider(OarepoDataCitePIDProvider):
     def create_datacite_payload(self, data):
         metadata = data["metadata"]

@@ -1,28 +1,24 @@
-import json
-from json import JSONDecodeError
-import uuid
-from invenio_communities import current_communities
-from invenio_search.engine import dsl
-from datacite.errors import (
-    DataCiteNoContentError,
-    DataCiteServerError,
-)
-from invenio_db import db
-from invenio_pidstore.providers.base import BaseProvider
-import requests
-from oarepo_runtime.datastreams.utils import get_record_service_for_record
-
-from marshmallow.exceptions import ValidationError
-from flask import current_app
-
-from invenio_pidstore.models import PIDStatus
-from invenio_rdm_records.services.pids.providers import DataCiteClient
 import copy
-from invenio_rdm_records.services.pids.providers.base import PIDProvider
+import json
+import uuid
+from json import JSONDecodeError
+
+import requests
+from datacite.errors import DataCiteNoContentError, DataCiteServerError
+from flask import current_app
 from invenio_access.permissions import system_identity
-from invenio_pidstore.models import PersistentIdentifier
-from oarepo_doi.settings.models import CommunityDoiSettings
+from invenio_communities import current_communities
+from invenio_db import db
+from invenio_pidstore.models import PersistentIdentifier, PIDStatus
+from invenio_pidstore.providers.base import BaseProvider
+from invenio_rdm_records.services.pids.providers import DataCiteClient
+from invenio_rdm_records.services.pids.providers.base import PIDProvider
+from invenio_search.engine import dsl
+from marshmallow.exceptions import ValidationError
 from oarepo_runtime.datastreams.utils import get_record_service_for_record
+
+from oarepo_doi.settings.models import CommunityDoiSettings
+
 
 class OarepoDataCitePIDProvider(PIDProvider):
     def __init__(

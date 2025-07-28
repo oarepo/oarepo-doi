@@ -1,11 +1,7 @@
 
-from invenio_records_permissions import BasePermissionPolicy
-from invenio_records_permissions.generators import (
-
-    SystemProcess,
-
-)
 from invenio_administration.generators import Administration
+from invenio_records_permissions import BasePermissionPolicy
+from invenio_records_permissions.generators import SystemProcess
 
 
 class DoiSettingsPermissionPolicy(BasePermissionPolicy):

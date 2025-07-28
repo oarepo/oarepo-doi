@@ -1,7 +1,7 @@
 from invenio_administration.views.base import (
+    AdminFormView,
     AdminResourceDetailView,
     AdminResourceListView,
-AdminFormView,
 )
 from invenio_i18n import lazy_gettext as _
 

@@ -10,58 +10,32 @@ from datetime import timedelta
 
 import pytest
 from invenio_notifications.backends import EmailNotificationBackend
+from invenio_rdm_records.services.pids.providers import DataCiteClient
 from invenio_records_permissions.generators import (
     AnyUser,
     AuthenticatedUser,
     SystemProcess,
 )
-from invenio_users_resources.records import UserAggregate
 from invenio_requests.customizations import CommentEventType, LogEventType
-from invenio_requests.records.api import Request, RequestEvent
+from invenio_requests.records.api import RequestEvent
 from invenio_requests.services.generators import Receiver
 from invenio_requests.services.permissions import (
     PermissionPolicy as InvenioRequestsPermissionPolicy,
 )
-from oarepo_doi.notifications.builders.assign_doi import (
-    AssignDoiRequestSubmitNotificationBuilder,
-    AssignDoiRequestAcceptNotificationBuilder,
-    AssignDoiRequestDeclineNotificationBuilder
-)
-from oarepo_doi.notifications.builders.delete_doi import (
-    DeleteDoiRequestSubmitNotificationBuilder,
-    DeleteDoiRequestAcceptNotificationBuilder,
-    DeleteDoiRequestDeclineNotificationBuilder
-)
-from oarepo_runtime.i18n import lazy_gettext as _
-from oarepo_runtime.services.permissions import RecordOwners
-from oarepo_workflows import (
-    AutoApprove,
-    IfInState,
-    WorkflowRequest,
-    WorkflowRequestPolicy,
-    WorkflowTransitions,
-    WorkflowRequestEscalation,
-)
-from oarepo_workflows.base import Workflow
-from oarepo_workflows.requests.events import WorkflowEvent
-from pytest_oarepo.requests.classes import TestEventType, UserGenerator
-from thesis.proxies import current_service
-
+from invenio_users_resources.records import UserAggregate
 from oarepo_requests.notifications.builders.delete_published_record import (
     DeletePublishedRecordRequestAcceptNotificationBuilder,
-    DeletePublishedRecordRequestSubmitNotificationBuilder,
     DeletePublishedRecordRequestDeclineNotificationBuilder,
+    DeletePublishedRecordRequestSubmitNotificationBuilder,
 )
-from oarepo_requests.notifications.builders.publish import (
-    PublishDraftRequestAcceptNotificationBuilder,
-    PublishDraftRequestSubmitNotificationBuilder,
-    PublishDraftRequestDeclineNotificationBuilder,
-)
-
 from oarepo_requests.notifications.builders.escalate import (
     EscalateRequestSubmitNotificationBuilder,
 )
-
+from oarepo_requests.notifications.builders.publish import (
+    PublishDraftRequestAcceptNotificationBuilder,
+    PublishDraftRequestDeclineNotificationBuilder,
+    PublishDraftRequestSubmitNotificationBuilder,
+)
 from oarepo_requests.receiver import default_workflow_receiver_function
 from oarepo_requests.services.permissions.generators.conditional import (
     IfNoEditDraft,
@@ -71,11 +45,33 @@ from oarepo_requests.services.permissions.workflow_policies import (
     RequestBasedWorkflowPermissions,
 )
 from oarepo_requests.types.events.topic_update import TopicUpdateEventType
+from oarepo_runtime.i18n import lazy_gettext as _
+from oarepo_runtime.services.permissions import RecordOwners
+from oarepo_workflows import (
+    AutoApprove,
+    IfInState,
+    WorkflowRequest,
+    WorkflowRequestEscalation,
+    WorkflowRequestPolicy,
+    WorkflowTransitions,
+)
+from oarepo_workflows.base import Workflow
+from oarepo_workflows.requests.events import WorkflowEvent
+from pytest_oarepo.requests.classes import TestEventType, UserGenerator
+from thesis.proxies import current_service
 
-from invenio_rdm_records.services.pids.providers import DataCiteClient
+from oarepo_doi.notifications.builders.assign_doi import (
+    AssignDoiRequestAcceptNotificationBuilder,
+    AssignDoiRequestDeclineNotificationBuilder,
+    AssignDoiRequestSubmitNotificationBuilder,
+)
+from oarepo_doi.notifications.builders.delete_doi import (
+    DeleteDoiRequestAcceptNotificationBuilder,
+    DeleteDoiRequestDeclineNotificationBuilder,
+    DeleteDoiRequestSubmitNotificationBuilder,
+)
 
 from .test_provider.provider import ThesisTestDataCitePIDProvider
-
 
 pytest_plugins = [
     "pytest_oarepo.requests.fixtures",

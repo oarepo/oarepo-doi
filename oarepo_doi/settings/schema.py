@@ -1,8 +1,6 @@
-from invenio_access.permissions import system_identity
-from invenio_records_resources.services.records.schema import (
-    BaseRecordSchema,
-)
+from invenio_records_resources.services.records.schema import BaseRecordSchema
 from marshmallow import fields
+
 
 class  CommunityDoiSettingsSchema(BaseRecordSchema):
     username = fields.String(required=True)
