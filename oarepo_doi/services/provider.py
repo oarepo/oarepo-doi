@@ -424,7 +424,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
             return value
     def get_versions(self, record):
         topic_service = get_record_service_for_record(record)
-        versions = topic_service.search_versions(system_identity, record.pid.pid_value)
+        versions = topic_service.search_versions(identity=system_identity, id_=record.pid.pid_value, params={'size': 1000})
         versions_hits = versions.to_dict()["hits"]["hits"]
         return versions_hits
 
@@ -439,7 +439,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
 
             if is_latest and is_published and doi:
                 return doi['identifier']
-            
+
         return None
 
     def get_doi_versions(self, record):
