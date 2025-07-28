@@ -182,6 +182,16 @@ class OarepoDataCitePIDProvider(PIDProvider):
         BaseProvider.create('doi', doi_value, 'rec', record.id, pid_status)
         db.session.commit()
 
+
+    def add_relation(self,identifier, related_identifiers, type):
+        if not any(item['relatedIdentifier'] == identifier for item in related_identifiers):
+            related_identifiers.append({
+                "relationType": type,
+                "relatedIdentifier": identifier,
+                "relatedIdentifierType": "DOI"
+            })
+            return True
+        return False
     def update_relations(self, parent_doi, record):
 
 
@@ -195,19 +205,23 @@ class OarepoDataCitePIDProvider(PIDProvider):
         new_data = requests.get(
             url=url,
         )
-
+        new_version_modified_relations_count = 0
+        previous_version_modified_relations_count = 0
         if "data" in new_data.json():
             new_related_identifiers = new_data.json()["data"]["attributes"]["relatedIdentifiers"]
         else:
             new_related_identifiers = []
         if type(parent_doi) is not str:
             parent_doi = parent_doi.pid_value
-        if not any(item['relatedIdentifier'] == parent_doi for item in new_related_identifiers):
-            new_related_identifiers.append({
-                "relationType": "IsVersionOf",
-                "relatedIdentifier": parent_doi,
-                "relatedIdentifierType": "DOI"
-            })
+
+        new_version_modified_relations_count += self.add_relation(parent_doi, new_related_identifiers, "IsVersionOf")
+
+        # if not any(item['relatedIdentifier'] == parent_doi for item in new_related_identifiers):
+        #     new_related_identifiers.append({
+        #         "relationType": "IsVersionOf",
+        #         "relatedIdentifier": parent_doi,
+        #         "relatedIdentifierType": "DOI"
+        #     })
         previous_version = self.get_previous_version(record)
         if previous_version:
             url = self.url.rstrip("/") + "/" + previous_version.replace("/", "%2F")
@@ -219,40 +233,43 @@ class OarepoDataCitePIDProvider(PIDProvider):
                 previous_related_identifiers = previous_data.json()["data"]["attributes"]["relatedIdentifiers"]
             else:
                 previous_related_identifiers = []
+            new_version_modified_relations_count += self.add_relation(previous_version, new_related_identifiers,
+                                                                      "IsNewVersionOf")
+            # if not any(item['relatedIdentifier'] == previous_version for item in new_related_identifiers):
+            #     new_related_identifiers.append({
+            #         "relationType": "IsNewVersionOf",
+            #         "relatedIdentifier": previous_version,
+            #         "relatedIdentifierType": "DOI"
+            #     })
+            previous_version_modified_relations_count += self.add_relation(doi_value, previous_related_identifiers,
+                                                                      "IsPreviousVersionOf")
+            # if not any(item['relatedIdentifier'] == doi_value for item in previous_related_identifiers):
+            #     previous_related_identifiers.extend([{
+            #         "relationType": "IsPreviousVersionOf",
+            #         "relatedIdentifier": doi_value,
+            #         "relatedIdentifierType": "DOI"
+            #     }])
+            previous_version_modified_relations_count += self.add_relation(parent_doi, previous_related_identifiers,
+                                                                           "IsVersionOf")
+            # if not any(item['relatedIdentifier'] == parent_doi for item in previous_related_identifiers):
+            #     previous_related_identifiers.extend([{
+            #         "relationType": "IsVersionOf",
+            #         "relatedIdentifier": parent_doi,
+            #         "relatedIdentifierType": "DOI"
+            #     }])
+            if previous_version_modified_relations_count > 0:
+                previous_version_request_metadata ={"data": {"type": "dois", "attributes": {"relatedIdentifiers":previous_related_identifiers}}}
 
-            if not any(item['relatedIdentifier'] == previous_version for item in new_related_identifiers):
-                new_related_identifiers.append({
-                    "relationType": "IsNewVersionOf",
-                    "relatedIdentifier": previous_version,
-                    "relatedIdentifierType": "DOI"
-                })
+                request = requests.put(
+                    url=url,
+                    json=previous_version_request_metadata,
+                    headers={"Content-type": "application/vnd.api+json"},
+                    auth=(username, password)
+                )
+                if request.status_code != 200:
+                    raise requests.ConnectionError(f"Expected status code 200, but got {request.status_code}")
 
-            if not any(item['relatedIdentifier'] == doi_value for item in previous_related_identifiers):
-                previous_related_identifiers.extend([{
-                    "relationType": "IsPreviousVersionOf",
-                    "relatedIdentifier": doi_value,
-                    "relatedIdentifierType": "DOI"
-                }])
-
-            if not any(item['relatedIdentifier'] == parent_doi for item in previous_related_identifiers):
-                previous_related_identifiers.extend([{
-                    "relationType": "IsVersionOf",
-                    "relatedIdentifier": parent_doi,
-                    "relatedIdentifierType": "DOI"
-                }])
-
-            previous_version_request_metadata ={"data": {"type": "dois", "attributes": {"relatedIdentifiers":previous_related_identifiers}}}
-
-            request = requests.put(
-                url=url,
-                json=previous_version_request_metadata,
-                headers={"Content-type": "application/vnd.api+json"},
-                auth=(username, password)
-            )
-            if request.status_code != 200:
-                raise requests.ConnectionError(f"Expected status code 200, but got {request.status_code}")
-
-        if len(new_related_identifiers) > 0:
+        if new_version_modified_relations_count > 0:
 
             new_version_request_metadata = {"data": {"type": "dois", "attributes": {"relatedIdentifiers": new_related_identifiers}}}
             url = self.url.rstrip("/") + "/" + doi_value.replace("/", "%2F")
@@ -371,7 +388,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
             if parent_doi and record.is_published:
                 self.update_relations(parent_doi, record)
 
-    def delete(self, record, **kwargs):
+    def delete_draft(self, record, **kwargs):
         creds = self.credentials(record)
         if creds is None:
             raise ValidationError("No credentials provided.")
@@ -387,6 +404,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
             raise requests.ConnectionError(f"Expected status code 204, but got {response.status_code}")
         pid_value = self.get_pid_doi_value(record)
         pid_value.delete()
+        pid_value.unassign()
         self.remove_doi_value(record)
 
     def delete_published(self, record, **kwargs):
@@ -407,7 +425,6 @@ class OarepoDataCitePIDProvider(PIDProvider):
             raise requests.ConnectionError(f"Expected status code 200, but got {request.status_code}")
         pid_value = self.get_pid_doi_value(record)
         pid_value.delete()
-        self.remove_doi_value(record)
 
     def create_datacite_payload(self, data):
         pass
@@ -438,8 +455,16 @@ class OarepoDataCitePIDProvider(PIDProvider):
     def get_previous_version(self, record):
         versions_hits = self.get_versions(record)
         for version in versions_hits:
-            if "versions" in version and "is_latest" in version["versions"] and (version["versions"]["is_latest"] and version["is_published"]) and "pids" in version and "doi" in version["pids"]:
-                return version["pids"]["doi"]["identifier"]
+            if 'versions' not in version or 'pids' not in version:
+                continue
+            is_latest = version['versions'].get("is_latest")
+            is_published = version["is_published"]
+            doi = version['pids'].get('doi')
+
+            if is_latest and is_published and doi:
+                return doi['identifier']
+                # if "versions" in version and "is_latest" in version["versions"] and (version["versions"]["is_latest"] and version["is_published"]) and "pids" in version and "doi" in version["pids"]:
+            #     return version["pids"]["doi"]["identifier"]
         return None
 
     def get_doi_versions(self, record):
