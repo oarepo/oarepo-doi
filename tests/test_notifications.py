@@ -23,9 +23,15 @@ def test_submit_notifications(
         # check notification is build on submit
         assert len(outbox) == 1
         sent_mail = outbox[0]
-        assert 'Request to assign DOI to record blabla' in sent_mail.subject
-        assert 'You have been asked to approve a DOI assignment for the record "blabla"' in sent_mail.body
-        assert 'You have been asked to approve a DOI assignment for the record "blabla"' in sent_mail.html
+        assert "Request to assign DOI to record blabla" in sent_mail.subject
+        assert (
+            'You have been asked to approve a DOI assignment for the record "blabla"'
+            in sent_mail.body
+        )
+        assert (
+            'You have been asked to approve a DOI assignment for the record "blabla"'
+            in sent_mail.html
+        )
 
 
 def test_accept_notifications(
@@ -59,9 +65,17 @@ def test_accept_notifications(
         assert len(outbox) == 1
         sent_mail = outbox[0]
 
-        assert "DOI assignment request for 'blabla' has been approved" in sent_mail.subject
-        assert 'Your request to assign a DOI to the record "blabla" has been approved. You can view the updated record at' in sent_mail.body
-        assert 'Your request to assign a DOI to the record "blabla" has been approved. You can view the updated record at' in sent_mail.html
+        assert (
+            "DOI assignment request for 'blabla' has been approved" in sent_mail.subject
+        )
+        assert (
+            'Your request to assign a DOI to the record "blabla" has been approved. You can view the updated record at'
+            in sent_mail.body
+        )
+        assert (
+            'Your request to assign a DOI to the record "blabla" has been approved. You can view the updated record at'
+            in sent_mail.html
+        )
 
 
 def test_decline_notifications(
@@ -95,9 +109,18 @@ def test_decline_notifications(
         # check notification is build on decline
         assert len(outbox) == 1
         sent_mail = outbox[0]
-        assert "Request for DOI assignment to record 'blabla' was declined" in sent_mail.subject
-        assert 'Request for assigning a DOI to the record "blabla" was declined'  in sent_mail.body
-        assert 'Request for assigning a DOI to the record "blabla" was declined' in sent_mail.html
+        assert (
+            "Request for DOI assignment to record 'blabla' was declined"
+            in sent_mail.subject
+        )
+        assert (
+            'Request for assigning a DOI to the record "blabla" was declined'
+            in sent_mail.body
+        )
+        assert (
+            'Request for assigning a DOI to the record "blabla" was declined'
+            in sent_mail.html
+        )
 
 
 def test_accept_delete_notifications(
@@ -134,8 +157,14 @@ def test_accept_delete_notifications(
         assert len(outbox) == 1
         sent_mail = outbox[0]
         assert "Request to delete DOI from record blabla" in sent_mail.subject
-        assert 'You have been asked to approve a DOI deletion for the record "blabla".'  in sent_mail.body
-        assert 'You have been asked to approve a DOI deletion for the record "blabla".' in sent_mail.html
+        assert (
+            'You have been asked to approve a DOI deletion for the record "blabla".'
+            in sent_mail.body
+        )
+        assert (
+            'You have been asked to approve a DOI deletion for the record "blabla".'
+            in sent_mail.html
+        )
 
     record = receiver_client.get(f"{urls['BASE_URL']}{draft1_id}/draft?expand=true")
 
@@ -148,9 +177,18 @@ def test_accept_delete_notifications(
         # check notification is build on decline
         assert len(outbox) == 1
         sent_mail = outbox[0]
-        assert "DOI deletion request for 'blabla' has been approved" in sent_mail.subject
-        assert 'Your request to delete the DOI from the record "blabla" has been approved.'  in sent_mail.body
-        assert 'Your request to delete the DOI from the record "blabla" has been approved.' in sent_mail.html
+        assert (
+            "DOI deletion request for 'blabla' has been approved" in sent_mail.subject
+        )
+        assert (
+            'Your request to delete the DOI from the record "blabla" has been approved.'
+            in sent_mail.body
+        )
+        assert (
+            'Your request to delete the DOI from the record "blabla" has been approved.'
+            in sent_mail.html
+        )
+
 
 def test_decline_delete_notifications(
     app,
@@ -192,6 +230,15 @@ def test_decline_delete_notifications(
         # check notification is build on decline
         assert len(outbox) == 1
         sent_mail = outbox[0]
-        assert "Request for DOI deletion from record 'blabla' was declined" in sent_mail.subject
-        assert 'Request for deleting the DOI from the record "blabla" was declined.'  in sent_mail.body
-        assert 'Request for deleting the DOI from the record "blabla" was declined.' in sent_mail.html
+        assert (
+            "Request for DOI deletion from record 'blabla' was declined"
+            in sent_mail.subject
+        )
+        assert (
+            'Request for deleting the DOI from the record "blabla" was declined.'
+            in sent_mail.body
+        )
+        assert (
+            'Request for deleting the DOI from the record "blabla" was declined.'
+            in sent_mail.html
+        )

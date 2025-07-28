@@ -1,7 +1,6 @@
 import logging
 
 from invenio_db import db
-
 from invenio_records_resources.services import (
     RecordService,
     RecordServiceConfig,
@@ -12,9 +11,7 @@ from invenio_records_resources.services.base.config import (
     FromConfig,
     SearchOptionsMixin,
 )
-from invenio_records_resources.services.errors import (
-    PermissionDeniedError,
-)
+from invenio_records_resources.services.errors import PermissionDeniedError
 from invenio_records_resources.services.records.config import SearchOptions
 from invenio_records_resources.services.records.params import (
     FacetsParam,
@@ -22,21 +19,17 @@ from invenio_records_resources.services.records.params import (
     QueryStrParam,
     SortParam,
 )
-
 from invenio_users_resources.services.common import Link
 
-
-
-
-from .models import CommunityDoiSettings, CommunityDoiSettingsAggregateModel
 from . import facets
 from .api import CommunityDoiSettingsAggregate
+from .models import CommunityDoiSettings
+from .permissions import DoiSettingsPermissionPolicy
 from .results import CommunityDoiSettingsItem, CommunityDoiSettingsList
 from .schema import CommunityDoiSettingsSchema
-from .permissions import DoiSettingsPermissionPolicy
+
 log = logging.getLogger(__name__)
 from .components import DoiSettingsComponent
-
 
 
 class CommunityDoiSettingsSearchOptions(SearchOptions, SearchOptionsMixin):
@@ -46,7 +39,6 @@ class CommunityDoiSettingsSearchOptions(SearchOptions, SearchOptionsMixin):
         "default_results_per_page": 25,
         "default_max_results": 10000,
     }
-
 
     params_interpreters_cls = [
         QueryStrParam,
@@ -60,7 +52,6 @@ class CommunityDoiSettingsSearchOptions(SearchOptions, SearchOptionsMixin):
         "prefix": facets.prefix,
         "community_slug": facets.community_slug,
     }
-
 
 
 class CommunityDoiSettingsLink(Link):
@@ -94,7 +85,7 @@ class CommunityDoiSettingsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
         "self": Link("{+api}/doi_settings/{id}"),
     }
     links_search_item = {
-      "self": Link("{+api}/doi_settings/{id}"),
+        "self": Link("{+api}/doi_settings/{id}"),
     }
     links_search = pagination_links("{+api}/doi_settings{?args*}")
 
@@ -144,7 +135,9 @@ class CommunityDoiSettingsService(RecordService):
             if hasattr(component, "read"):
                 component.read(identity, doi_config=doi_config)
 
-        return self.result_item(self, identity, doi_config, links_tpl=self.links_item_tpl)
+        return self.result_item(
+            self, identity, doi_config, links_tpl=self.links_item_tpl
+        )
 
     def rebuild_index(self, identity, uow=None):
         """Reindex all oai_runs managed by this service."""

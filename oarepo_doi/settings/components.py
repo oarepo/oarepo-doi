@@ -17,4 +17,3 @@ class DoiSettingsComponent(ServiceComponent):
         record.username = data["username"]
         record.password = data["password"]
         record.community_slug = data["community_slug"]
-

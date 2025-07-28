@@ -1,7 +1,15 @@
-from .config import NOTIFICATIONS_BUILDERS, DOI_SETTINGS_SEARCH, DOI_SETTINGS_FACETS, DOI_SETTINGS_SORT_OPTIONS
+from functools import cached_property
+
 from deepmerge import conservative_merger
 from invenio_base.utils import obj_or_import_string
-from functools import cached_property
+
+from .config import (
+    DOI_SETTINGS_FACETS,
+    DOI_SETTINGS_SEARCH,
+    DOI_SETTINGS_SORT_OPTIONS,
+    NOTIFICATIONS_BUILDERS,
+)
+
 
 class OARepoDOI(object):
     """OARepo DOI extension."""
@@ -17,8 +25,6 @@ class OARepoDOI(object):
         app.extensions["doi-settings"] = self
         self.init_config(app)
 
-
-
     def init_config(self, app):
         """Initialize configuration."""
         if "DATACITE_URL" not in app.config:
@@ -28,9 +34,7 @@ class OARepoDOI(object):
         if "DATACITE_SPECIFIED_ID" not in app.config:
             app.config["DATACITE_SPECIFIED_ID"] = False
 
-        app_notification_builders = app.config.setdefault(
-            "NOTIFICATIONS_BUILDERS", {}
-        )
+        app_notification_builders = app.config.setdefault("NOTIFICATIONS_BUILDERS", {})
         app.config["NOTIFICATIONS_BUILDERS"] = conservative_merger.merge(
             app_notification_builders, NOTIFICATIONS_BUILDERS
         )
@@ -43,8 +47,8 @@ class OARepoDOI(object):
         """Get the OAI run service."""
         return obj_or_import_string(
             self.app.config.get(
-                    "DOI_CONFIG_SERVICE",
-                    "oarepo_doi.settings.service:CommunityDoiSettingsService",
+                "DOI_CONFIG_SERVICE",
+                "oarepo_doi.settings.service:CommunityDoiSettingsService",
             ),
         )(self.doi_settings_service_config)
 
@@ -53,8 +57,8 @@ class OARepoDOI(object):
         """Get the OAI run service config."""
         return obj_or_import_string(
             self.app.config.get(
-                    "DOI_CONFIG_SERVICE_CONFIG",
-                    "oarepo_doi.settings.service:CommunityDoiSettingsServiceConfig",
+                "DOI_CONFIG_SERVICE_CONFIG",
+                "oarepo_doi.settings.service:CommunityDoiSettingsServiceConfig",
             ),
         ).build(self.app)
 
@@ -73,10 +77,11 @@ class OARepoDOI(object):
         """Get the OAI run resource."""
         return obj_or_import_string(
             self.app.config.get(
-                    "DOI_CONFIG_RESOURCE",
-                    "oarepo_doi.settings.resource:CommunityDoiSettingsResource",
-                ),
+                "DOI_CONFIG_RESOURCE",
+                "oarepo_doi.settings.resource:CommunityDoiSettingsResource",
+            ),
         )(self.doi_settings_resource_config, self.doi_settings_service)
+
 
 def api_finalize_app(app):
     """Finalize app."""
@@ -86,6 +91,8 @@ def api_finalize_app(app):
 def finalize_app(app):
     """Finalize app."""
     init(app)
+
+
 def init(app):
     """Init app."""
     ext = app.extensions["doi-settings"]
@@ -99,6 +106,3 @@ def init(app):
         ext.doi_settings_service.indexer,
         indexer_id=ext.doi_settings_service_config.service_id,
     )
-
-
-

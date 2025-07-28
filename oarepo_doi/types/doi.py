@@ -2,14 +2,20 @@ from functools import cached_property
 
 from flask import current_app
 from marshmallow.exceptions import ValidationError
-from oarepo_requests.actions.generic import OARepoSubmitAction
 from oarepo_requests.types.generic import NonDuplicableOARepoRequestType
 from oarepo_requests.types.ref_types import ModelRefTypes
 from oarepo_requests.utils import is_auto_approved, request_identity_matches
 from oarepo_runtime.i18n import lazy_gettext as _
 from typing_extensions import override
 
-from ..actions.doi import CreateDoiAction, DeleteDoiAction, ValidateDataForDoiAction, AssignDoiDeclineAction, DeleteDoiDeclineAction, DeleteDoiSubmitAction
+from ..actions.doi import (
+    AssignDoiDeclineAction,
+    CreateDoiAction,
+    DeleteDoiAction,
+    DeleteDoiDeclineAction,
+    DeleteDoiSubmitAction,
+    ValidateDataForDoiAction,
+)
 
 
 class DoiRequest(NonDuplicableOARepoRequestType):
@@ -44,11 +50,12 @@ class DeleteDoiRequestType(DoiRequest):
     allowed_topic_ref_types = ModelRefTypes(published=False, draft=True)
 
     def is_applicable_to(self, identity, topic, *args, **kwargs):
-        if not self.provider.credentials(topic): #no credentials for community and no default credentials
+        if not self.provider.credentials(
+            topic
+        ):  # no credentials for community and no default credentials
             return False
         doi_value = self.provider.get_doi_value(topic)
         pid_value = self.provider.get_pid_doi_value(topic)
-
 
         if pid_value is not None and pid_value.status.value == "R":
             return False
@@ -110,7 +117,7 @@ class AssignDoiRequestType(DoiRequest):
             **super().available_actions,
             "accept": CreateDoiAction,
             "submit": ValidateDataForDoiAction,
-            "decline": AssignDoiDeclineAction
+            "decline": AssignDoiDeclineAction,
         }
 
     description = _("Request for DOI assignment")
@@ -118,7 +125,9 @@ class AssignDoiRequestType(DoiRequest):
     allowed_topic_ref_types = ModelRefTypes(published=True, draft=True)
 
     def can_create(self, identity, data, receiver, topic, creator, *args, **kwargs):
-        if not self.provider.credentials(topic): #no credentials for community and no default credentials
+        if not self.provider.credentials(
+            topic
+        ):  # no credentials for community and no default credentials
             return False
         errors = self.provider.metadata_check(topic)
         if len(errors) > 0:
@@ -127,7 +136,9 @@ class AssignDoiRequestType(DoiRequest):
         super().can_create(identity, data, receiver, topic, creator, *args, **kwargs)
 
     def is_applicable_to(self, identity, topic, *args, **kwargs):
-        if not self.provider.credentials(topic):  # no credentials for community and no default credentials
+        if not self.provider.credentials(
+            topic
+        ):  # no credentials for community and no default credentials
             return False
         mode = current_app.config.get("DATACITE_MODE")
         if mode == "AUTOMATIC" or mode == "AUTOMATIC_DRAFT":
