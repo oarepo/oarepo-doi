@@ -177,7 +177,6 @@ class DefaultRequests(WorkflowRequestPolicy):
             declined="draft",
             cancelled="draft",
         ),
-
     )
 
     delete_doi = WorkflowRequest(
@@ -188,7 +187,7 @@ class DefaultRequests(WorkflowRequestPolicy):
             accepted="published",
             declined="draft",
             cancelled="draft",
-        )
+        ),
     )
 
 
@@ -200,7 +199,6 @@ class TestWorkflowPermissions(RequestBasedWorkflowPermissions):
         IfInState("published", [AuthenticatedUser()]),
         IfInState("deleting", [AnyUser()]),
     ]
-
 
 
 WORKFLOWS = {

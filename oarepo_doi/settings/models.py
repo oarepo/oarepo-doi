@@ -31,7 +31,10 @@ class CommunityDoiSettings(db.Model, Timestamp):
 
     prefix = db.Column(db.String(255), nullable=False)
     username = db.Column(db.String(255), nullable=False)
-    password = db.Column( EncryptedType(type_in=db.Text, key=_secret_key), nullable=False)
+    password = db.Column(
+        EncryptedType(type_in=db.Text, key=_secret_key), nullable=False
+    )
+
 
 class CommunityDoiSettingsAggregateModel(AggregateMetadata):
 
@@ -67,5 +70,3 @@ class CommunityDoiSettingsAggregateModel(AggregateMetadata):
     def version_id(self):
         """Return the version ID of the record."""
         return 1
-
-

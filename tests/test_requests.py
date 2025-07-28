@@ -13,7 +13,6 @@ def test_submit_request(
 ):
     creator = users[0]
 
-
     draft1 = draft_factory(creator.identity)
 
     draft1_id = draft1["id"]
@@ -26,6 +25,7 @@ def test_submit_request(
     )
 
     assert resp_request_submit.data["status"] == "submitted"
+
 
 def test_accept_request(
     logged_client,
@@ -107,4 +107,3 @@ def test_decline_request(
     )
 
     assert decline.status_code == 200
-

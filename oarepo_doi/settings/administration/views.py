@@ -23,10 +23,11 @@ class DOIFormMixin:
         "community_slug": {
             "order": 3,
             "text": _("Community slug"),
-        }
-
+        },
     }
-class DOIListView( AdminResourceListView):
+
+
+class DOIListView(AdminResourceListView):
 
     api_endpoint = "/doi_settings"
     extension_name = "doi-settings"
@@ -34,7 +35,6 @@ class DOIListView( AdminResourceListView):
     url = "oarepo/doi"
 
     resource_config = "doi_settings_resource"
-
 
     title = "DOI Configuration"
     category = "Site management"
@@ -61,9 +61,8 @@ class DOIListView( AdminResourceListView):
 
     create_view_name = "oarepo_doi_create"
 
-class DOICreateView(
-     DOIFormMixin, AdminFormView
-):
+
+class DOICreateView(DOIFormMixin, AdminFormView):
 
     name = "oarepo_doi_create"
     url = "oarepo/doi/create"
@@ -75,17 +74,16 @@ class DOICreateView(
     list_view_name = "oarepo_doi"
     template = "invenio_administration/create.html"
 
-class DOIEditView(
-    DOIFormMixin, AdminFormView
-):
+
+class DOIEditView(DOIFormMixin, AdminFormView):
 
     name = "oarepo_doi_edit"
     url = "oarepo/doi/<pid_value>/edit"
-    resource_config ="doi_settings_resource"
+    resource_config = "doi_settings_resource"
     pid_path = "id"
-    api_endpoint =  "/doi_settings"
+    api_endpoint = "/doi_settings"
     title = "Edit DOI configuration"
-    extension_name =  "doi-settings"
+    extension_name = "doi-settings"
     template = "invenio_administration/edit.html"
     list_view_name = "oarepo_doi"
 
@@ -101,7 +99,6 @@ class DOIDetailView(AdminResourceDetailView):
 
     display_delete = True
     display_edit = True
-
 
     list_view_name = "oarepo_doi"
     pid_path = "id"

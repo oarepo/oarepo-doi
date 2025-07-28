@@ -1,4 +1,3 @@
-
 from oarepo_doi.services.provider import OarepoDataCitePIDProvider
 
 
@@ -19,7 +18,6 @@ class ThesisTestDataCitePIDProvider(OarepoDataCitePIDProvider):
         errors = {}
 
         return errors
-
 
     def credentials(self, record):
         return "test", "test", "1234"

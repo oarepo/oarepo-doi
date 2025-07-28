@@ -23,10 +23,7 @@ NOTIFICATIONS_BUILDERS = {
 
 
 DOI_SETTINGS_SEARCH = {
-    "facets": [
-        "community_slug",
-        "prefix"
-    ],
+    "facets": ["community_slug", "prefix"],
     "sort": ["newest"],
     "sort_default": "newest",
     "sort_default_no_query": "newest",
@@ -44,7 +41,7 @@ DOI_SETTINGS_FACETS = {
         "ui": {
             "field": "prefix",
         },
-    }
+    },
 }
 DOI_SETTINGS_SORT_OPTIONS = {
     "newest": dict(

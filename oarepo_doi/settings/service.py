@@ -40,7 +40,6 @@ class CommunityDoiSettingsSearchOptions(SearchOptions, SearchOptionsMixin):
         "default_max_results": 10000,
     }
 
-
     params_interpreters_cls = [
         QueryStrParam,
         SortParam,
@@ -53,7 +52,6 @@ class CommunityDoiSettingsSearchOptions(SearchOptions, SearchOptionsMixin):
         "prefix": facets.prefix,
         "community_slug": facets.community_slug,
     }
-
 
 
 class CommunityDoiSettingsLink(Link):
@@ -87,7 +85,7 @@ class CommunityDoiSettingsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
         "self": Link("{+api}/doi_settings/{id}"),
     }
     links_search_item = {
-      "self": Link("{+api}/doi_settings/{id}"),
+        "self": Link("{+api}/doi_settings/{id}"),
     }
     links_search = pagination_links("{+api}/doi_settings{?args*}")
 
@@ -137,7 +135,9 @@ class CommunityDoiSettingsService(RecordService):
             if hasattr(component, "read"):
                 component.read(identity, doi_config=doi_config)
 
-        return self.result_item(self, identity, doi_config, links_tpl=self.links_item_tpl)
+        return self.result_item(
+            self, identity, doi_config, links_tpl=self.links_item_tpl
+        )
 
     def rebuild_index(self, identity, uow=None):
         """Reindex all oai_runs managed by this service."""

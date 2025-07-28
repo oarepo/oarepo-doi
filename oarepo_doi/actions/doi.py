@@ -38,6 +38,7 @@ class OarepoDoiActionMixin:
                 break
         return provider
 
+
 class AssignDoiAction(OARepoAcceptAction, OarepoDoiActionMixin):
     log_event = True
 
@@ -46,12 +47,12 @@ class CreateDoiAction(AssignDoiAction):
 
     @override
     def apply(
-            self,
-            identity: Identity,
-            state: RequestActionState,
-            uow: UnitOfWork,
-            *args: Any,
-            **kwargs: Any,
+        self,
+        identity: Identity,
+        state: RequestActionState,
+        uow: UnitOfWork,
+        *args: Any,
+        **kwargs: Any,
     ):
 
         topic = self.request.topic.resolve()
@@ -63,22 +64,21 @@ class CreateDoiAction(AssignDoiAction):
 
         uow.register(
             NotificationOp(
-                AssignDoiRequestAcceptNotificationBuilder.build(
-                    request=self.request
-                )
+                AssignDoiRequestAcceptNotificationBuilder.build(request=self.request)
             )
         )
+
 
 class DeleteDoiAction(AssignDoiAction):
 
     @override
     def apply(
-            self,
-            identity: Identity,
-            state: RequestActionState,
-            uow: UnitOfWork,
-            *args: Any,
-            **kwargs: Any,
+        self,
+        identity: Identity,
+        state: RequestActionState,
+        uow: UnitOfWork,
+        *args: Any,
+        **kwargs: Any,
     ) -> None:
         topic = self.request.topic.resolve()
 
@@ -91,53 +91,50 @@ class DeleteDoiAction(AssignDoiAction):
 
         uow.register(
             NotificationOp(
-                DeleteDoiRequestAcceptNotificationBuilder.build(
-                    request=self.request
-                )
+                DeleteDoiRequestAcceptNotificationBuilder.build(request=self.request)
             )
         )
+
 
 class DeleteDoiSubmitAction(OARepoSubmitAction):
 
     @override
     def apply(
-            self,
-            identity: Identity,
-            state: RequestActionState,
-            uow: UnitOfWork,
-            *args: Any,
-            **kwargs: Any,
+        self,
+        identity: Identity,
+        state: RequestActionState,
+        uow: UnitOfWork,
+        *args: Any,
+        **kwargs: Any,
     ) -> None:
         topic = self.request.topic.resolve()
 
         uow.register(
             NotificationOp(
-                DeleteDoiRequestSubmitNotificationBuilder.build(
-                    request=self.request
-                )
+                DeleteDoiRequestSubmitNotificationBuilder.build(request=self.request)
             )
         )
+
 
 class DeleteDoiDeclineAction(OARepoDeclineAction):
 
     @override
     def apply(
-            self,
-            identity: Identity,
-            state: RequestActionState,
-            uow: UnitOfWork,
-            *args: Any,
-            **kwargs: Any,
+        self,
+        identity: Identity,
+        state: RequestActionState,
+        uow: UnitOfWork,
+        *args: Any,
+        **kwargs: Any,
     ) -> None:
         topic = self.request.topic.resolve()
 
         uow.register(
             NotificationOp(
-                DeleteDoiRequestDeclineNotificationBuilder.build(
-                    request=self.request
-                )
+                DeleteDoiRequestDeclineNotificationBuilder.build(request=self.request)
             )
         )
+
 
 class AssignDoiDeclineAction(OARepoDeclineAction):
     """Decline action for assign doi requests."""
@@ -154,37 +151,31 @@ class AssignDoiDeclineAction(OARepoDeclineAction):
     ):
         uow.register(
             NotificationOp(
-                AssignDoiRequestDeclineNotificationBuilder.build(
-                    request=self.request
-                )
+                AssignDoiRequestDeclineNotificationBuilder.build(request=self.request)
             )
         )
         return super().apply(identity, state, uow, *args, **kwargs)
+
 
 class ValidateDataForDoiAction(OARepoSubmitAction, OarepoDoiActionMixin):
     log_event = True
 
     @override
     def apply(
-            self,
-            identity: Identity,
-            state: RequestActionState,
-            uow: UnitOfWork,
-            *args: Any,
-            **kwargs: Any,
+        self,
+        identity: Identity,
+        state: RequestActionState,
+        uow: UnitOfWork,
+        *args: Any,
+        **kwargs: Any,
     ) -> None:
         topic = self.request.topic.resolve()
         errors = self.provider.metadata_check(topic)
 
         if len(errors) > 0:
-            raise ValidationError(
-                message=errors
-            )
+            raise ValidationError(message=errors)
         uow.register(
             NotificationOp(
-                AssignDoiRequestSubmitNotificationBuilder.build(
-                    request=self.request
-                )
+                AssignDoiRequestSubmitNotificationBuilder.build(request=self.request)
             )
         )
-

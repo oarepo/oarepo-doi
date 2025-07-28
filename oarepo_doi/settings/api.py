@@ -31,24 +31,21 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
 
     password = ModelField("password", dump=False)
 
-    community_slug =  ModelField("community_slug", dump_type=str)
+    community_slug = ModelField("community_slug", dump_type=str)
 
-    index = IndexField(
-        "doi-settings-doi-settings-v1.0.0", search_alias="doi-settings"
-    )
+    index = IndexField("doi-settings-doi-settings-v1.0.0", search_alias="doi-settings")
 
     """Needed to emulate pid access."""
     pid = AggregatePID("id")
-
-
 
     @classmethod
     def create(cls, data, id_=None, **kwargs):
         """Create a domain."""
 
-        return CommunityDoiSettingsAggregate(data,
-                                             model=CommunityDoiSettingsAggregateModel(model_obj=CommunityDoiSettings()))
-
+        return CommunityDoiSettingsAggregate(
+            data,
+            model=CommunityDoiSettingsAggregateModel(model_obj=CommunityDoiSettings()),
+        )
 
     @classmethod
     def get_record(cls, id_):
@@ -62,4 +59,3 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
     def delete(self, force=True):
         """Delete the domain."""
         db.session.delete(self.model.model_obj)
-

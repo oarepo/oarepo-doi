@@ -60,7 +60,5 @@ class CommunityDoiSettingsItem(RecordItem):
         return self._data
 
 
-
 class CommunityDoiSettingsList(RecordList):
     """List of DOI settings results."""
-

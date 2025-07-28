@@ -17,7 +17,6 @@ if TYPE_CHECKING:
     from flask import Flask
 
 
-
 def create_doi_notifications(app: Flask) -> Blueprint:
     """Register blueprint routes on app."""
     blueprint = Blueprint(

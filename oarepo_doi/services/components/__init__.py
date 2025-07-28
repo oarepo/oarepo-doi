@@ -30,15 +30,17 @@ class DoiComponent(ServiceComponent):
         self.provider.update(record)
 
     def publish(self, identity, data=None, record=None, draft=None, **kwargs):
-        if not self.provider.get_doi_value(record) and self.provider.get_doi_value(record, parent=True):
-            #if it is a new version and a canonical DOI already exists, DOI will be added automatically
-            self.provider.create_and_reserve(record,  event = "publish")
+        if not self.provider.get_doi_value(record) and self.provider.get_doi_value(
+            record, parent=True
+        ):
+            # if it is a new version and a canonical DOI already exists, DOI will be added automatically
+            self.provider.create_and_reserve(record, event="publish")
         if record.pids is None:
             record.pids = {}
         if self.mode == "AUTOMATIC":
-            self.provider.create_and_reserve(record,  event = "publish")
+            self.provider.create_and_reserve(record, event="publish")
         if self.mode == "AUTOMATIC_DRAFT" or self.mode == "ON_EVENT_DRAFT":
-            self.provider.update(record, event ="publish")
+            self.provider.update(record, event="publish")
 
     def new_version(self, identity, draft=None, record=None, **kwargs):
         """Update draft metadata."""
