@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-19 12:55+0200\n"
+"POT-Creation-Date: 2025-07-30 16:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,16 +17,77 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/actions/doi.py:129
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/config.py:48
+msgid "Newest"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/actions/doi.py:142
 msgid "Return for correction"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:9
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:25
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:4
+msgid "Community slug"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:5
+msgid "Username"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:21
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:53
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:108
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:6
+msgid "Prefix"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:13
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:54
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:109
+msgid "Datacite ID"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:17
+msgid "Password"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:39
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:44
+msgid "DOI Configuration"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:52
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:107
+msgid "Community"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:55
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:110
+msgid "Created"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:72
+msgid "Create DOI configuration"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:85
+msgid "Edit DOI configuration"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:97
+msgid "DOI configuration detail"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:111
+msgid "Updated"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:9
 #, python-brace-format
 msgid "DOI assignment request for '{topic_title}' has been approved"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:13
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:13
 #, python-format
 msgid ""
 "\n"
@@ -38,25 +99,25 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:23
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:23
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:21
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:21
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:23
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:21
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:21
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:23
 msgid "This is an auto-generated message. To manage notifications, visit your"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:23
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:23
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:21
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:21
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:23
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:21
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:21
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:23
 msgid "account settings"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:27
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:27
 #, python-format
 msgid ""
 "\n"
@@ -66,12 +127,12 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:31
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:31
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:33
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:31
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:31
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:33
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:31
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:31
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:33
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:31
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:31
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:33
 #, python-format
 msgid ""
 "\n"
@@ -80,12 +141,12 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:9
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:9
 #, python-brace-format
 msgid "Request for DOI assignment to record '{topic_title}' was declined"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:13
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:13
 #, python-format
 msgid ""
 "\n"
@@ -97,7 +158,7 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:27
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:27
 #, python-format
 msgid ""
 "\n"
@@ -107,12 +168,12 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:8
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:8
 #, python-brace-format
 msgid "Request to assign DOI to record {topic_title}"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:12
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:12
 #, python-format
 msgid ""
 "\n"
@@ -127,7 +188,7 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:29
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:29
 #, python-format
 msgid ""
 "\n"
@@ -137,12 +198,12 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:9
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:9
 #, python-brace-format
 msgid "DOI deletion request for '{topic_title}' has been approved"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:13
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:13
 #, python-format
 msgid ""
 "\n"
@@ -154,7 +215,7 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:27
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:27
 #, python-format
 msgid ""
 "\n"
@@ -164,12 +225,12 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:9
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:9
 #, python-brace-format
 msgid "Request for DOI deletion from record '{topic_title}' was declined"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:13
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:13
 #, python-format
 msgid ""
 "\n"
@@ -181,7 +242,7 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:27
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:27
 #, python-format
 msgid ""
 "\n"
@@ -191,12 +252,12 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:8
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:8
 #, python-brace-format
 msgid "Request to delete DOI from record {topic_title}"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:12
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:12
 #, python-format
 msgid ""
 "\n"
@@ -211,7 +272,7 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:29
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:29
 #, python-format
 msgid ""
 "\n"
@@ -221,93 +282,93 @@ msgid ""
 "    "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:30
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:36
 msgid "Cancel DOI registration"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:42
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:48
 msgid "Request for deletion of a registered DOI"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:68
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:73
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:75
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:80
 msgid "Request DOI cancellation"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:71
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:78
 msgid "DOI cancellation requested"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:78
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:85
 msgid "Click to cancel DOI registration."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:81
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:88
 msgid "Request permission to cancel DOI registration."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:86
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:93
 msgid ""
 "Permission to cancel DOI registration requested. You will be notified "
 "about the decision by email."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:91
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:98
 msgid ""
 "You have been asked to approve the request to cancel DOI registration to "
 "a record. You can approve or reject the request."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:94
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:101
 msgid "Permission to cancel DOI registration requested. "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:98
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:105
 msgid "Submit request to get permission to cancel DOI registration."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:104
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:111
 msgid "Assign DOI"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:116
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:123
 msgid "Request for DOI assignment"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:149
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:154
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:160
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:165
 msgid "Request DOI assignment"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:152
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:163
 msgid "DOI assignment requested"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:159
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:170
 msgid "Click to assign DOI."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:162
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:173
 msgid "Request permission to assign DOI."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:167
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:178
 msgid ""
 "Permission to assign DOI requested. You will be notified about the "
 "decision by email."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:172
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:183
 msgid ""
 "You have been asked to approve the request to assign DOI to a record. You"
 " can approve or reject the request."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:175
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:186
 msgid "Permission to assign DOI requested. "
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/types/doi.py:178
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/types/doi.py:189
 msgid "Submit request to get permission to assign DOI."
 msgstr ""
 

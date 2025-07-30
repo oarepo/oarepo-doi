@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-03-27 11:31+0100\n"
-"PO-Revision-Date: 2025-06-19 12:55+0200\n"
+"PO-Revision-Date: 2025-07-30 16:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: cs <LL@li.org>\n"
 "Language: cs\n"
@@ -359,3 +359,64 @@ msgid ""
 msgstr ""
 "Toto je automaticky generovaná zpráva. Pokud tyto zprávy nechcete nadále "
 "dostávat, změňte si nastavení ve svém profilu na %(account_settings_link)s."
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/config.py:48
+msgid "Newest"
+msgstr "Nejnovější"
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:25
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:4
+msgid "Community slug"
+msgstr "Identifikátor komunity"
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:5
+msgid "Username"
+msgstr "Přihlašovací jméno"
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:21
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:53
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:108
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:6
+msgid "Prefix"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:13
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:54
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:109
+msgid "Datacite ID"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:17
+msgid "Password"
+msgstr "Heslo"
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:52
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:107
+msgid "Community"
+msgstr "Komunita"
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:55
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:110
+msgid "Created"
+msgstr "Vytvořeno"
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:111
+msgid "Updated"
+msgstr "Aktualizováno"
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:39
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:44
+msgid "DOI Configuration"
+msgstr "DOI Konfigurace"
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:72
+msgid "Create DOI configuration"
+msgstr "Vytvoření DOI konfigurace"
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:85
+msgid "Edit DOI configuration"
+msgstr "Editace DOI konfigurace"
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:97
+msgid "DOI configuration detail"
+msgstr "Detail DOI konfigurace"
