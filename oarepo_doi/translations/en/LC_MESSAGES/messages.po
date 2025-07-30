@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-03-27 11:31+0100\n"
-"PO-Revision-Date: 2024-06-19 14:40+0200\n"
+"PO-Revision-Date: 2025-07-30 16:27+0200\n"
 "Last-Translator: \n"
 "Language-Team: cs <LL@li.org>\n"
 "Language: cs\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "Generated-By: Babel 2.14.0\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 
 #: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:13
 msgid "Assign DOI"
@@ -316,4 +316,65 @@ msgid ""
 "\n"
 "    This is an auto-generated message. To manage notifications, visit your account setting at: %(account_settings_link)s.\n"
 "    "
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/config.py:48
+msgid "Newest"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:25
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:4
+msgid "Community slug"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:5
+msgid "Username"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:21
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:53
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:108
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:6
+msgid "Prefix"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:13
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:54
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:109
+msgid "Datacite ID"
+msgstr "Datacite ID"
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:17
+msgid "Password"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:52
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:107
+msgid "Community"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:55
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:110
+msgid "Created"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:111
+msgid "Updated"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:39
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:44
+msgid "DOI Configuration"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:72
+msgid "Create DOI configuration"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:85
+msgid "Edit DOI configuration"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:97
+msgid "DOI configuration detail"
 msgstr ""

@@ -10,7 +10,7 @@ class DOIFormMixin:
     form_fields = {
         "username": {
             "order": 1,
-            "text": _("Username"),
+            "text": _("Datacite ID"),
         },
         "password": {
             "order": 2,
@@ -36,12 +36,12 @@ class DOIListView(AdminResourceListView):
 
     resource_config = "doi_settings_resource"
 
-    title = "DOI Configuration"
+    title = _("DOI Configuration")
     category = "Site management"
     pid_path = "id"
     icon = "world"
     order = 1
-    menu_label = "DOI Configuration"
+    menu_label = _("DOI Configuration")
 
     display_search = True
     display_delete = True
@@ -51,7 +51,7 @@ class DOIListView(AdminResourceListView):
     item_field_list = {
         "community_slug": {"text": _("Community"), "order": 1, "width": 4},
         "prefix": {"text": _("Prefix"), "order": 2, "width": 4},
-        "username": {"text": _("Username"), "order": 3, "width": 4},
+        "username": {"text": _("Datacite ID"), "order": 3, "width": 4},
         "created": {"text": _("Created"), "order": 4, "width": 4},
     }
 
@@ -69,7 +69,7 @@ class DOICreateView(DOIFormMixin, AdminFormView):
     resource_config = "doi_settings_resource"
     pid_path = "id"
     api_endpoint = "/doi_settings"
-    title = "Create DOI configuration"
+    title = _("Create DOI configuration")
     extension_name = "doi-settings"
     list_view_name = "oarepo_doi"
     template = "invenio_administration/create.html"
@@ -82,7 +82,7 @@ class DOIEditView(DOIFormMixin, AdminFormView):
     resource_config = "doi_settings_resource"
     pid_path = "id"
     api_endpoint = "/doi_settings"
-    title = "Edit DOI configuration"
+    title = _("Edit DOI configuration")
     extension_name = "doi-settings"
     template = "invenio_administration/edit.html"
     list_view_name = "oarepo_doi"
@@ -94,7 +94,7 @@ class DOIDetailView(AdminResourceDetailView):
     api_endpoint = "/doi_settings"
     name = "oarepo_doi_detail"
     resource_config = "doi_settings_resource"
-    title = "DOI configuration detail"
+    title = _("DOI configuration detail")
     extension_name = "doi-settings"
 
     display_delete = True
@@ -106,7 +106,7 @@ class DOIDetailView(AdminResourceDetailView):
     item_field_list = {
         "community_slug": {"text": _("Community"), "order": 1, "width": 4},
         "prefix": {"text": _("Prefix"), "order": 2, "width": 4},
-        "username": {"text": _("Username"), "order": 3, "width": 4},
+        "username": {"text": _("Datacite ID"), "order": 3, "width": 4},
         "created": {"text": _("Created"), "order": 4, "width": 4},
         "updated": {"text": _("Updated"), "order": 5, "width": 4},
     }
