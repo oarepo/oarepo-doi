@@ -367,7 +367,7 @@ msgstr "Nejnovější"
 #: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:25
 #: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:4
 msgid "Community slug"
-msgstr "Identifikator komunity"
+msgstr "Identifikátor komunity"
 
 #: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:5
 msgid "Username"
