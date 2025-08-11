@@ -24,10 +24,10 @@ class DoiComponent(ServiceComponent):
     def update_draft(self, identity, data=None, record=None, **kwargs):
         if not record.is_draft or not record.is_published:
             if self.mode == "AUTOMATIC_DRAFT" or self.mode == "ON_EVENT_DRAFT":
-                self.provider.update(record)
+                self.provider.update_doi(record)
 
     def update(self, identity, data=None, record=None, **kwargs):
-        self.provider.update(record)
+        self.provider.update_doi(record)
 
     def publish(self, identity, data=None, record=None, draft=None, **kwargs):
         if not self.provider.get_doi_value(record) and self.provider.get_doi_value(
@@ -40,7 +40,7 @@ class DoiComponent(ServiceComponent):
         if self.mode == "AUTOMATIC":
             self.provider.create_and_reserve(record, event="publish")
         if self.mode == "AUTOMATIC_DRAFT" or self.mode == "ON_EVENT_DRAFT":
-            self.provider.update(record, event="publish")
+            self.provider.update_doi(record, event="publish")
 
     def new_version(self, identity, draft=None, record=None, **kwargs):
         """Update draft metadata."""

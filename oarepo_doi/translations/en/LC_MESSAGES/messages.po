@@ -378,3 +378,8 @@ msgstr ""
 #: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:97
 msgid "DOI configuration detail"
 msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/model/upload5/oarepo-doi/oarepo_doi/settings/components.py:19
+#: /Users/alzbetapokorna/cesnet/model/upload5/oarepo-doi/oarepo_doi/settings/components.py:29
+msgid "Community not found"
+msgstr ""

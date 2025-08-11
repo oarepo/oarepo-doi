@@ -372,8 +372,11 @@ class OarepoDataCitePIDProvider(PIDProvider):
             raise requests.ConnectionError(
                 f"Expected status code 200, but got {request.status_code}"
             )
+    def update(self, pid, **kwargs):
+        """Update information about the persistent identifier."""
+        pass
 
-    def update(self, record, url=None, **kwargs):
+    def update_doi(self, record, url=None, **kwargs):
         doi_value = self.get_doi_value(record)
         if doi_value:
             creds = self.credentials(record)
@@ -462,8 +465,22 @@ class OarepoDataCitePIDProvider(PIDProvider):
             raise ValidationError("No credentials provided.")
         username, password, _ = creds
         doi_value = self.get_doi_value(record)
-        url = self.url.rstrip("/") + "/" + doi_value.replace("/", "%2F")
         request_metadata = {"data": {"type": "dois", "attributes": {"event": "hide"}}}
+
+        if self.get_doi_versions(record) == [doi_value]:
+            url = (
+                    self.url.rstrip("/")
+                    + "/"
+                    + self.get_doi_value(record, parent=True).replace("/", "%2F")
+            )
+            requests.put(
+                url=url,
+                json=request_metadata,
+                headers={"Content-type": "application/vnd.api+json"},
+                auth=(username, password),
+            )
+        url = self.url.rstrip("/") + "/" + doi_value.replace("/", "%2F")
+
         request = requests.put(
             url=url,
             json=request_metadata,

@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-03-27 11:31+0100\n"
-"PO-Revision-Date: 2025-07-30 16:26+0200\n"
+"PO-Revision-Date: 2025-08-11 12:14+0200\n"
 "Last-Translator: \n"
 "Language-Team: cs <LL@li.org>\n"
 "Language: cs\n"
@@ -420,3 +420,8 @@ msgstr "Editace DOI konfigurace"
 #: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:97
 msgid "DOI configuration detail"
 msgstr "Detail DOI konfigurace"
+
+#: /Users/alzbetapokorna/cesnet/model/upload5/oarepo-doi/oarepo_doi/settings/components.py:19
+#: /Users/alzbetapokorna/cesnet/model/upload5/oarepo-doi/oarepo_doi/settings/components.py:29
+msgid "Community not found"
+msgstr "Komunita nenalezena"
