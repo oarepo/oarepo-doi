@@ -1,23 +1,41 @@
+#
+# Copyright (c) 2025 CESNET z.s.p.o.
+#
+# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
+#
+# oarepo-runtime is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
 """Results for the oai_runs service."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, cast, override
 
 from invenio_records_resources.services.records.results import RecordItem, RecordList
 
+if TYPE_CHECKING:
+    from flask_principal import Identity
+    from invenio_records.api import RecordBase
+    from invenio_records_resources.services import LinksTemplate
+
 
 class CommunityDoiSettingsItem(RecordItem):
-    """Single OAI Run result."""
+    """Single DOI settings."""
 
+    @override
     def __init__(
         self,
-        service,
-        identity,
-        doi_settings,
-        errors=None,
-        links_tpl=None,
-        schema=None,
-        **kwargs,
+        service: Any,
+        identity: Identity,
+        doi_settings: RecordBase,
+        errors: Any | None = None,
+        links_tpl: LinksTemplate | None = None,
+        schema: Any | None = None,
+        data: Any | None = None,
     ):
-        """Constructor."""
-        self._data = None
+        """Construct."""
+        self._data = data
         self._errors = errors
         self._identity = identity
         self._doi_settings = doi_settings
@@ -26,37 +44,43 @@ class CommunityDoiSettingsItem(RecordItem):
         self._schema = schema or service.schema
 
     @property
-    def id(self):
+    def id(self) -> str:
         """Identity of the oai_run."""
         return str(self._doi_settings.id)
 
     @property
-    def links(self):
+    def links(self) -> Any:
         """Get links for this result item."""
-        return self._links_tpl.expand(self._identity, self._doi_settings)
+        if self._links_tpl is not None:
+            return self._links_tpl.expand(self._identity, self._doi_settings)
+        return None
 
     @property
-    def _obj(self):
+    def _obj(self) -> RecordBase:
         """Return the object to dump."""
         return self._doi_settings
 
     @property
-    def data(self):
-        """Property to get the oai_run."""
-        if self._data:
+    def data(self) -> Any:
+        """Property to get the doi."""
+        if self._data is not None:
             return self._data
 
-        self._data = self._schema.dump(
-            self._obj,
-            context={
-                "identity": self._identity,
-                "record": self._doi_settings,
-            },
+        data = cast(
+            "dict[str, Any]",
+            self._schema.dump(
+                self._obj,
+                context={
+                    "identity": self._identity,
+                    "record": self._doi_settings,
+                },
+            ),
         )
 
         if self._links_tpl:
-            self._data["links"] = self.links
+            data["links"] = self.links
 
+        self._data = data
         return self._data
 
 

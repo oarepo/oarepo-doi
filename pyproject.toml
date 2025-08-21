@@ -1,3 +1,82 @@
-[build_system]
-requires = ["setuptools", "wheel", "babel>2.8"]
-build-backend = "setuptools.build_meta"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "oarepo-doi"
+dynamic = ["version"]
+description = "A module for DOI registration"
+readme = "README.md"
+license = "MIT"
+dependencies = [
+    "invenio-requests",
+    "oarepo[rdm,tests]>=13,<14",
+    "oarepo-requests",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+
+]
+
+[project.optional-dependencies]
+dev = [
+    "oarepo-tools",
+]
+tests = [
+    "deepdiff",
+    "oarepo-requests",
+    "oarepo-ui",
+    "pytest-oarepo[requests]",
+]
+
+[project.entry-points."invenio_administration.views"]
+oarepo_doi_create = "oarepo_doi.settings.administration.views:DOICreateView"
+oarepo_doi_details = "oarepo_doi.settings.administration.views:DOIDetailView"
+oarepo_doi_edit = "oarepo_doi.settings.administration.views:DOIEditView"
+oarepo_doi_list = "oarepo_doi.settings.administration.views:DOIListView"
+
+[project.entry-points."invenio_base.api_apps"]
+oarepodoi = "oarepo_doi.ext:OARepoDOI"
+
+[project.entry-points."invenio_base.api_blueprints"]
+oarepo_doi_settings = "oarepo_doi.settings.views:create_api_blueprint"
+oarepo_notifications = "oarepo_doi.views.api:create_doi_notifications"
+
+[project.entry-points."invenio_base.api_finalize_app"]
+oarepo_doi = "oarepo_doi.ext:api_finalize_app"
+
+[project.entry-points."invenio_base.apps"]
+oarepo_doi = "oarepo_doi.ext:OARepoDOI"
+
+[project.entry-points."invenio_base.blueprints"]
+oarepo_doi_notifications = "oarepo_doi.views.app:create_doi_notifications"
+oarepo_doi_settings = "oarepo_doi.settings.views:create_api_blueprint"
+
+[project.entry-points."invenio_base.finalize_app"]
+oarepo_doi = "oarepo_doi.ext:finalize_app"
+
+[project.entry-points."invenio_db.alembic"]
+oarepo_doi = "oarepo_doi:alembic"
+
+[project.entry-points."invenio_db.models"]
+oarepo_doi = "oarepo_doi.settings.models"
+
+[project.entry-points."invenio_i18n.translations"]
+oarepo_doi = "oarepo_doi"
+
+[project.entry-points."invenio_requests.types"]
+assign-doi-request = "oarepo_doi.types.doi:AssignDoiRequestType"
+delete-doi-request = "oarepo_doi.types.doi:DeleteDoiRequestType"
+
+[project.entry-points."invenio_search.mappings"]
+doi-settings = "oarepo_doi.settings.mappings"
+
+[tool.hatch.version]
+path = "oarepo_doi/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/oarepo_doi",
+]

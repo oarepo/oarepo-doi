@@ -1,3 +1,17 @@
+#
+# Copyright (c) 2025 CESNET z.s.p.o.
+#
+# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
+#
+# oarepo-runtime is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
+"""DOI settings administration views."""
+
+from __future__ import annotations
+
+from typing import Any, ClassVar
+
 from invenio_administration.views.base import (
     AdminFormView,
     AdminResourceDetailView,
@@ -7,7 +21,9 @@ from invenio_i18n import lazy_gettext as _
 
 
 class DOIFormMixin:
-    form_fields = {
+    """DOI settings mixin class."""
+
+    form_fields: ClassVar[dict[str, dict[str, Any]]] = {
         "username": {
             "order": 1,
             "text": _("Datacite ID"),
@@ -21,13 +37,14 @@ class DOIFormMixin:
             "text": _("Prefix"),
         },
         "community_slug": {
-            "order": 3,
+            "order": 4,
             "text": _("Community slug"),
         },
     }
 
 
 class DOIListView(AdminResourceListView):
+    """DOI settings list view."""
 
     api_endpoint = "/doi_settings"
     extension_name = "doi-settings"
@@ -48,7 +65,7 @@ class DOIListView(AdminResourceListView):
     display_edit = True
     display_create = True
 
-    item_field_list = {
+    item_field_list: ClassVar[dict[str, dict[str, Any]]] = {
         "community_slug": {"text": _("Community"), "order": 1, "width": 4},
         "prefix": {"text": _("Prefix"), "order": 2, "width": 4},
         "username": {"text": _("Datacite ID"), "order": 3, "width": 4},
@@ -63,6 +80,7 @@ class DOIListView(AdminResourceListView):
 
 
 class DOICreateView(DOIFormMixin, AdminFormView):
+    """DOI settings create view."""
 
     name = "oarepo_doi_create"
     url = "oarepo/doi/create"
@@ -76,6 +94,7 @@ class DOICreateView(DOIFormMixin, AdminFormView):
 
 
 class DOIEditView(DOIFormMixin, AdminFormView):
+    """DOI settings edit view."""
 
     name = "oarepo_doi_edit"
     url = "oarepo/doi/<pid_value>/edit"
@@ -89,6 +108,7 @@ class DOIEditView(DOIFormMixin, AdminFormView):
 
 
 class DOIDetailView(AdminResourceDetailView):
+    """DOI settings detail view."""
 
     url = "oarepo/doi/<pid_value>"
     api_endpoint = "/doi_settings"
@@ -103,7 +123,7 @@ class DOIDetailView(AdminResourceDetailView):
     list_view_name = "oarepo_doi"
     pid_path = "id"
 
-    item_field_list = {
+    item_field_list: ClassVar[dict[str, dict[str, Any]]] = {
         "community_slug": {"text": _("Community"), "order": 1, "width": 4},
         "prefix": {"text": _("Prefix"), "order": 2, "width": 4},
         "username": {"text": _("Datacite ID"), "order": 3, "width": 4},
