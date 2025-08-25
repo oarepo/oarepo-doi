@@ -28,6 +28,7 @@ tests = [
     "deepdiff",
     "oarepo-requests",
     "oarepo-ui",
+    "oarepo-runtime>=2.0.0dev0",
     "pytest-oarepo[requests]",
 ]
 

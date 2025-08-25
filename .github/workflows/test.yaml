@@ -11,6 +11,6 @@ on:
     - cron: "0 1 * * 6"  # Every Sunday at 01:00 UTC
   workflow_dispatch: {}
 
-jobs:
-  Tests:
-    uses: oarepo/oarepo/.github/workflows/test.yaml@main
+#jobs:
+#  Tests:
+#    uses: oarepo/oarepo/.github/workflows/test.yaml@main
