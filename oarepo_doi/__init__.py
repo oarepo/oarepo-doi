@@ -12,6 +12,6 @@ from __future__ import annotations
 
 from .ext import OARepoDOI
 
-__version__ = "3.0.0"
+__version__ = "3.0.0dev1"
 
 __all__ = ("OARepoDOI", "__version__")
