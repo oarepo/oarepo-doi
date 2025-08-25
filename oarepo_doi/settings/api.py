@@ -1,3 +1,16 @@
+#
+# Copyright (c) 2025 CESNET z.s.p.o.
+#
+# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
+#
+# oarepo-runtime is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
+"""DOI settings api."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, override
 from uuid import UUID
 
 from invenio_db import db
@@ -8,6 +21,9 @@ from invenio_records_resources.records.systemfields import IndexField
 from invenio_users_resources.records.api import AggregatePID, BaseAggregate
 
 from .models import CommunityDoiSettings, CommunityDoiSettingsAggregateModel
+
+if TYPE_CHECKING:
+    from invenio_records.api import Record
 
 
 class CommunityDoiSettingsAggregate(BaseAggregate):
@@ -27,7 +43,7 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
 
     username = ModelField("username", dump_type=str)
 
-    id = ModelField("id", dump_type=UUID)
+    id = ModelField("id", dump_type=UUID)  # type: ignore[assignment]
 
     password = ModelField("password", dump=False)
 
@@ -39,23 +55,26 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
     pid = AggregatePID("id")
 
     @classmethod
-    def create(cls, data, id_=None, **kwargs):
+    @override
+    def create(cls, data: dict, id_: str | None = None, **kwargs: Any) -> BaseAggregate:
         """Create a domain."""
-
         return CommunityDoiSettingsAggregate(
             data,
             model=CommunityDoiSettingsAggregateModel(model_obj=CommunityDoiSettings()),
         )
 
     @classmethod
-    def get_record(cls, id_):
+    @override
+    def get_record(cls, id_: str, with_deleted: bool = False) -> Record:
         """Get the user via the specified ID."""
         with db.session.no_autoflush:
             settings = CommunityDoiSettings.query.get(id_)
-            settings.password = ""
+            if settings is not None:
+                settings.password = ""
 
             return cls.from_model(settings)
 
-    def delete(self, force=True):
+    @override
+    def delete(self, force: bool = True) -> Any:
         """Delete the domain."""
         db.session.delete(self.model.model_obj)

@@ -1,3 +1,15 @@
+#
+# Copyright (c) 2025 CESNET z.s.p.o.
+#
+# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
+#
+# oarepo-runtime is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
+"""DOI configuration."""
+
+from __future__ import annotations
+
 from invenio_i18n import lazy_gettext as _
 
 from oarepo_doi.notifications.builders.assign_doi import (
@@ -44,8 +56,8 @@ DOI_SETTINGS_FACETS = {
     },
 }
 DOI_SETTINGS_SORT_OPTIONS = {
-    "newest": dict(
-        title=_("Newest"),
-        fields=["-created"],
-    ),
+    "newest": {
+        "title": _("Newest"),
+        "fields": ["-created"],
+    },
 }

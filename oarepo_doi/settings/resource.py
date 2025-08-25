@@ -1,4 +1,16 @@
+#
+# Copyright (c) 2025 CESNET z.s.p.o.
+#
+# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
+#
+# oarepo-runtime is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
 """DOI settings resource config."""
+
+from __future__ import annotations
+
+from typing import Any, ClassVar
 
 import marshmallow as ma
 from flask import g
@@ -16,34 +28,34 @@ from invenio_records_resources.resources.records.resource import (
 class CommunityDoiSettingsResourceConfig(RecordResourceConfig):
     """DOI settings resource configuration."""
 
-    blueprint_name = "oarepo_doi_settings"
-    url_prefix = "/doi_settings"
-    routes = {
+    blueprint_name: ClassVar[str] = "oarepo_doi_settings"
+    url_prefix: ClassVar[str] = "/doi_settings"
+
+    routes: ClassVar[dict[str, str]] = {
         "list": "",
         "item": "/<id>",
     }
 
-    request_view_args = {
+    request_view_args: ClassVar[dict[str, ma.fields.Field]] = {
         "id": ma.fields.Str(),
     }
 
-    error_handlers = {
+    error_handlers: ClassVar[dict] = {
         **ErrorHandlersMixin.error_handlers,
     }
 
-    response_handlers = {
-        "application/vnd.inveniordm.v1+json": RecordResourceConfig.response_handlers[
-            "application/json"
-        ],
+    response_handlers: ClassVar[dict] = {
+        "application/vnd.inveniordm.v1+json": RecordResourceConfig.response_handlers["application/json"],
         **RecordResourceConfig.response_handlers,
     }
 
 
 class CommunityDoiSettingsResource(RecordResource):
+    """DOI settings resource."""
 
     @request_view_args
     @response_handler()
-    def read(self):
+    def read(self) -> Any:
         """Read a user."""
         item = self.service.read(
             id_=resource_requestctx.view_args["id"],
@@ -56,7 +68,7 @@ class CommunityDoiSettingsResource(RecordResource):
     @request_view_args
     @request_data
     @response_handler()
-    def update(self):
+    def update(self) -> Any:
         """Update an item."""
         item = self.service.update(
             g.identity,
@@ -69,7 +81,7 @@ class CommunityDoiSettingsResource(RecordResource):
 
     @request_headers
     @request_view_args
-    def delete(self):
+    def delete(self) -> Any:
         """Delete an item."""
         self.service.delete(
             g.identity,

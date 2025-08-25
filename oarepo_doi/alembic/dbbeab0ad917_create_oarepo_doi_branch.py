@@ -7,22 +7,18 @@
 
 """Create oarepo_doi branch."""
 
-from alembic import op
-import sqlalchemy as sa
-
-
 # revision identifiers, used by Alembic.
-revision = 'dbbeab0ad917'
+from __future__ import annotations
+
+revision = "dbbeab0ad917"
 down_revision = None
-branch_labels = ('oarepo_doi',)
-depends_on = 'de9c14cbb0b2'
+branch_labels = ("oarepo_doi",)
+depends_on = "de9c14cbb0b2"
 
 
-def upgrade():
+def upgrade() -> None:
     """Upgrade database."""
-    pass
 
 
-def downgrade():
+def downgrade() -> None:
     """Downgrade database."""
-    pass
