@@ -400,10 +400,6 @@ class OarepoDataCitePIDProvider(PIDProvider):
 
             parent_doi = self.get_pid_doi_value(record, parent=True)
 
-            related_identifiers = request_metadata["data"]["attributes"].get(
-                "relatedIdentifiers", []
-            )
-
             if parent_doi is None and "event" in kwargs:
 
                 parent_doi = self.register_parent_doi(
@@ -413,18 +409,9 @@ class OarepoDataCitePIDProvider(PIDProvider):
                 self.update_parent_doi(
                     record, request_metadata, username, password, doi_value
                 )
-            elif parent_doi and not record.versions.is_latest:
-                url = self.url.rstrip("/") + "/" + doi_value.replace("/", "%2F")
-
-                previous_data = requests.get(
-                    url=url,
-                )
-                if "data" in previous_data.json():
-                    previous_related_identifiers = previous_data.json()["data"][
-                        "attributes"
-                    ]["relatedIdentifiers"]
-                    related_identifiers.extend(previous_related_identifiers)
-
+            related_identifiers = request_metadata["data"]["attributes"].get(
+                "relatedIdentifiers", []
+            )
 
             if "event" in kwargs:
                 request_metadata["data"]["attributes"]["event"] = kwargs["event"]
@@ -448,7 +435,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
                 pid_value = self.get_pid_doi_value(record)
                 if hasattr(pid_value, "status") and pid_value.status == "K":
                     pid_value.register()
-            if parent_doi and record.is_published and record.versions.is_latest:
+            if parent_doi and record.is_published:
                 self.update_relations(parent_doi, record)
 
     def delete_draft(self, record, **kwargs):
@@ -456,8 +443,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
         if creds is None:
             raise ValidationError("No credentials provided.")
         username, password, _ = creds
-        pid_value = self.get_pid_doi_value(record)
-        doi_value = pid_value.pid_value
+        doi_value = self.get_doi_value(record)
         url = self.url.rstrip("/") + "/" + doi_value.replace("/", "%2F")
         response = requests.delete(
             url=url,
@@ -468,6 +454,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
             raise requests.ConnectionError(
                 f"Expected status code 204, but got {response.status_code}"
             )
+        pid_value = self.get_pid_doi_value(record)
         pid_value.delete()
         pid_value.unassign()
         self.remove_doi_value(record)
@@ -527,9 +514,6 @@ class OarepoDataCitePIDProvider(PIDProvider):
             return c._source.slug
         except:
             return value
-
-    def delete(self, pid, soft_delete=False, **kwargs):
-        pass
 
     def get_versions(self, record):
         topic_service = get_record_service_for_record(record)
