@@ -1,191 +1,236 @@
+#
+# Copyright (c) 2025 CESNET z.s.p.o.
+#
+# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
+#
+# oarepo-runtime is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
+"""DOI oarepo provider."""
+
+from __future__ import annotations
+
 import copy
 import json
-import uuid
-from json import JSONDecodeError
 
-import requests
-from datacite.errors import DataCiteNoContentError, DataCiteServerError
+from typing import TYPE_CHECKING, Any, cast, override
+
+import requests  # type: ignore[import-untyped]
 from flask import current_app
 from invenio_access.permissions import system_identity
-from invenio_communities import current_communities
 from invenio_db import db
 from invenio_pidstore.models import PersistentIdentifier, PIDStatus
 from invenio_pidstore.providers.base import BaseProvider
 from invenio_rdm_records.services.pids.providers import DataCiteClient
 from invenio_rdm_records.services.pids.providers.base import PIDProvider
-from invenio_search.engine import dsl
 from marshmallow.exceptions import ValidationError
 from oarepo_runtime.datastreams.utils import get_record_service_for_record
-
+from .utils import community_slug_for_credentials
 from oarepo_doi.settings.models import CommunityDoiSettings
 
+if TYPE_CHECKING:
+    from invenio_records.api import Record
+
+EXPECTED_STATUS = {
+        "GET": [200],
+        "POST": [200, 201],
+        "PUT": [200, 204],
+        "DELETE": [200, 204],
+    }
 
 class OarepoDataCitePIDProvider(PIDProvider):
+    """Oarepo DOI provider."""
     def __init__(
-        self,
-        id_,
-        client=None,
-        serializer=None,
-        pid_type="doi",
-        default_status=PIDStatus.NEW,
-        **kwargs,
+            self,
+            id_: str,
+            client: DataCiteClient | None = None,
+            serializer: Any | None = None,
+            pid_type: str = "doi",
+            default_status: PIDStatus = PIDStatus.NEW,
+            **kwargs: Any,
     ):
+        """Construct."""
         super().__init__(
             id_,
             client=(client or DataCiteClient("datacite", config_prefix="DATACITE")),
             pid_type=pid_type,
             default_status=default_status,
+            **kwargs
         )
         self.serializer = serializer
+        self.default_headers = {"Content-type": "application/vnd.api+json"}
+
 
     @property
-    def mode(self):
+    def mode(self) -> Any:
+        """Return DOI mode."""
         return current_app.config.get("DATACITE_MODE")
 
     @property
-    def url(self):
+    def url(self) -> Any:
+        """Return datacite url."""
         return current_app.config.get("DATACITE_URL")
 
     @property
-    def specified_doi(self):
+    def specified_doi(self) -> Any:
+        """Check if DOI should be manually provided."""
         return current_app.config.get("DATACITE_SPECIFIED_ID")
 
-    def credentials(self, record):
-        slug = self.community_slug_for_credentials(
-            record.parent["communities"].get("default", None)
-        )
+    #todo keep the default configuration?
+    def credentials(self, record: Any) -> tuple[str, str, str] | None:
+        """Return credentials."""
+        slug = community_slug_for_credentials(record.parent["communities"].get("default", None))
         if not slug:
             credentials = current_app.config.get("DATACITE_CREDENTIALS_DEFAULT", None)
         else:
-            doi_settings = (
-                db.session.query(CommunityDoiSettings)
-                .filter_by(community_slug=slug)
-                .first()
-            )
+            doi_settings = db.session.query(CommunityDoiSettings).filter_by(community_slug=slug).first()
             if doi_settings is None:
-                credentials = current_app.config.get(
-                    "DATACITE_CREDENTIALS_DEFAULT", None
-                )
+                credentials = current_app.config.get("DATACITE_CREDENTIALS_DEFAULT", None)
             else:
                 credentials = doi_settings
         if credentials is None:
-            return None
+            raise ValidationError(message="No credentials provided.")
 
         return credentials.username, credentials.password, credentials.prefix
 
-    def generate_id(self, record, **kwargs):
-        pass  # done at DataCite level
+    @override
+    def generate_id(self, record: Any, **kwargs: Any) -> None:
+        """Mute invenio method."""
+        # done at DataCite level
 
     @classmethod
-    def is_enabled(cls, app):
+    @override
+    def is_enabled(cls, app) -> Any:
+        """Check if is enabled."""
+        _ = app
         return True
 
-    def can_modify(self, pid, **kwargs):
+    def can_modify(self, pid: PersistentIdentifier, **kwargs: Any) -> Any:
+        """Check if can be modified."""
+        _ = kwargs
         return not pid.is_registered()
 
-    def register(self, pid, record, **kwargs):
-        pass
+    """Unused invenio function that needs to be silenced."""
 
-    def create(self, record, **kwargs):
-        pass
+    def register(self, pid: Any, **kwargs: Any) -> Any:
+        """Mute invenio method."""
 
-    def restore(self, pid, **kwargs):
-        pass
+    def create(self, record: Any, pid_value: str | None = None, status: str | None = None, **kwargs: Any) -> Any:
+        """Mute invenio method."""
 
-    def validate(self, record, identifier=None, provider=None, **kwargs):
+    def restore(self, pid: Any, **kwargs: Any) -> Any:
+        """Mute invenio method."""
+
+    def delete(self, pid: Any, soft_delete: bool=False, **kwargs: Any) -> Any:
+        """Mute invenio method."""
+
+    def update(self, pid, **kwargs):
+        """Mute invenio method."""
+
+    """abstract methods"""
+    def create_datacite_payload(self, data: dict) -> dict:
+        """Create payload for datacite server."""
+        _ = data
+        return {}
+
+    @override
+    def validate(
+            self, record: Record, identifier: str | None = None, provider: PIDProvider | None = None, **kwargs: Any
+    ) -> Any:
+        """Validate metadata."""
         return True, []
 
-    def metadata_check(self, record, schema=None, provider=None, **kwargs):
+    def metadata_check(
+            self, record: Record, schema: Any | None = None, provider: PIDProvider | None = None, **kwargs: Any
+    ) -> list:
+        """Check metadata against schema."""
+        _, _, _, _ = record, schema, provider, kwargs
+
         return []
 
-    def validate_restriction_level(self, record, identifier=None, **kwargs):
+    """provider functionality"""
+
+    @override
+    def validate_restriction_level(self, record: Record, identifier: str | None = None, **kwargs: Any) -> Any:
+        """Check if record not restricted."""
         return record["access"]["record"] != "restricted"
 
-    def _log_errors(self, exception):
-        ex_txt = exception.args[0] or ""
-        if isinstance(exception, DataCiteNoContentError):
-            current_app.logger.error(f"No content error: {ex_txt}")
-        elif isinstance(exception, DataCiteServerError):
-            current_app.logger.error(f"DataCite internal server error: {ex_txt}")
-        else:
-            try:
-                ex_json = json.loads(ex_txt)
-            except JSONDecodeError:
-                current_app.logger.error(f"Unknown error: {ex_txt}")
-                return
-            for error in ex_json.get("errors", []):
-                reason = error["title"]
-                field = error.get("source")
-                error_prefix = f"Error in `{field}`: " if field else "Error: "
-                current_app.logger.error(f"{error_prefix}{reason}")
+    def create_request(self, username, password, data,method, url = None):
+        if not url:
+            url = self.url
+        response = requests.request(
+            method=method.upper(),
+            url=url,
+            json=data,
+            headers=self.default_headers,
+            auth=(username, password),
+        )
+        expected = EXPECTED_STATUS.get(method, [200])
+        if response.status_code not in expected:
+            raise requests.ConnectionError(
+                f"Expected status code {expected}, but got {response.status_code}"
+            )
+        return response
 
-    def datacite_request(self, record, **kwargs):
+    def datacite_request(self, record: Record, **kwargs: Any) -> Any:
+        """Create Datacite request."""
         doi_value = self.get_doi_value(record)
         if doi_value:
             pass
-
-        creds = self.credentials(record)
-        if creds is None:
-            raise ValidationError(message="No credentials provided.")
-        username, password, prefix = creds
+        username, password, prefix = self.credentials(record)
 
         errors = self.metadata_check(record)
         record_service = get_record_service_for_record(record)
-        record["links"] = record_service.links_item_tpl.expand(system_identity, record)
+        if record_service is not None and hasattr(record_service, "links_item_tpl"):
+            record["links"] = record_service.links_item_tpl.expand(system_identity, record)
 
-        if errors:
-            raise ValidationError(message=errors)
+            if errors:
+                raise ValidationError(message=errors)
 
-        request_metadata = {"data": {"type": "dois", "attributes": {}}}
-        payload = self.create_datacite_payload(record)
-        request_metadata["data"]["attributes"] = payload
+            request_metadata: dict[str, Any] = {"data": {"type": "dois", "attributes": {}}}
+            payload = self.create_datacite_payload(record)
+            request_metadata["data"]["attributes"] = payload
 
-        if self.specified_doi:
-            doi = f"{prefix}/{record['id']}"
-            request_metadata["data"]["attributes"]["doi"] = doi
+            if self.specified_doi:
+                doi = f"{prefix}/{record['id']}"
+                request_metadata["data"]["attributes"]["doi"] = doi
 
-        if "event" in kwargs:
-            request_metadata["data"]["attributes"]["event"] = kwargs["event"]
+            if "event" in kwargs:
+                request_metadata["data"]["attributes"]["event"] = kwargs["event"]
 
-        request_metadata["data"]["attributes"]["prefix"] = str(prefix)
-        return request_metadata, username, password, prefix
+            request_metadata["data"]["attributes"]["prefix"] = str(prefix)
+            return request_metadata, username, password, prefix
+
+        return None
 
     def create_and_reserve(self, record, **kwargs):
         request_metadata, username, password, prefix = self.datacite_request(
             record, **kwargs
         )
-        request = requests.post(
-            url=self.url,
-            json=request_metadata,
-            headers={"Content-type": "application/vnd.api+json"},
-            auth=(username, password),
-        )
-        if request.status_code != 201:
-            raise requests.ConnectionError(
-                f"Expected status code 201, but got {request.status_code}"
-            )
-        content = request.content.decode("utf-8")
+        response = self.create_request(username, password, request_metadata, method="POST")
+
+        content = response.content.decode("utf-8")
         json_content = json.loads(content)
         doi_value = json_content["data"]["id"]
         self.add_doi_value(record, record, doi_value)
         parent_doi = self.get_pid_doi_value(record, parent=True)
 
-        if "event" in kwargs:
+        if "event" in kwargs: #event == doi is going to be published
             pid_status = "R"
 
-            if parent_doi is None:
+            if parent_doi is None: #no canonical doi yet
 
                 parent_doi = self.register_parent_doi(
                     record, request_metadata, username, password, prefix, doi_value
                 )
-            elif parent_doi and record.versions.is_latest:
+            elif parent_doi and record.versions.is_latest: #canonical doi exists => needs to be updated
                 self.update_parent_doi(
                     record, request_metadata, username, password, doi_value
                 )
         else:
             pid_status = "K"
         if parent_doi and record.is_published:
-            self.update_relations(parent_doi, record)
+            self.update_relations(parent_doi, record) #update relations
 
         BaseProvider.create("doi", doi_value, "rec", record.id, pid_status)
         db.session.commit()
@@ -205,11 +250,8 @@ class OarepoDataCitePIDProvider(PIDProvider):
         return False
 
     def update_relations(self, parent_doi, record):
+        username, password, _ = self.credentials(record)
 
-        creds = self.credentials(record)
-        if creds is None:
-            raise ValidationError("No credentials provided.")
-        username, password, _ = creds
         doi_value = self.get_doi_value(record)
         url = self.url.rstrip("/") + "/" + doi_value.replace("/", "%2F")
 
@@ -262,17 +304,7 @@ class OarepoDataCitePIDProvider(PIDProvider):
                         },
                     }
                 }
-
-                request = requests.put(
-                    url=url,
-                    json=previous_version_request_metadata,
-                    headers={"Content-type": "application/vnd.api+json"},
-                    auth=(username, password),
-                )
-                if request.status_code != 200:
-                    raise requests.ConnectionError(
-                        f"Expected status code 200, but got {request.status_code}"
-                    )
+                self.create_request(username, password, previous_version_request_metadata, method="PUT", url = url)
 
         if new_version_modified_relations_count > 0:
 
@@ -283,16 +315,8 @@ class OarepoDataCitePIDProvider(PIDProvider):
                 }
             }
             url = self.url.rstrip("/") + "/" + doi_value.replace("/", "%2F")
-            request = requests.put(
-                url=url,
-                json=new_version_request_metadata,
-                headers={"Content-type": "application/vnd.api+json"},
-                auth=(username, password),
-            )
-            if request.status_code != 200:
-                raise requests.ConnectionError(
-                    f"Expected status code 200, but got {request.status_code}"
-                )
+            self.create_request(username, password, new_version_request_metadata, method="PUT", url =url)
+
 
     def register_parent_doi(
         self, record, request_metadata, username, password, prefix, rec_doi
@@ -318,18 +342,9 @@ class OarepoDataCitePIDProvider(PIDProvider):
         parent_request_metadata["data"]["attributes"][
             "relatedIdentifiers"
         ] = related_identifiers
-        request = requests.post(
-            url=self.url,
-            json=parent_request_metadata,
-            headers={"Content-type": "application/vnd.api+json"},
-            auth=(username, password),
-        )
-        if request.status_code != 201:
-            raise requests.ConnectionError(
-                f"Expected status code 201, but got {request.status_code}"
-            )
+        response = self.create_request(username, password, parent_request_metadata, method="POST")
 
-        content = request.content.decode("utf-8")
+        content = response.content.decode("utf-8")
         json_content = json.loads(content)
         doi_value = json_content["data"]["id"]
         BaseProvider.create("doi", doi_value, "rec", record.parent.id, "R")
@@ -362,27 +377,12 @@ class OarepoDataCitePIDProvider(PIDProvider):
             + "/"
             + self.get_doi_value(record, parent=True).replace("/", "%2F")
         )
-        request = requests.put(
-            url=url,
-            json=parent_request_metadata,
-            headers={"Content-type": "application/vnd.api+json"},
-            auth=(username, password),
-        )
-        if request.status_code != 200:
-            raise requests.ConnectionError(
-                f"Expected status code 200, but got {request.status_code}"
-            )
-    def update(self, pid, **kwargs):
-        """Update information about the persistent identifier."""
-        pass
+        self.create_request(username, password, parent_request_metadata, method="PUT", url = url)
 
     def update_doi(self, record, url=None, **kwargs):
         doi_value = self.get_doi_value(record)
         if doi_value:
-            creds = self.credentials(record)
-            if creds is None:
-                raise ValidationError(message="No credentials provided.")
-            username, password, prefix = creds
+            username, password, prefix =  self.credentials(record)
 
             errors = self.metadata_check(record)
             record_service = get_record_service_for_record(record)
@@ -398,72 +398,66 @@ class OarepoDataCitePIDProvider(PIDProvider):
             payload = self.create_datacite_payload(record)
             request_metadata["data"]["attributes"] = payload
 
+            if "event" in kwargs:
+                request_metadata["data"]["attributes"]["event"] = kwargs["event"]
+
             parent_doi = self.get_pid_doi_value(record, parent=True)
+
+            related_identifiers = request_metadata["data"]["attributes"].get(
+                "relatedIdentifiers", []
+            )
 
             if parent_doi is None and "event" in kwargs:
 
                 parent_doi = self.register_parent_doi(
                     record, request_metadata, username, password, prefix, doi_value
                 )
-            elif parent_doi and record.versions.is_latest:
-                self.update_parent_doi(
-                    record, request_metadata, username, password, doi_value
-                )
-            related_identifiers = request_metadata["data"]["attributes"].get(
-                "relatedIdentifiers", []
-            )
-
-            if "event" in kwargs:
-                request_metadata["data"]["attributes"]["event"] = kwargs["event"]
+            elif parent_doi:
+                if record.versions.is_latest:
+                    self.update_parent_doi(
+                        record, request_metadata, username, password, doi_value
+                    )
+                else:
+                    url = self.url.rstrip("/") + "/" + doi_value.replace("/", "%2F")
+                    previous_data = requests.get(
+                        url=url,
+                    )
+                    if "data" in previous_data.json():
+                        previous_related_identifiers = previous_data.json()["data"][
+                            "attributes"
+                        ]["relatedIdentifiers"]
+                        related_identifiers.extend(previous_related_identifiers)
 
             request_metadata["data"]["attributes"][
                 "relatedIdentifiers"
             ] = related_identifiers
 
-            request = requests.put(
-                url=url,
-                json=request_metadata,
-                headers={"Content-type": "application/vnd.api+json"},
-                auth=(username, password),
-            )
-            if request.status_code != 200:
-                raise requests.ConnectionError(
-                    f"Expected status code 200, but got {request.status_code}"
-                )
+            self.create_request(username, password, request_metadata, method="PUT", url = url)
 
             if "event" in kwargs:
                 pid_value = self.get_pid_doi_value(record)
                 if hasattr(pid_value, "status") and pid_value.status == "K":
                     pid_value.register()
-            if parent_doi and record.is_published:
+
+            if parent_doi and record.is_published and record.versions.is_latest:
                 self.update_relations(parent_doi, record)
 
     def delete_draft(self, record, **kwargs):
-        creds = self.credentials(record)
-        if creds is None:
-            raise ValidationError("No credentials provided.")
-        username, password, _ = creds
-        doi_value = self.get_doi_value(record)
-        url = self.url.rstrip("/") + "/" + doi_value.replace("/", "%2F")
-        response = requests.delete(
-            url=url,
-            headers={"Content-Type": "application/vnd.api+json"},
-            auth=(username, password),
-        )
-        if response.status_code != 204:
-            raise requests.ConnectionError(
-                f"Expected status code 204, but got {response.status_code}"
-            )
+        username, password, _ = self.credentials(record)
+
         pid_value = self.get_pid_doi_value(record)
+        doi_value = pid_value.pid_value
+        url = self.url.rstrip("/") + "/" + doi_value.replace("/", "%2F")
+
+        self.create_request(username, password, {}, method="DELETE", url = url)
+
         pid_value.delete()
         pid_value.unassign()
         self.remove_doi_value(record)
 
     def delete_published(self, record, **kwargs):
-        creds = self.credentials(record)
-        if creds is None:
-            raise ValidationError("No credentials provided.")
-        username, password, _ = creds
+        username, password, _  = self.credentials(record)
+
         doi_value = self.get_doi_value(record)
         request_metadata = {"data": {"type": "dois", "attributes": {"event": "hide"}}}
 
@@ -473,47 +467,15 @@ class OarepoDataCitePIDProvider(PIDProvider):
                     + "/"
                     + self.get_doi_value(record, parent=True).replace("/", "%2F")
             )
-            requests.put(
-                url=url,
-                json=request_metadata,
-                headers={"Content-type": "application/vnd.api+json"},
-                auth=(username, password),
-            )
+            self.create_request(username, password, request_metadata, method="PUT", url=url)
+
+
         url = self.url.rstrip("/") + "/" + doi_value.replace("/", "%2F")
 
-        request = requests.put(
-            url=url,
-            json=request_metadata,
-            headers={"Content-type": "application/vnd.api+json"},
-            auth=(username, password),
-        )
-        if request.status_code != 200:
-            raise requests.ConnectionError(
-                f"Expected status code 200, but got {request.status_code}"
-            )
+        self.create_request(username, password, request_metadata, method="PUT", url=url)
+
         pid_value = self.get_pid_doi_value(record)
         pid_value.delete()
-
-    def create_datacite_payload(self, data):
-        pass
-
-    def community_slug_for_credentials(self, value):
-        if not value:
-            return None
-        try:
-            uuid.UUID(value, version=4)
-            search = current_communities.service._search(
-                "search",
-                system_identity,
-                {},
-                None,
-                extra_filter=dsl.Q("term", **{"id": value}),
-            )
-            community = search.execute()
-            c = list(community.hits.hits)[0]
-            return c._source.slug
-        except:
-            return value
 
     def get_versions(self, record):
         topic_service = get_record_service_for_record(record)
