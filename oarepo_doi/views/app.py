@@ -1,8 +1,10 @@
-# Copyright (C) 2025 CESNET z.s.p.o.
 #
-# oarepo-doi is free software; you can redistribute it and/or
-# modify it under the terms of the MIT License; see LICENSE file for more
-# details.
+# Copyright (c) 2025 CESNET z.s.p.o.
+#
+# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
+#
+# oarepo-runtime is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
 #
 """Blueprints for the app and events views."""
 
@@ -19,10 +21,9 @@ if TYPE_CHECKING:
 
 def create_doi_notifications(app: Flask) -> Blueprint:
     """Register blueprint routes on app."""
-    blueprint = Blueprint(
+    _ = app
+    return Blueprint(
         "oarepo_doi_notifications",
         __name__,
         template_folder=Path(__file__).parent.parent / "templates",
     )
-
-    return blueprint
