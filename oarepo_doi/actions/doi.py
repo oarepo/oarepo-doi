@@ -25,18 +25,17 @@ from oarepo_doi.notifications.builders.delete_doi import (
     DeleteDoiRequestDeclineNotificationBuilder,
     DeleteDoiRequestSubmitNotificationBuilder,
 )
-
-
+from oarepo_doi.services.doi_provider import DOIProvider
+from oarepo_doi.services.doi_client import DOIClient
+from oarepo_doi.services.relations import update_doi_relations
 class OarepoDoiActionMixin:
     @cached_property
     def provider(self):
-        providers = current_app.config.get("RDM_PERSISTENT_IDENTIFIER_PROVIDERS")
+        return DOIProvider()
 
-        for _provider in providers:
-            if _provider.name == "datacite":
-                provider = _provider
-                break
-        return provider
+    @property
+    def client(self):
+        return DOIClient()
 
 
 class AssignDoiAction(OARepoAcceptAction, OarepoDoiActionMixin):
@@ -56,11 +55,17 @@ class CreateDoiAction(AssignDoiAction):
     ):
 
         topic = self.request.topic.resolve()
-
+        doi_value = self.provider.get_doi_value(topic)
+        new = True
+        publish = True
+        if doi_value:
+            new = False
         if topic.is_draft:
-            self.provider.create_and_reserve(topic)
-        else:
-            self.provider.create_and_reserve(topic, event="publish")
+            publish = False
+        self.provider.create(record=topic, new=new, publish=publish)
+        if publish:
+            self.provider.create_canonical(record=topic, new=True)
+        update_doi_relations(topic)
 
         uow.register(
             NotificationOp(
@@ -81,14 +86,7 @@ class DeleteDoiAction(AssignDoiAction):
         **kwargs: Any,
     ) -> None:
         topic = self.request.topic.resolve()
-
-        """
-        it is not allowed to delete DOI within the published record, the doi is changed to "registered" 
-        by the component when deleting the published record
-        """
-        if topic.is_draft:
-            self.provider.delete_draft(topic)
-
+        self.provider.delete(topic)
         uow.register(
             NotificationOp(
                 DeleteDoiRequestAcceptNotificationBuilder.build(request=self.request)
@@ -170,7 +168,7 @@ class ValidateDataForDoiAction(OARepoSubmitAction, OarepoDoiActionMixin):
         **kwargs: Any,
     ) -> None:
         topic = self.request.topic.resolve()
-        errors = self.provider.metadata_check(topic)
+        errors = self.provider.mapping.metadata_check(topic)
 
         if len(errors) > 0:
             raise ValidationError(message=errors)
