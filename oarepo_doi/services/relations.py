@@ -83,15 +83,7 @@ def update_relations(record, parent_doi):
     exclude = {"IsVersionOf", "IsPreviousVersionOf", "IsNewVersionOf"}
 
     sorted_dois =  [id_ for id_, _ in pairs]
-    # valid_dois = []
-    # for doi in sorted_dois:
-    #     doi_url = url.rstrip("/") + "/" + doi.replace("/", "%2F")
-    #     response = requests.get(doi_url)
-    #     if response.status_code == 200:
-    #         valid_dois.append(doi)
-    #     else:
-    #         pass
-    # sorted_dois = valid_dois
+
     for idx, doi in enumerate(sorted_dois):
         doi_url = url.rstrip("/") + "/" + doi.replace("/", "%2F")
         response = requests.get(
@@ -171,7 +163,7 @@ def update_parent_relations(record):
     new_related_identifiers = cleaned + additions
     data["data"]["attributes"]["relatedIdentifiers"] = new_related_identifiers
 
-    update_response = doi_client.datacite_request(
+    doi_client.datacite_request(
         data, record, method="PUT", url=parent_doi_url
     )
 
