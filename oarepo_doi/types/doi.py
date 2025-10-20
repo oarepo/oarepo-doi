@@ -1,4 +1,4 @@
-from functools import cached_property
+
 
 from flask import current_app
 from marshmallow.exceptions import ValidationError
@@ -20,7 +20,7 @@ from ..actions.doi import (
 
 class DoiRequest(NonDuplicableOARepoRequestType):
 
-    @cached_property
+    @property
     def provider(self):
         providers = current_app.config.get("RDM_PERSISTENT_IDENTIFIER_PROVIDERS")
 
