@@ -42,7 +42,7 @@ class DOIClient:
             else:
                 credentials = doi_settings
         if credentials is None:
-            raise ValidationError(message="No credentials provided.")
+            return None
 
         return credentials.username, credentials.password, credentials.prefix
 
