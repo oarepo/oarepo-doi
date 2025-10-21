@@ -8,8 +8,10 @@
 #
 """OARepo DOI."""
 
+from __future__ import annotations
+
 from .ext import OARepoDOI
 
 __version__ = "4.0.0"
 
-__all__ = ("__version__", "OARepoDOI")
+__all__ = ("OARepoDOI", "__version__")

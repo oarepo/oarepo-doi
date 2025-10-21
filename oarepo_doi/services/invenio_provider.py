@@ -8,59 +8,131 @@
 #
 """DOI oarepo provider."""
 
-from invenio_rdm_records.services.pids.providers.base import PIDProvider
+from __future__ import annotations
+
 from typing import TYPE_CHECKING, Any, override
+
+from flask import current_app
+from invenio_pidstore.models import PersistentIdentifier, PIDStatus
+from invenio_rdm_records.services.pids.providers import DataCiteClient
+from invenio_rdm_records.services.pids.providers.base import PIDProvider
+
 if TYPE_CHECKING:
     from invenio_records.api import Record
-class MutedPIDProvider(PIDProvider):
+
+
+class OarepoDataCitePIDProvider(PIDProvider):
+    """Oarepo DOI provider."""
+
+    def __init__(
+        self,
+        id_: str,
+        client: DataCiteClient | None = None,
+        serializer: Any | None = None,
+        pid_type: str = "doi",
+        default_status: PIDStatus = PIDStatus.NEW,
+        **kwargs: Any,
+    ):
+        """Construct."""
+        super().__init__(
+            id_,
+            client=(client or DataCiteClient("datacite", config_prefix="DATACITE")),
+            pid_type=pid_type,
+            default_status=default_status,
+            **kwargs,
+        )
+        self.serializer = serializer
+        self.default_headers = {"Content-type": "application/vnd.api+json"}
+
+    @property
+    def mode(self) -> Any:
+        """Return DOI mode."""
+        return current_app.config.get("DATACITE_MODE")
+
+    @property
+    def url(self) -> Any:
+        """Return datacite url."""
+        return current_app.config.get("DATACITE_URL")
+
+    @property
+    def specified_doi(self) -> Any:
+        """Check if DOI should be manually provided."""
+        return current_app.config.get("DATACITE_SPECIFIED_ID")
+
+    @override
+    def generate_id(self, record: Any, **kwargs: Any) -> None:
+        """Mute invenio method."""
+        # done at DataCite level
 
     @classmethod
     @override
-    def is_enabled(cls, app) -> Any:
+    def is_enabled(cls, app: Any) -> Any:
         """Check if is enabled."""
         _ = app
         return True
 
+    def can_modify(self, pid: PersistentIdentifier, **kwargs: Any) -> Any:
+        """Check if can be modified."""
+        _ = kwargs
+        return not pid.is_registered()
+
+    """Unused invenio function that needs to be silenced."""
+
+    def register(self, pid: Any, **kwargs: Any) -> Any:
+        """Mute invenio method."""
+
+    def create(self, record: Any, pid_value: str | None = None, status: str | None = None, **kwargs: Any) -> Any:
+        """Mute invenio method."""
+
+    def restore(self, pid: Any, **kwargs: Any) -> Any:
+        """Mute invenio method."""
+
+    def delete(self, pid: Any, soft_delete: bool = False, **kwargs: Any) -> Any:
+        """Mute invenio method."""
+
+    def update(self, pid: Any, **kwargs: Any) -> Any:
+        """Mute invenio method."""
+
+    """abstract methods"""
+
+    def create_datacite_payload(self, data: dict) -> dict:
+        """Create payload for datacite server."""
+        _ = data
+        return {}
+
+    @override
+    def validate(
+        self, record: Record, identifier: str | None = None, provider: PIDProvider | None = None, **kwargs: Any
+    ) -> Any:
+        """Validate metadata."""
+        return True, []
+
     def metadata_check(
-            self, record, schema: Any | None = None, provider: PIDProvider | None = None, **kwargs: Any
+        self, record: Record, schema: Any | None = None, provider: PIDProvider | None = None, **kwargs: Any
     ) -> list:
         """Check metadata against schema."""
         _, _, _, _ = record, schema, provider, kwargs
 
         return []
 
-    def create(self, record, pid_value=None, status=None, **kwargs):
-        """Get or create the PID with given value for the given record."""
-        pass
+    """provider functionality"""
 
-    def reserve(self, pid, **kwargs):
-        """Reserve a persistent identifier."""
-        pass
+    @override
+    def validate_restriction_level(self, record: Record, identifier: str | None = None, **kwargs: Any) -> Any:
+        """Check if record not restricted."""
+        return record["access"]["record"] != "restricted"
 
-    def register(self, pid, **kwargs):
-        """Register a persistent identifier."""
-        pass
+    def datacite_request(self, record: Record, **kwargs: Any) -> Any:
+        """Create Datacite request."""
 
-    def update(self, pid, **kwargs):
-        """Update information about the persistent identifier."""
-        pass
+    def create_and_reserve(self, record: Record, **kwargs: Any) -> Any:
+        """Mute invenio method."""
 
-    def restore(self, pid, **kwargs):
-        """Update information about the persistent identifier."""
-        pass
+    def update_doi(self, record: Record, url: Any = None, **kwargs: Any) -> Any:
+        """Mute invenio method."""
 
-    def delete(self, pid, soft_delete=False, **kwargs):
-        """Delete a persistent identifier."""
-        pass
+    def delete_draft(self, record: Record, **kwargs: Any) -> Any:
+        """Mute invenio method."""
 
-    def validate(self, record, identifier=None, provider=None, **kwargs):
-        """Validate the attributes of the identifier."""
-        pass
-
-    def validate_restriction_level(self, record, identifier, **kwargs):
-        """Validates that the record has correct restriction levels to crate the PID."""
-        pass
-
-    def create_and_reserve(self, record, **kwargs):
-        """Create and reserve a PID for a record."""
-        pass
+    def delete_published(self, record: Record, **kwargs: Any) -> Any:
+        """Mute invenio method."""

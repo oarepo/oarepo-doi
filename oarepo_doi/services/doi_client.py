@@ -1,30 +1,47 @@
-from oarepo_runtime.datastreams.utils import get_record_service_for_record
-from invenio_access.permissions import system_identity
+#
+# Copyright (c) 2025 CESNET z.s.p.o.
+#
+# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
+#
+# oarepo-runtime is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
+"""DOI oarepo client."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
 import requests
 from flask import current_app
-from .utils import community_slug_for_credentials
-from oarepo_doi.settings.models import CommunityDoiSettings
-from typing import TYPE_CHECKING, Any, cast, override
-from marshmallow.exceptions import ValidationError
 from invenio_db import db
+from marshmallow.exceptions import ValidationError
 
+from oarepo_doi.settings.models import CommunityDoiSettings
+
+from .utils import community_slug_for_credentials
+
+if TYPE_CHECKING:
+    from invenio_records.api import Record
 EXPECTED_STATUS = {
-        "GET": [200],
-        "POST": [200, 201],
-        "PUT": [200, 204, 201],
-        "DELETE": [200, 204, 404],
-    }
+    "GET": [200],
+    "POST": [200, 201],
+    "PUT": [200, 204, 201],
+    "DELETE": [200, 204, 404],
+}
+
 
 class DOIClient:
+    """DOI oarepo client."""
 
     @property
     def url(self) -> Any:
         """Return datacite url."""
         return current_app.config.get("DATACITE_URL")
-    def generate_doi(self,prefix, record):
-        print(record.id)
-        return f"{prefix}/{record['id']}"
 
+    def generate_doi(self, prefix: str, record: Record) -> str:
+        """Generate DOI."""
+        return f"{prefix}/{record['id']}"
 
     def credentials(self, record: Any) -> tuple[str, str, str] | None:
         """Return credentials."""
@@ -46,8 +63,12 @@ class DOIClient:
 
         return credentials.username, credentials.password, credentials.prefix
 
-    def create_request(self, data, record, method, url = None):
-        username, password, prefix = self.credentials(record)
+    def datacite_request(self, data: dict, record: Record, method: str, url: str | None = None) -> Any:
+        """Create request."""
+        credentials = self.credentials(record)
+        if credentials is None:
+            return False
+        username, password, prefix = credentials
         if not url:
             doi = self.generate_doi(prefix, record)
 
@@ -59,15 +80,9 @@ class DOIClient:
             json=data,
             headers={"Content-type": "application/vnd.api+json"},
             auth=(username, password),
+            timeout=20,
         )
         expected = EXPECTED_STATUS.get(method, [200])
         if response.status_code not in expected:
-            raise requests.ConnectionError(
-                f"Expected status code {expected}, but got {response.status_code}"
-            )
+            raise requests.ConnectionError(f"Expected status code {expected}, but got {response.status_code}")
         return response
-
-    def datacite_request(self, payload, record, method="PUT", url = None): #proc je tu to dvoji volani??
-        response = self.create_request( payload,record, method=method, url=url)
-        return response
-

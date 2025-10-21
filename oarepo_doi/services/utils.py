@@ -6,35 +6,34 @@
 # oarepo-runtime is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 #
-"""DOI oarepo provider."""
+"""DOI provider utils."""
 
 from __future__ import annotations
 
 import uuid
-
-import requests  # type: ignore[import-untyped]
+from typing import Any
 
 from invenio_access.permissions import system_identity
 from invenio_communities import current_communities
-
 from invenio_search.engine import dsl
 
 
-
-def community_slug_for_credentials(value):
+def community_slug_for_credentials(value: str) -> Any:
+    """Get community slug."""
     if not value:
         return None
+
     try:
         uuid.UUID(value, version=4)
-        search = current_communities.service._search(
+        search = current_communities.service._search(  # noqa
             "search",
             system_identity,
             {},
             None,
-            extra_filter=dsl.Q("term", **{"id": value}),
+            extra_filter=dsl.Q("term", id=value),
         )
         community = search.execute()
-        c = list(community.hits.hits)[0]
-        return c._source.slug
-    except:
+        c = next(iter(community.hits.hits))
+        return c._source.slug  # noqa
+    except:  # noqa: E722
         return value
