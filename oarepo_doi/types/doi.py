@@ -17,19 +17,17 @@ from ..actions.doi import (
     ValidateDataForDoiAction,
 )
 
-
+from oarepo_doi.services.doi_provider import DOIProvider
+from oarepo_doi.services.doi_client import DOIClient
 class DoiRequest(NonDuplicableOARepoRequestType):
 
     @cached_property
     def provider(self):
-        providers = current_app.config.get("RDM_PERSISTENT_IDENTIFIER_PROVIDERS")
+       return DOIProvider()
 
-        for _provider in providers:
-            if _provider.name == "datacite":
-                provider = _provider
-                break
-        return provider
-
+    @property
+    def client(self):
+        return DOIClient()
 
 class DeleteDoiRequestType(DoiRequest):
     type_id = "delete_doi"
@@ -50,7 +48,7 @@ class DeleteDoiRequestType(DoiRequest):
     allowed_topic_ref_types = ModelRefTypes(published=False, draft=True)
 
     def is_applicable_to(self, identity, topic, *args, **kwargs):
-        if not self.provider.credentials(
+        if not self.client.credentials(
             topic
         ):  # no credentials for community and no default credentials
             return False
@@ -125,18 +123,18 @@ class AssignDoiRequestType(DoiRequest):
     allowed_topic_ref_types = ModelRefTypes(published=True, draft=True)
 
     def can_create(self, identity, data, receiver, topic, creator, *args, **kwargs):
-        if not self.provider.credentials(
+        if not self.client.credentials(
             topic
         ):  # no credentials for community and no default credentials
             return False
-        errors = self.provider.metadata_check(topic)
+        errors = self.provider.mapping.metadata_check(topic)
         if len(errors) > 0:
             raise ValidationError(message=errors)
 
         super().can_create(identity, data, receiver, topic, creator, *args, **kwargs)
 
     def is_applicable_to(self, identity, topic, *args, **kwargs):
-        if not self.provider.credentials(
+        if not self.client.credentials(
             topic
         ):  # no credentials for community and no default credentials
             return False
