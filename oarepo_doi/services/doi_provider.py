@@ -68,8 +68,6 @@ class DOIProvider:
         if errors:
             raise ValidationError(message=errors)
 
-        client = DOIClient()
-
         self.subcreate(record, publish, new)
 
     def subcreate(self, record, publish, new, canonical = False, canonical_rec = None):

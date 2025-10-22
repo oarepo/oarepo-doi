@@ -21,8 +21,8 @@ class DOIClient:
     def url(self) -> Any:
         """Return datacite url."""
         return current_app.config.get("DATACITE_URL")
+
     def generate_doi(self,prefix, record):
-        print(record.id)
         return f"{prefix}/{record['id']}"
 
 
@@ -32,7 +32,7 @@ class DOIClient:
             record = record.parent
         elif "parent" in record:
             record = record["parent"]
-        slug = community_slug_for_credentials(record["communities"].get("default", None))
+        slug = community_slug_for_credentials(record.get("communities", {}).get("default", None))
         if not slug:
             credentials = current_app.config.get("DATACITE_CREDENTIALS_DEFAULT", None)
         else:
@@ -43,10 +43,11 @@ class DOIClient:
                 credentials = doi_settings
         if credentials is None:
             return None
-
+        if type(credentials) == dict:
+            return credentials["username"], credentials["password"], credentials["prefix"]
         return credentials.username, credentials.password, credentials.prefix
 
-    def create_request(self, data, record, method, url = None):
+    def datacite_request(self, data, record, method, url = None):
         username, password, prefix = self.credentials(record)
         if not url:
             doi = self.generate_doi(prefix, record)
@@ -65,9 +66,5 @@ class DOIClient:
             raise requests.ConnectionError(
                 f"Expected status code {expected}, but got {response.status_code}"
             )
-        return response
-
-    def datacite_request(self, payload, record, method="PUT", url = None): #proc je tu to dvoji volani??
-        response = self.create_request( payload,record, method=method, url=url)
         return response
 

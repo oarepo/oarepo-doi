@@ -71,7 +71,8 @@ from oarepo_doi.notifications.builders.delete_doi import (
     DeleteDoiRequestSubmitNotificationBuilder,
 )
 
-from .test_provider.provider import ThesisTestDataCitePIDProvider
+from oarepo_doi.services.invenio_provider import MutedPIDProvider
+from .test_provider.mapping import TestMapping
 
 pytest_plugins = [
     "pytest_oarepo.requests.fixtures",
@@ -353,7 +354,7 @@ def app_config(app_config):
 
     app_config["RDM_PERSISTENT_IDENTIFIER_PROVIDERS"] = [
         # DataCite Concept DOI provider
-        ThesisTestDataCitePIDProvider(
+        MutedPIDProvider(
             "datacite",
             client=DataCiteClient("datacite", config_prefix="DATACITE"),
             label=_("DOI"),
@@ -363,12 +364,12 @@ def app_config(app_config):
         "doi": {
             "providers": ["datacite"],
             "label": _("DOI"),
-            "is_enabled": ThesisTestDataCitePIDProvider.is_enabled,
+            "is_enabled": MutedPIDProvider.is_enabled,
         },
     }
     app_config["RDM_PARENT_PERSISTENT_IDENTIFIER_PROVIDERS"] = [
         # DataCite Concept DOI provider
-        ThesisTestDataCitePIDProvider(
+        MutedPIDProvider(
             "datacite",
             client=DataCiteClient("datacite", config_prefix="DATACITE"),
             label=_("DOI"),
@@ -379,10 +380,11 @@ def app_config(app_config):
         "doi": {
             "providers": ["datacite"],
             "label": _("DOI"),
-            "is_enabled": ThesisTestDataCitePIDProvider.is_enabled,
+            "is_enabled": MutedPIDProvider.is_enabled,
         },
     }
-
+    app_config["DATACITE_CREDENTIALS_DEFAULT"] = {"prefix": "prefix", "password": "password", "username": "username"}
+    app_config["DATACITE_MAPPING"] = TestMapping
     return app_config
 
 
