@@ -17,11 +17,11 @@ def get_versions(record):
 def get_doi_indices(record):
     versions = get_doi_versions(record)
     doi_indices = []
-    for version in versions:
-        for index, rec in version.items():
-            pids = rec.get("pids", {})
-            doi = pids["doi"]["identifier"]
-            doi_indices.append({doi: index})
+    for rec in versions:
+
+        pids = rec.get("pids", {})
+        doi = pids["doi"]["identifier"]
+        doi_indices.append(doi)
     return doi_indices
 def get_doi_versions(record):
     versions_hits = get_versions(record)
@@ -49,8 +49,10 @@ def get_doi_versions(record):
             ):
                 doi = pids["doi"]["identifier"]
                 if doi not in seen:
-                    doi_versions.append({versions["index"]: version})
+                    doi_versions.append(version)
                     seen.add(doi)
+
+    doi_versions.sort(key=lambda v: v.get("versions", {}).get("index"))
 
     return doi_versions
 
@@ -69,20 +71,17 @@ def get_latest(record):
     if not versions:
         return None
 
-    latest = max(versions, key=lambda v: list(v.keys())[0])
+    latest = versions[-1]
 
-    return list(latest.values())[0]
+    return latest
 
-def update_relations(record, parent_doi):
+def update_relations(record, relations, parent_doi):
     doi_client = DOIClient()
 
-    relations = get_doi_indices(record)
-    pairs = [(list(d.keys())[0], list(d.values())[0]) for d in relations]
-    url = current_app.config["DATACITE_URL"]
-    pairs.sort(key=lambda x: x[1])
-    exclude = {"IsVersionOf", "IsPreviousVersionOf", "IsNewVersionOf"}
+    sorted_dois = relations
 
-    sorted_dois =  [id_ for id_, _ in pairs]
+    url = current_app.config["DATACITE_URL"]
+    exclude = {"IsVersionOf", "IsPreviousVersionOf", "IsNewVersionOf"}
 
     for idx, doi in enumerate(sorted_dois):
         doi_url = url.rstrip("/") + "/" + doi.replace("/", "%2F")
@@ -125,15 +124,11 @@ def update_relations(record, parent_doi):
 
         new_related_identifiers = cleaned + additions
         data["data"]["attributes"]["relatedIdentifiers"] = new_related_identifiers
-        update_response = doi_client.datacite_request(data, record, method="PUT", url=doi_url)
+        update_response = doi_client.datacite_request(data, record,doi, method="PUT", url=doi_url)
 
-def update_parent_relations(record):
+def update_parent_relations(record, relations, parent_doi):
 
     doi_client = DOIClient()
-
-    parent_doi = get_parent_doi(record)
-
-    relations = get_doi_indices(record)
 
     url = current_app.config["DATACITE_URL"]
     parent_doi_url = url.rstrip("/") + "/" + parent_doi.replace("/", "%2F")
@@ -154,7 +149,7 @@ def update_parent_relations(record):
     additions = [
         {
             "relationType": "HasVersion",
-            "relatedIdentifier": list(d.keys())[0],
+            "relatedIdentifier": d,
             "relatedIdentifierType": "DOI",
         }
         for d in relations
@@ -164,13 +159,14 @@ def update_parent_relations(record):
     data["data"]["attributes"]["relatedIdentifiers"] = new_related_identifiers
 
     doi_client.datacite_request(
-        data, record, method="PUT", url=parent_doi_url
+        data, record,parent_doi, method="PUT", url=parent_doi_url
     )
 
 
 
 def update_doi_relations(record):
     parent_doi = get_parent_doi(record)
+    relations = get_doi_indices(record)
     if parent_doi:
-        update_relations(record, parent_doi)
-        update_parent_relations(record)
+        update_relations(record,relations, parent_doi)
+        update_parent_relations(record,relations, parent_doi)

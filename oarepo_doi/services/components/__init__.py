@@ -3,6 +3,7 @@ from invenio_records_resources.services.records.components import ServiceCompone
 from ..doi_provider import DOIProvider
 from ..doi_client import DOIClient
 from ..relations import update_doi_relations
+
 class DoiComponent(ServiceComponent):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -15,35 +16,34 @@ class DoiComponent(ServiceComponent):
         ):
             return
         if self.provider.get_doi_value(record):
-            if not record.is_published:
-                self.provider.create(record=record, new=False, publish=False)
-                self.provider.create_canonical(record=record, new=False)
-            else:
-                self.provider.create(record=record, new=False, publish=False)
-                self.provider.create_canonical(record=record, new=False)
+            self.provider.update(record=record)
+            self.provider.update_canonical(record=record)
+
             update_doi_relations(record)
+
     def update(self, identity, data=None, record=None, **kwargs):
         if not DOIClient().credentials(
                 record=record,
         ):
             return
         if self.provider.get_doi_value(record):
-            self.provider.create(record=record, new=False, publish=False)
-            self.provider.create_canonical(record=record, new=False)
+            self.provider.update(record=record)
+            self.provider.update_canonical(record=record)
 
             update_doi_relations(record)
+
     def publish(self, identity, data=None, record=None, draft=None, **kwargs):
         if not DOIClient().credentials(
                 record=record,
         ):
             return
         if self.provider.get_doi_value(record):
-            new = False if self.provider.get_doi_value(record) else True
-            self.provider.create(record=record, new=new, publish=True)
-            new = False if self.provider.get_doi_value(record.parent) else True
-            self.provider.create_canonical(record=record, new=new)
-
+            self.provider.create(record=record, make_findable=True)
+            created = self.provider.create_canonical(record=record)
+            if not created:
+                self.provider.update_canonical(record=record)
             update_doi_relations(record)
+
     def new_version(self, identity, draft=None, record=None, **kwargs):
         """Update draft metadata."""
         doi_value = self.provider.get_doi_value(draft)
@@ -55,10 +55,10 @@ class DoiComponent(ServiceComponent):
                 record=record,
         ):
             return
-
         self.provider.delete(record)
-        self.provider.delete_canonical(record,)
-        self.provider.create_canonical(record, new = False)
+        deleted = self.provider.delete_canonical(record)
+        if not deleted:
+            self.provider.update_canonical(record)
         update_doi_relations(record)
 
     def delete_draft(self, identity, draft=None, record=None, force=False):
@@ -68,8 +68,9 @@ class DoiComponent(ServiceComponent):
             return
 
         self.provider.delete(draft)
-        self.provider.delete_canonical(draft)
-        self.provider.create_canonical(draft, new = False)
+        deleted = self.provider.delete_canonical(draft)
+        if not deleted:
+            self.provider.update_canonical(draft)
         update_doi_relations(draft)
 
 

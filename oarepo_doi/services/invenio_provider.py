@@ -10,23 +10,14 @@
 
 from __future__ import annotations
 
-import copy
-import json
-
 from typing import TYPE_CHECKING, Any, cast, override
 
 import requests  # type: ignore[import-untyped]
 from flask import current_app
-from invenio_access.permissions import system_identity
-from invenio_db import db
 from invenio_pidstore.models import PersistentIdentifier, PIDStatus
-from invenio_pidstore.providers.base import BaseProvider
 from invenio_rdm_records.services.pids.providers import DataCiteClient
 from invenio_rdm_records.services.pids.providers.base import PIDProvider
-from marshmallow.exceptions import ValidationError
-from oarepo_runtime.datastreams.utils import get_record_service_for_record
-from .utils import community_slug_for_credentials
-from oarepo_doi.settings.models import CommunityDoiSettings
+
 
 if TYPE_CHECKING:
     from invenio_records.api import Record
@@ -108,6 +99,7 @@ class MutedPIDProvider(PIDProvider):
 
     def delete(self, pid: Any, soft_delete: bool=False, **kwargs: Any) -> Any:
         """Mute invenio method."""
+        pass
 
     def update(self, pid, **kwargs):
         """Mute invenio method."""

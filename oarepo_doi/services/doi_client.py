@@ -1,11 +1,8 @@
-from oarepo_runtime.datastreams.utils import get_record_service_for_record
-from invenio_access.permissions import system_identity
 import requests
 from flask import current_app
 from .utils import community_slug_for_credentials
 from oarepo_doi.settings.models import CommunityDoiSettings
-from typing import TYPE_CHECKING, Any, cast, override
-from marshmallow.exceptions import ValidationError
+from typing import Any
 from invenio_db import db
 
 EXPECTED_STATUS = {
@@ -47,10 +44,10 @@ class DOIClient:
             return credentials["username"], credentials["password"], credentials["prefix"]
         return credentials.username, credentials.password, credentials.prefix
 
-    def datacite_request(self, data, record, method, url = None):
+    def datacite_request(self, data, record,doi, method, url = None):
         username, password, prefix = self.credentials(record)
+
         if not url:
-            doi = self.generate_doi(prefix, record)
 
             url = self.url.rstrip("/") + "/" + doi.replace("/", "%2F")
 

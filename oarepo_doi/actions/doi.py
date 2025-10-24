@@ -1,7 +1,6 @@
 from functools import cached_property
 from typing import Any
 
-from flask import current_app
 from flask_principal import Identity
 from invenio_notifications.services.uow import NotificationOp
 from invenio_records_resources.services.uow import UnitOfWork
@@ -55,16 +54,17 @@ class CreateDoiAction(AssignDoiAction):
     ):
 
         topic = self.request.topic.resolve()
-        doi_value = self.provider.get_doi_value(topic)
-        new = True
-        publish = True
-        if doi_value:
-            new = False
+        make_findable = True
+
         if topic.is_draft:
-            publish = False
-        self.provider.create(record=topic, new=new, publish=publish)
-        if publish:
-            self.provider.create_canonical(record=topic, new=True)
+            make_findable = False
+
+        self.provider.create(record=topic, make_findable=make_findable)
+        if make_findable:
+            created = self.provider.create_canonical(record=topic)
+            if not created:
+                self.provider.update_canonical(record=topic)
+
         update_doi_relations(topic)
 
         uow.register(
@@ -87,6 +87,7 @@ class DeleteDoiAction(AssignDoiAction):
     ) -> None:
         topic = self.request.topic.resolve()
         self.provider.delete(topic)
+        #todo proc to neni potreba - protoze nikdy nebude publish
         uow.register(
             NotificationOp(
                 DeleteDoiRequestAcceptNotificationBuilder.build(request=self.request)
