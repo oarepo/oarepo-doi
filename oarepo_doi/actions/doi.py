@@ -27,6 +27,9 @@ from oarepo_doi.notifications.builders.delete_doi import (
 from oarepo_doi.services.doi_provider import DOIProvider
 from oarepo_doi.services.doi_client import DOIClient
 from oarepo_doi.services.relations import update_doi_relations
+from invenio_records_resources.services.uow import RecordIndexOp
+
+from oarepo_runtime.datastreams.utils import get_record_service_for_record
 class OarepoDoiActionMixin:
     @cached_property
     def provider(self):
@@ -66,6 +69,9 @@ class CreateDoiAction(AssignDoiAction):
                 self.provider.update_canonical(record=topic)
 
         update_doi_relations(topic)
+
+        topic_service = get_record_service_for_record(topic)
+        uow.register(RecordIndexOp(topic, indexer=topic_service.indexer, index_refresh=True))
 
         uow.register(
             NotificationOp(
