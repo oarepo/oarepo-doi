@@ -16,10 +16,8 @@ class DoiComponent(ServiceComponent):
         ):
             return
         if self.provider.get_doi_value(record):
-            self.provider.update(record=record)
-            self.provider.update_canonical(record=record)
-
-            update_doi_relations(record)
+            if not record.is_published:
+                self.provider.update(record=record)
 
     def update(self, identity, data=None, record=None, **kwargs):
         if not DOIClient().credentials(
@@ -66,11 +64,7 @@ class DoiComponent(ServiceComponent):
                 draft
         ):
             return
-
-        self.provider.delete(draft)
-        deleted = self.provider.delete_canonical(draft)
-        if not deleted:
-            self.provider.update_canonical(draft)
-        update_doi_relations(draft)
+        if not draft.is_published:
+            self.provider.delete(draft)
 
 
