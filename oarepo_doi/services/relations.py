@@ -49,18 +49,6 @@ def get_doi_versions(record):
             if doi not in seen:
                 doi_versions.append(version)
                 seen.add(doi)
-        # if "is_published" in version and version["is_published"]:
-        #     pids = version.get("pids", {})
-        #     versions = version.get("versions", {})
-        #     if (
-        #             "doi" in pids
-        #             and "provider" in pids["doi"]
-        #             and pids["doi"]["provider"] == "datacite"
-        #     ):
-        #         doi = pids["doi"]["identifier"]
-        #         if doi not in seen:
-        #             doi_versions.append(version)
-        #             seen.add(doi)
 
     doi_versions.sort(key=lambda v: v.get("versions", {}).get("index"))
 
