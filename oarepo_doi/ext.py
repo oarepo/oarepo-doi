@@ -87,6 +87,7 @@ class OARepoDOI:
             ),
         )(self.doi_settings_resource_config, self.doi_settings_service)
 
+
 def api_finalize_app(app: Flask) -> None:
     """Finalize app."""
     finalize_app(app)
