@@ -68,7 +68,7 @@ class CreateDoiAction(AssignDoiAction):
             if not created:
                 self.provider.update_canonical(record=topic)
 
-        update_doi_relations(topic)
+            update_doi_relations(topic)
 
         topic_service = get_record_service_for_record(topic)
         uow.register(RecordIndexOp(topic, indexer=topic_service.indexer, index_refresh=True))
