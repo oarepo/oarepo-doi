@@ -33,6 +33,8 @@ class CommunityDoiSettingsItem(RecordItem):
         links_tpl: LinksTemplate | None = None,
         schema: Any | None = None,
         data: Any | None = None,
+        **kwargs,
+
     ):
         """Construct."""
         self._data = data

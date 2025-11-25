@@ -8,10 +8,9 @@ dynamic = ["version"]
 description = "A module for DOI registration"
 readme = "README.md"
 license = "MIT"
+requires-python = ">=3.13,<3.15"
 dependencies = [
-    "invenio-requests",
-    "oarepo[rdm,tests]>=13,<14",
-    "oarepo-requests",
+    "oarepo[rdm,tests]>=14.0.0,<15.0.0",
 ]
 
 [tool.pytest.ini_options]
@@ -25,11 +24,10 @@ dev = [
     "oarepo-tools",
 ]
 tests = [
-    "deepdiff",
-    "oarepo-requests",
-    "oarepo-ui",
-    "oarepo-runtime>=2.0.0dev0",
-    "pytest-oarepo[requests]",
+    "pytest-invenio",
+]
+oarepo14=[
+    "oarepo[rdm]>=14,<15",
 ]
 
 [project.entry-points."invenio_administration.views"]
@@ -43,7 +41,6 @@ oarepodoi = "oarepo_doi.ext:OARepoDOI"
 
 [project.entry-points."invenio_base.api_blueprints"]
 oarepo_doi_settings = "oarepo_doi.settings.views:create_api_blueprint"
-oarepo_notifications = "oarepo_doi.views.api:create_doi_notifications"
 
 [project.entry-points."invenio_base.api_finalize_app"]
 oarepo_doi = "oarepo_doi.ext:api_finalize_app"
@@ -52,7 +49,6 @@ oarepo_doi = "oarepo_doi.ext:api_finalize_app"
 oarepo_doi = "oarepo_doi.ext:OARepoDOI"
 
 [project.entry-points."invenio_base.blueprints"]
-oarepo_doi_notifications = "oarepo_doi.views.app:create_doi_notifications"
 oarepo_doi_settings = "oarepo_doi.settings.views:create_api_blueprint"
 
 [project.entry-points."invenio_base.finalize_app"]
@@ -66,10 +62,6 @@ oarepo_doi = "oarepo_doi.settings.models"
 
 [project.entry-points."invenio_i18n.translations"]
 oarepo_doi = "oarepo_doi"
-
-[project.entry-points."invenio_requests.types"]
-assign-doi-request = "oarepo_doi.types.doi:AssignDoiRequestType"
-delete-doi-request = "oarepo_doi.types.doi:DeleteDoiRequestType"
 
 [project.entry-points."invenio_search.mappings"]
 doi-settings = "oarepo_doi.settings.mappings"
