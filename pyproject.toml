@@ -10,7 +10,6 @@ readme = "README.md"
 license = "MIT"
 requires-python = ">=3.13,<3.15"
 dependencies = [
-    "oarepo[rdm,tests]>=14.0.0,<15.0.0",
 ]
 
 [tool.pytest.ini_options]

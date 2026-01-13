@@ -34,7 +34,6 @@ class CommunityDoiSettingsItem(RecordItem):
         schema: Any | None = None,
         data: Any | None = None,
         **kwargs,
-
     ):
         """Construct."""
         self._data = data

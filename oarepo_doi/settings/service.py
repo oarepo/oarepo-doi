@@ -110,7 +110,9 @@ class CommunityDoiSettingsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
         "self": Link("{+api}/doi_settings/{id}"),
     }
 
-    links_search: ClassVar[Mapping[str, Link]] = pagination_links("{+api}/doi_settings{?args*}")
+    links_search: ClassVar[Mapping[str, Link]] = pagination_links(
+        "{+api}/doi_settings{?args*}"
+    )
 
     components: ClassVar[list[type[DoiSettingsComponent]]] = [DoiSettingsComponent]
 
@@ -145,7 +147,12 @@ class CommunityDoiSettingsService(RecordService):
         )
 
     def read(
-        self, identity: Identity, id_: str, expand: bool = False, action: str = "read", **kwargs: Any
+        self,
+        identity: Identity,
+        id_: str,
+        expand: bool = False,
+        action: str = "read",
+        **kwargs: Any,
     ) -> RequestItem:
         """Retrieve a oai_run."""
         # resolve and require permission
@@ -161,7 +168,9 @@ class CommunityDoiSettingsService(RecordService):
             if hasattr(component, "read"):
                 component.read(identity, doi_config=doi_config)
 
-        return self.result_item(self, identity, doi_config, links_tpl=self.links_item_tpl)
+        return self.result_item(
+            self, identity, doi_config, links_tpl=self.links_item_tpl
+        )
 
     def rebuild_index(self, identity: Identity, uow: UnitOfWork | None = None) -> Any:
         """Reindex all oai_runs managed by this service."""

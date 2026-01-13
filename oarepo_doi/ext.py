@@ -11,9 +11,8 @@
 from __future__ import annotations
 
 from functools import cached_property
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
-from deepmerge import conservative_merger
 from invenio_base.utils import obj_or_import_string
 
 from .config import (
@@ -102,7 +101,9 @@ def init(app: Flask) -> None:
     """Init app."""
     ext = app.extensions["doi-settings"]
     sregistry = app.extensions["invenio-records-resources"].registry
-    sregistry.register(ext.doi_settings_service, service_id=ext.doi_settings_service_config.service_id)
+    sregistry.register(
+        ext.doi_settings_service, service_id=ext.doi_settings_service_config.service_id
+    )
     # Register indexers
     iregistry = app.extensions["invenio-indexer"].registry
     iregistry.register(

@@ -45,7 +45,9 @@ class CommunityDoiSettingsResourceConfig(RecordResourceConfig):
     }
 
     response_handlers: ClassVar[dict] = {
-        "application/vnd.inveniordm.v1+json": RecordResourceConfig.response_handlers["application/json"],
+        "application/vnd.inveniordm.v1+json": RecordResourceConfig.response_handlers[
+            "application/json"
+        ],
         **RecordResourceConfig.response_handlers,
     }
 
