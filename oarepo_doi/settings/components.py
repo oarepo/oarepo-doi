@@ -14,12 +14,13 @@ from typing import TYPE_CHECKING, Any
 
 from flask import abort
 from invenio_communities.communities.records.models import CommunityMetadata
+from invenio_db import db
 from invenio_i18n import lazy_gettext as _
 from invenio_records_resources.services.records.components import ServiceComponent
 from sqlalchemy.exc import NoResultFound
 
 if TYPE_CHECKING:
-    from sqlalchemy import Identity
+    from flask_principal import Identity
 
     from .api import CommunityDoiSettingsAggregate
 
@@ -42,7 +43,7 @@ class DoiSettingsComponent(ServiceComponent):
             record.password = data["password"]
             record.community_slug = data["community_slug"]
             try:
-                CommunityMetadata.query.filter_by(slug=data["community_slug"]).one()
+                db.session.query(CommunityMetadata).filter_by(slug=data["community_slug"]).one()
             except NoResultFound:
                 abort(400, description=_("Community not found"))
 
@@ -61,6 +62,6 @@ class DoiSettingsComponent(ServiceComponent):
             record.password = data["password"]
             record.community_slug = data["community_slug"]
             try:
-                CommunityMetadata.query.filter_by(slug=data["community_slug"]).one()
+                db.session.query(CommunityMetadata).filter_by(slug=data["community_slug"]).one()
             except NoResultFound:
                 abort(400, description=_("Community not found"))

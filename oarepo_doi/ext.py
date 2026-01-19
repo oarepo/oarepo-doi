@@ -22,6 +22,8 @@ from .config import (
 )
 
 if TYPE_CHECKING:
+    from typing import Any
+
     from flask import Flask
 
 
@@ -41,50 +43,53 @@ class OARepoDOI:
 
     def init_config(self, app: Flask) -> None:
         """Initialize configuration."""
-
         app.config.setdefault("DOI_SETTINGS_SEARCH", DOI_SETTINGS_SEARCH)
         app.config.setdefault("DOI_SETTINGS_FACETS", DOI_SETTINGS_FACETS)
         app.config.setdefault("DOI_SETTINGS_SORT_OPTIONS", DOI_SETTINGS_SORT_OPTIONS)
 
     @cached_property
-    def doi_settings_service(self):
+    def doi_settings_service(self) -> Any:
         """Get the OAI run service."""
-        return obj_or_import_string(
+        factory: Any = obj_or_import_string(
             self.app.config.get(
                 "DOI_CONFIG_SERVICE",
                 "oarepo_doi.settings.service:CommunityDoiSettingsService",
             ),
-        )(self.doi_settings_service_config)
+        )
+        return factory(self.doi_settings_service_config)
 
     @cached_property
-    def doi_settings_service_config(self):
+    def doi_settings_service_config(self) -> Any:
         """Get the OAI run service config."""
-        return obj_or_import_string(
+        factory: Any = obj_or_import_string(
             self.app.config.get(
                 "DOI_CONFIG_SERVICE_CONFIG",
                 "oarepo_doi.settings.service:CommunityDoiSettingsServiceConfig",
             ),
-        ).build(self.app)
+        )
+        return factory.build(self.app)
 
     @cached_property
-    def doi_settings_resource_config(self):
+    def doi_settings_resource_config(self) -> Any:
         """Get the OAI run resource config."""
-        return obj_or_import_string(
+        factory: Any = obj_or_import_string(
             self.app.config.get(
                 "DOI_CONFIG_RESOURCE_CONFIG",
                 "oarepo_doi.settings.resource:CommunityDoiSettingsResourceConfig",
             ),
-        )()
+        )
+        return factory()
 
     @cached_property
-    def doi_settings_resource(self):
+    def doi_settings_resource(self) -> Any:
         """Get the OAI run resource."""
-        return obj_or_import_string(
+        factory: Any = obj_or_import_string(
             self.app.config.get(
                 "DOI_CONFIG_RESOURCE",
                 "oarepo_doi.settings.resource:CommunityDoiSettingsResource",
             ),
-        )(self.doi_settings_resource_config, self.doi_settings_service)
+        )
+        return factory(self.doi_settings_resource_config, self.doi_settings_service)
 
 
 def api_finalize_app(app: Flask) -> None:
@@ -101,9 +106,7 @@ def init(app: Flask) -> None:
     """Init app."""
     ext = app.extensions["doi-settings"]
     sregistry = app.extensions["invenio-records-resources"].registry
-    sregistry.register(
-        ext.doi_settings_service, service_id=ext.doi_settings_service_config.service_id
-    )
+    sregistry.register(ext.doi_settings_service, service_id=ext.doi_settings_service_config.service_id)
     # Register indexers
     iregistry = app.extensions["invenio-indexer"].registry
     iregistry.register(

@@ -29,10 +29,10 @@ if TYPE_CHECKING:
 class CommunityDoiSettingsAggregate(BaseAggregate):
     """An aggregate of information about a community doi settings."""
 
-    model_cls = CommunityDoiSettingsAggregateModel
+    model_cls = CommunityDoiSettingsAggregateModel  # pyright: ignore[reportAssignmentType]
     """The model class for the request."""
 
-    dumper = SearchDumper(
+    dumper = SearchDumper(  # pyright: ignore[reportAssignmentType]
         extensions=[IndexedAtDumperExt()],
         model_fields={
             "id": ("uuid", UUID),
@@ -52,20 +52,20 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
     index = IndexField("doi-settings-doi-settings-v1.0.0", search_alias="doi-settings")
 
     """Needed to emulate pid access."""
-    pid = AggregatePID("id")
+    pid = AggregatePID("id")  # pyright: ignore[reportAssignmentType]
 
     @classmethod
     @override
-    def create(cls, data: dict, id_: str | None = None, **kwargs: Any) -> BaseAggregate:
+    def create(cls, data: dict, id_: str | UUID | None = None, **kwargs: Any) -> BaseAggregate:
         """Create a domain."""
         return CommunityDoiSettingsAggregate(
             data,
-            model=CommunityDoiSettingsAggregateModel(model_obj=CommunityDoiSettings()),
+            model=CommunityDoiSettingsAggregateModel(model_obj=CommunityDoiSettings()),  # pyright: ignore[reportArgumentType,reportIncompatibleVariableOverride]
         )
 
     @classmethod
     @override
-    def get_record(cls, id_: str, with_deleted: bool = False) -> Record:
+    def get_record(cls, id_: UUID | str, with_deleted: bool = False) -> Record:
         """Get the user via the specified ID."""
         with db.session.no_autoflush:
             settings = CommunityDoiSettings.query.get(id_)
@@ -77,4 +77,5 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
     @override
     def delete(self, force: bool = True) -> Any:
         """Delete the domain."""
-        db.session.delete(self.model.model_obj)
+        if self.model is not None:
+            db.session.delete(self.model.model_obj)  # pyright: ignore[reportAttributeAccessIssue]

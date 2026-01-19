@@ -16,7 +16,7 @@ from invenio_records_resources.services.records.results import RecordItem, Recor
 
 if TYPE_CHECKING:
     from flask_principal import Identity
-    from invenio_records.api import RecordBase
+    from invenio_records_resources.records.api import Record
     from invenio_records_resources.services import LinksTemplate
 
 
@@ -28,12 +28,12 @@ class CommunityDoiSettingsItem(RecordItem):
         self,
         service: Any,
         identity: Identity,
-        doi_settings: RecordBase,
+        doi_settings: Record,
         errors: Any | None = None,
         links_tpl: LinksTemplate | None = None,
         schema: Any | None = None,
         data: Any | None = None,
-        **kwargs,
+        **kwargs: Any,
     ):
         """Construct."""
         self._data = data
@@ -43,6 +43,7 @@ class CommunityDoiSettingsItem(RecordItem):
         self._service = service
         self._links_tpl = links_tpl
         self._schema = schema or service.schema
+        self._kwargs = kwargs
 
     @property
     def id(self) -> str:
@@ -57,7 +58,7 @@ class CommunityDoiSettingsItem(RecordItem):
         return None
 
     @property
-    def _obj(self) -> RecordBase:
+    def _obj(self) -> Record:
         """Return the object to dump."""
         return self._doi_settings
 

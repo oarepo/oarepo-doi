@@ -43,9 +43,7 @@ def upgrade() -> None:
             ondelete="CASCADE",
         ),
         sa.PrimaryKeyConstraint("id", name=op.f("pk_community_doi_settings")),
-        sa.UniqueConstraint(
-            "community_slug", name=op.f("uq_community_doi_settings_community_slug")
-        ),
+        sa.UniqueConstraint("community_slug", name=op.f("uq_community_doi_settings_community_slug")),
     )
     # ### end Alembic commands ###
 

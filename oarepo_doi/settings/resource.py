@@ -10,7 +10,7 @@
 
 from __future__ import annotations
 
-from typing import Any, ClassVar
+from typing import Any
 
 import marshmallow as ma
 from flask import g
@@ -28,26 +28,24 @@ from invenio_records_resources.resources.records.resource import (
 class CommunityDoiSettingsResourceConfig(RecordResourceConfig):
     """DOI settings resource configuration."""
 
-    blueprint_name: ClassVar[str] = "oarepo_doi_settings"
-    url_prefix: ClassVar[str] = "/doi_settings"
+    blueprint_name: str | None = "oarepo_doi_settings"
+    url_prefix: str = "/doi_settings"  # pyright: ignore[reportIncompatibleVariableOverride]
 
-    routes: ClassVar[dict[str, str]] = {
+    routes: Any = {  # noqa: RUF012
         "list": "",
         "item": "/<id>",
-    }
+    }  # pyright: ignore[reportIncompatibleVariableOverride]
 
-    request_view_args: ClassVar[dict[str, ma.fields.Field]] = {
+    request_view_args: Any = {  # noqa: RUF012
         "id": ma.fields.Str(),
-    }
+    }  # pyright: ignore[reportIncompatibleVariableOverride]
 
-    error_handlers: ClassVar[dict] = {
+    error_handlers: Any = {  # noqa: RUF012
         **ErrorHandlersMixin.error_handlers,
-    }
+    }  # pyright: ignore[reportIncompatibleVariableOverride]
 
-    response_handlers: ClassVar[dict] = {
-        "application/vnd.inveniordm.v1+json": RecordResourceConfig.response_handlers[
-            "application/json"
-        ],
+    response_handlers: Any = {  # noqa: RUF012
+        "application/vnd.inveniordm.v1+json": RecordResourceConfig.response_handlers["application/json"],
         **RecordResourceConfig.response_handlers,
     }
 

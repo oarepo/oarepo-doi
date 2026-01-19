@@ -11,7 +11,7 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Any, ClassVar, override
+from typing import TYPE_CHECKING, Any
 
 from invenio_db import db
 from invenio_records_resources.services import (
@@ -46,43 +46,42 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
 
     from flask_principal import Identity
+    from invenio_db.uow import UnitOfWork
     from invenio_records.api import RecordBase
-    from invenio_records_resources.services.uow import UnitOfWork
-    from invenio_requests.services.requests.results import RequestItem
+    from invenio_records_resources.services.records.results import RecordItem, RecordList
 log = logging.getLogger(__name__)
 
 
 class CommunityDoiSettingsSearchOptions(SearchOptions, SearchOptionsMixin):
     """Search options."""
 
-    pagination_options: ClassVar[dict[str, int]] = {
+    pagination_options: Mapping[str, int] = {
         "default_results_per_page": 25,
         "default_max_results": 10000,
     }
 
-    params_interpreters_cls: ClassVar[list[type]] = [
+    params_interpreters_cls: Any = [  # noqa: RUF012
         QueryStrParam,
         SortParam,
         PaginationParam,
         FacetsParam,
     ]
 
-    facets: ClassVar[dict[str, Any]] = {
+    facets: Mapping[str, Any] = {
         "username": facets.username,
         "prefix": facets.prefix,
         "community_slug": facets.community_slug,
-    }
+    }  # pyright: ignore[reportIncompatibleVariableOverride]
 
 
 class CommunityDoiSettingsLink(Link):
     """Shortcut for writing record links."""
 
     @staticmethod
-    @override
-    def vars(obj: RecordBase, vars: dict) -> None:
+    def vars(obj: RecordBase, _vars: dict) -> None:
         """Variables for the URI template."""
         # Some records don't have record.pid.pid_value yet (e.g. drafts)
-        vars.update({"id": obj.id})
+        _vars.update({"id": obj.id})
 
 
 class CommunityDoiSettingsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
@@ -97,43 +96,42 @@ class CommunityDoiSettingsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
 
     service_id = "community-doi"
     record_cls = CommunityDoiSettingsAggregate
-    schema = FromConfig("DOI_SETTINGS_SERVICE_SCHEMA", CommunityDoiSettingsSchema)
+    schema = FromConfig("DOI_SETTINGS_SERVICE_SCHEMA", CommunityDoiSettingsSchema)  # pyright: ignore[reportAssignmentType,reportIncompatibleVariableOverride]
     indexer_queue_name = "community-doi"
     index_dumper = None
 
-    # links configuration
-    links_item: ClassVar[dict[str, Link]] = {
+    links_item: Any = {  # noqa: RUF012
         "self": Link("{+api}/doi_settings/{id}"),
-    }
+    }  # pyright: ignore[reportIncompatibleVariableOverride]
 
-    links_search_item: ClassVar[dict[str, Link]] = {
+    links_search_item: dict[str, Link] = {  # noqa: RUF012
         "self": Link("{+api}/doi_settings/{id}"),
-    }
+    }  # pyright: ignore[reportIncompatibleVariableOverride]
 
-    links_search: ClassVar[Mapping[str, Link]] = pagination_links(
-        "{+api}/doi_settings{?args*}"
-    )
+    links_search: Mapping[str, Link] = pagination_links("{+api}/doi_settings{?args*}")  # pyright: ignore[reportIncompatibleVariableOverride]
 
-    components: ClassVar[list[type[DoiSettingsComponent]]] = [DoiSettingsComponent]
+    components: list[type[DoiSettingsComponent]] = [DoiSettingsComponent]  # noqa: RUF012 # pyright: ignore[reportIncompatibleVariableOverride]
 
 
 class CommunityDoiSettingsService(RecordService):
     """Users service."""
 
     @property
-    def doi_settings_cls(self) -> RecordBase:
+    def doi_settings_cls(self) -> Any:
         """Alias for record_cls."""
         return self.record_cls
 
     def search(
         self,
-        identity: dict[str, Any] | None = None,
+        identity: Identity | None = None,
         params: dict[str, Any] | None = None,
         search_preference: Any | None = None,
         expand: bool = False,
         **kwargs: Any,
-    ) -> RequestItem:
+    ) -> RecordList:
         """Search for oai_runs."""
+        if identity is None:
+            raise PermissionDeniedError
         self.require_permission(identity, "search")
 
         return super().search(
@@ -153,7 +151,7 @@ class CommunityDoiSettingsService(RecordService):
         expand: bool = False,
         action: str = "read",
         **kwargs: Any,
-    ) -> RequestItem:
+    ) -> RecordItem:
         """Retrieve a oai_run."""
         # resolve and require permission
         _, _, _ = action, expand, kwargs
@@ -168,9 +166,7 @@ class CommunityDoiSettingsService(RecordService):
             if hasattr(component, "read"):
                 component.read(identity, doi_config=doi_config)
 
-        return self.result_item(
-            self, identity, doi_config, links_tpl=self.links_item_tpl
-        )
+        return self.result_item(self, identity, doi_config, links_tpl=self.links_item_tpl)
 
     def rebuild_index(self, identity: Identity, uow: UnitOfWork | None = None) -> Any:
         """Reindex all oai_runs managed by this service."""

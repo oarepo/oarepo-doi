@@ -10,28 +10,33 @@
 
 from __future__ import annotations
 
-import uuid
-
+from typing import Any
+from uuid import UUID
 
 from invenio_access.permissions import system_identity
 from invenio_communities import current_communities
 from invenio_search.engine import dsl
 
 
-def community_slug_for_credentials(value):
+def community_slug_for_credentials(value: str | UUID | None) -> Any:
+    """Get correct community slug for a given value.
+
+    If the value is UUID, it converts it to the string format
+    """
     if not value:
         return None
     try:
-        uuid.UUID(value, version=4)
-        search = current_communities.service._search(
+        UUID(value, version=4)  # type: ignore[arg-type]
+        search = current_communities.service._search(  # noqa: SLF001
             "search",
             system_identity,
             {},
             None,
-            extra_filter=dsl.Q("term", **{"id": value}),
+            extra_filter=dsl.Q("term", id=value),
         )
         community = search.execute()
-        c = list(community.hits.hits)[0]
-        return c._source.slug
-    except:
+    except:  # noqa: E722
         return value
+    else:
+        c = next(iter(community.hits.hits))
+        return c._source.slug  # noqa: SLF001

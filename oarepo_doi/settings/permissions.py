@@ -10,7 +10,7 @@
 
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import Any
 
 from invenio_administration.generators import Administration
 from invenio_records_permissions import BasePermissionPolicy
@@ -20,8 +20,8 @@ from invenio_records_permissions.generators import SystemProcess
 class DoiSettingsPermissionPolicy(BasePermissionPolicy):
     """Permission policy for DOI settings."""
 
-    can_create: ClassVar[list] = [SystemProcess(), Administration()]
-    can_read: ClassVar[list] = [SystemProcess(), Administration()]
-    can_search: ClassVar[list] = [SystemProcess(), Administration()]
-    can_update: ClassVar[list] = [SystemProcess(), Administration()]
-    can_delete: ClassVar[list] = [SystemProcess(), Administration()]
+    can_create: Any = [SystemProcess(), Administration()]  # noqa: RUF012
+    can_read: Any = [SystemProcess(), Administration()]  # noqa: RUF012
+    can_search: Any = [SystemProcess(), Administration()]  # noqa: RUF012
+    can_update: Any = [SystemProcess(), Administration()]  # noqa: RUF012
+    can_delete: Any = [SystemProcess(), Administration()]  # noqa: RUF012
