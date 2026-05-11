@@ -30,14 +30,14 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
             raise RuntimeError("DataCite client is not configured")
         return str(self.client.for_record(record).generate_doi(record))
 
-    def register(self, pid: PersistentIdentifier, record: Record, **kwargs: Any) -> Any:
+    def register(self, pid: PersistentIdentifier, record: Record, **kwargs: Any) -> Any:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Register a DOI via the DataCite API."""
         if self.client is None:
             raise RuntimeError("DataCite client is not configured")
         self.client.for_record(record)
         return super().register(pid, record, **kwargs)
 
-    def update(self, pid: PersistentIdentifier, record: Record, url: str | None = None, **kwargs: Any) -> Any:
+    def update(self, pid: PersistentIdentifier, record: Record, url: str | None = None, **kwargs: Any) -> Any:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Update metadata associated with a DOI.
 
         This can be called before/after a DOI is registered.
@@ -58,7 +58,7 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
         self.client.for_record(record)
         return super().restore(pid, **kwargs)
 
-    def delete(self, pid: PersistentIdentifier, **kwargs: Any) -> Any:
+    def delete(self, pid: PersistentIdentifier, **kwargs: Any) -> Any:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Delete/unregister a registered DOI.
 
         If the PID has not been reserved then it's deleted only locally.

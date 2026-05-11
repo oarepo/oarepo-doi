@@ -48,7 +48,7 @@ class DataCiteRecordAwareClient(DataCiteClient):
         """Set record."""
         return self._record
 
-    def generate_doi(self, record: Record) -> str:
+    def generate_doi(self, record: Record) -> str:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Generate a DOI."""
         doi_settings = self.get_doi_settings(record)
         if not doi_settings:
