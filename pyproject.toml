@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "A module for DOI registration"
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.13,<3.15"
+requires-python = ">=3.14,<3.15"
 dependencies = [
 ]
 
