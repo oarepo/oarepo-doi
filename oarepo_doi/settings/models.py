@@ -31,7 +31,7 @@ class CommunityDoiSettings(db.Model, Timestamp):
     __tablename__ = "community_doi_settings"
 
     id = db.Column(
-        UUIDType,
+        UUIDType,  # pyright: ignore[reportCallIssue]
         primary_key=True,
         default=uuid.uuid4,
     )
@@ -40,14 +40,14 @@ class CommunityDoiSettings(db.Model, Timestamp):
     def community_slug(self) -> Any:
         """Community slug foreign key."""
         return db.Column(
-            db.String(255),
-            db.ForeignKey(CommunityMetadata.slug, ondelete="CASCADE"),
+            db.String(255),  # pyright: ignore[reportCallIssue]
+            db.ForeignKey(CommunityMetadata.slug, ondelete="CASCADE"),  # pyright: ignore[reportCallIssue]
             unique=True,
         )
 
-    prefix = db.Column(db.String(255), nullable=False)
-    username = db.Column(db.String(255), nullable=False)
-    password = db.Column(EncryptedType(type_in=db.Text, key=_secret_key), nullable=False)
+    prefix = db.Column(db.String(255), nullable=False)  # pyright: ignore[reportCallIssue]
+    username = db.Column(db.String(255), nullable=False)  # pyright: ignore[reportCallIssue]
+    password = db.Column(EncryptedType(type_in=db.Text, key=_secret_key), nullable=False)  # pyright: ignore[reportCallIssue]
 
 
 class CommunityDoiSettingsAggregateModel(AggregateMetadata):

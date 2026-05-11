@@ -48,7 +48,10 @@ if TYPE_CHECKING:
     from flask_principal import Identity
     from invenio_db.uow import UnitOfWork
     from invenio_records.api import RecordBase
-    from invenio_records_resources.services.records.results import RecordItem, RecordList
+    from invenio_records_resources.services.records.results import (
+        RecordItem,
+        RecordList,
+    )
 log = logging.getLogger(__name__)
 
 
@@ -78,7 +81,7 @@ class CommunityDoiSettingsLink(Link):
     """Shortcut for writing record links."""
 
     @staticmethod
-    def vars(obj: RecordBase, _vars: dict) -> None:
+    def vars(obj: RecordBase, _vars: dict) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Variables for the URI template."""
         # Some records don't have record.pid.pid_value yet (e.g. drafts)
         _vars.update({"id": obj.id})
@@ -171,6 +174,6 @@ class CommunityDoiSettingsService(RecordService):
     def rebuild_index(self, identity: Identity, uow: UnitOfWork | None = None) -> Any:
         """Reindex all oai_runs managed by this service."""
         _, _ = identity, uow
-        doi_settings = db.session.query(CommunityDoiSettings.id).yield_per(1000)
+        doi_settings = db.session.query(CommunityDoiSettings.id).yield_per(1000)  # pyright: ignore[reportCallIssue,reportArgumentType]
         self.indexer.bulk_index([u.id for u in doi_settings])
         return True
