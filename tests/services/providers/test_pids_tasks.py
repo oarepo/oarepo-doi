@@ -18,9 +18,7 @@ from invenio_rdm_records.services.pids.providers.datacite import DataCitePIDProv
 
 def test_api_uses_community_datacite_credentials(app, doi_client, doi_record):
     """The DataCite API client is built from the current record's community."""
-    with patch(
-        "oarepo_doi.services.providers.client.DataCiteRESTClient"
-    ) as datacite_rest_client:
+    with patch("oarepo_doi.services.providers.client.DataCiteRESTClient") as datacite_rest_client:
         doi_client.for_record(doi_record)
 
         assert doi_client.api is datacite_rest_client.return_value
@@ -40,15 +38,9 @@ def test_register_sets_record_context_before_upstream_call(doi_provider, doi_rec
         assert self.client.record is record
         return "registered"
 
-    with patch.object(
-        DataCitePIDProvider, "register", autospec=True, side_effect=register
-    ) as register_mock:
-        assert doi_provider.register(pid, doi_record, url="https://example.org/r/1") == (
-            "registered"
-        )
-        register_mock.assert_called_once_with(
-            doi_provider, pid, doi_record, url="https://example.org/r/1"
-        )
+    with patch.object(DataCitePIDProvider, "register", autospec=True, side_effect=register) as register_mock:
+        assert doi_provider.register(pid, doi_record, url="https://example.org/r/1") == ("registered")
+        register_mock.assert_called_once_with(doi_provider, pid, doi_record, url="https://example.org/r/1")
 
 
 def test_update_sets_record_context_before_upstream_call(doi_provider, doi_record):
@@ -59,15 +51,9 @@ def test_update_sets_record_context_before_upstream_call(doi_provider, doi_recor
         assert self.client.record is record
         return "updated"
 
-    with patch.object(
-        DataCitePIDProvider, "update", autospec=True, side_effect=update
-    ) as update_mock:
-        assert doi_provider.update(pid, doi_record, url="https://example.org/r/1") == (
-            "updated"
-        )
-        update_mock.assert_called_once_with(
-            doi_provider, pid, doi_record, url="https://example.org/r/1"
-        )
+    with patch.object(DataCitePIDProvider, "update", autospec=True, side_effect=update) as update_mock:
+        assert doi_provider.update(pid, doi_record, url="https://example.org/r/1") == ("updated")
+        update_mock.assert_called_once_with(doi_provider, pid, doi_record, url="https://example.org/r/1")
 
 
 def test_restore_sets_record_context_before_upstream_call(doi_provider, doi_record):
@@ -78,9 +64,7 @@ def test_restore_sets_record_context_before_upstream_call(doi_provider, doi_reco
         assert self.client.record is kwargs["record"]
         return "restored"
 
-    with patch.object(
-        DataCitePIDProvider, "restore", autospec=True, side_effect=restore
-    ) as restore_mock:
+    with patch.object(DataCitePIDProvider, "restore", autospec=True, side_effect=restore) as restore_mock:
         assert doi_provider.restore(pid, record=doi_record) == "restored"
         restore_mock.assert_called_once_with(doi_provider, pid, record=doi_record)
 
@@ -93,8 +77,6 @@ def test_delete_sets_record_context_before_upstream_call(doi_provider, doi_recor
         assert self.client.record is kwargs["record"]
         return "deleted"
 
-    with patch.object(
-        DataCitePIDProvider, "delete", autospec=True, side_effect=delete
-    ) as delete_mock:
+    with patch.object(DataCitePIDProvider, "delete", autospec=True, side_effect=delete) as delete_mock:
         assert doi_provider.delete(pid, record=doi_record) == "deleted"
         delete_mock.assert_called_once_with(doi_provider, pid, record=doi_record)

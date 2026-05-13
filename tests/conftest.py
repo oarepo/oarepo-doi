@@ -19,7 +19,7 @@ from oarepo_doi.services.providers.client import DataCiteRecordAwareClient
 from oarepo_doi.services.providers.provider import DataCiteRecordAwareProvider
 
 
-@pytest.fixture()
+@pytest.fixture
 def app():
     """Minimal app context for DataCite client configuration."""
     app = Flask("oarepo-doi-tests")
@@ -27,7 +27,7 @@ def app():
         yield app
 
 
-@pytest.fixture()
+@pytest.fixture
 def doi_record():
     """Record-like object with the fields used by the DOI client."""
 
@@ -39,7 +39,7 @@ def doi_record():
     return Record(communities={"default": "test-community"})
 
 
-@pytest.fixture()
+@pytest.fixture
 def doi_record_settings():
     """Community DOI settings used by the record-aware client."""
     return SimpleNamespace(
@@ -49,7 +49,7 @@ def doi_record_settings():
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def doi_client(app, doi_record_settings, monkeypatch):
     """Record-aware DataCite client with community settings mocked."""
     client = DataCiteRecordAwareClient(
@@ -61,13 +61,11 @@ def doi_client(app, doi_record_settings, monkeypatch):
             "DATACITE_TEST_MODE": False,
         },
     )
-    monkeypatch.setattr(
-        client, "get_doi_settings", lambda record: doi_record_settings
-    )
+    monkeypatch.setattr(client, "get_doi_settings", lambda record: doi_record_settings)
     return client
 
 
-@pytest.fixture()
+@pytest.fixture
 def doi_provider(doi_client):
     """Record-aware DataCite PID provider."""
     return DataCiteRecordAwareProvider("datacite", client=doi_client)

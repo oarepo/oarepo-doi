@@ -24,9 +24,7 @@ def test_generate_id_uses_community_doi_settings(doi_provider, doi_record):
     assert doi_provider.client.record is doi_record
 
 
-def test_generate_doi_falls_back_to_global_datacite_config(
-    app, monkeypatch, doi_record
-):
+def test_generate_doi_falls_back_to_global_datacite_config(app, monkeypatch, doi_record):
     """Without community settings the client behaves like the upstream client."""
     client = DataCiteRecordAwareClient("datacite")
     monkeypatch.setattr(client, "get_doi_settings", lambda record: None)
