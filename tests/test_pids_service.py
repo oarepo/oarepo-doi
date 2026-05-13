@@ -27,11 +27,11 @@ def test_generate_id_uses_community_doi_settings(doi_provider, doi_record):
 def test_generate_doi_falls_back_to_global_datacite_config(app, monkeypatch, doi_record):
     """Without community settings the client behaves like the upstream client."""
     client = DataCiteRecordAwareClient("datacite")
-    monkeypatch.setattr(client, "get_doi_settings", lambda record: None)
+    monkeypatch.setattr(client, "get_doi_settings", lambda record: None)  # noqa: ARG005
     app.config.update(
         DATACITE_PREFIX="10.99999",
         DATACITE_USERNAME="global-user",
-        DATACITE_PASSWORD="global-password",
+        DATACITE_PASSWORD="global-password",  # noqa: S106
         DATACITE_FORMAT="{prefix}/global.{id}",
     )
 

@@ -22,6 +22,8 @@ testpaths = [
 
 [project.optional-dependencies]
 dev = [
+    "ruff>=0.11.13",
+    "types-PyYAML",
     "oarepo-tools",
 ]
 tests = [

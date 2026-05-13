@@ -45,7 +45,7 @@ def doi_record_settings():
     return SimpleNamespace(
         prefix="10.12345",
         username="community-user",
-        password="community-password",
+        password="community-password",  # noqa: S106
     )
 
 
@@ -61,7 +61,7 @@ def doi_client(app, doi_record_settings, monkeypatch):
             "DATACITE_TEST_MODE": False,
         },
     )
-    monkeypatch.setattr(client, "get_doi_settings", lambda record: doi_record_settings)
+    monkeypatch.setattr(client, "get_doi_settings", lambda record: doi_record_settings)  # noqa: ARG005
     return client
 
 

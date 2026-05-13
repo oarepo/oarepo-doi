@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 from types import SimpleNamespace
+from typing import Any
 from unittest.mock import patch
 
 from invenio_rdm_records.services.pids.providers.datacite import DataCitePIDProvider
@@ -26,7 +27,7 @@ def test_api_uses_community_datacite_credentials(app, doi_client, doi_record):
             "community-user",
             "community-password",
             "10.12345",
-            False,
+            False,  # noqa: FBT003
         )
 
 
@@ -34,7 +35,7 @@ def test_register_sets_record_context_before_upstream_call(doi_provider, doi_rec
     """Registration binds the record before delegating to the upstream provider."""
     pid = SimpleNamespace(pid_value="10.12345/abcde-fghij")
 
-    def register(self, pid, record, **kwargs):
+    def register(self, pid, record, **kwargs: Any) -> str:
         assert self.client.record is record
         return "registered"
 
@@ -47,7 +48,7 @@ def test_update_sets_record_context_before_upstream_call(doi_provider, doi_recor
     """Updates bind the record before delegating to the upstream provider."""
     pid = SimpleNamespace(pid_value="10.12345/abcde-fghij")
 
-    def update(self, pid, record, **kwargs):
+    def update(self, pid, record, **kwargs: Any) -> str:
         assert self.client.record is record
         return "updated"
 
@@ -60,7 +61,7 @@ def test_restore_sets_record_context_before_upstream_call(doi_provider, doi_reco
     """Restore binds the task-provided record before upstream handling."""
     pid = SimpleNamespace(pid_value="10.12345/abcde-fghij")
 
-    def restore(self, pid, **kwargs):
+    def restore(self, pid, **kwargs: Any) -> str:
         assert self.client.record is kwargs["record"]
         return "restored"
 
@@ -73,7 +74,7 @@ def test_delete_sets_record_context_before_upstream_call(doi_provider, doi_recor
     """Delete binds the task-provided record before upstream handling."""
     pid = SimpleNamespace(pid_value="10.12345/abcde-fghij")
 
-    def delete(self, pid, **kwargs):
+    def delete(self, pid, **kwargs: Any) -> str:
         assert self.client.record is kwargs["record"]
         return "deleted"
 
