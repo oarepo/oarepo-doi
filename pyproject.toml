@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "oarepo-doi"
-dynamic = ["version"]
+version = "4.0.0"
 description = "A module for DOI registration"
 readme = "README.md"
 license = "MIT"
@@ -69,8 +69,6 @@ oarepo_doi = "oarepo_doi"
 [project.entry-points."invenio_search.mappings"]
 doi-settings = "oarepo_doi.settings.mappings"
 
-[tool.hatch.version]
-path = "oarepo_doi/__init__.py"
 
 [tool.hatch.build.targets.sdist]
 include = [

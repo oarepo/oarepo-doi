@@ -10,8 +10,9 @@
 
 from __future__ import annotations
 
-from .ext import OARepoDOI
+from importlib.metadata import PackageNotFoundError, version
 
-__version__ = "3.0.0dev1"
-
-__all__ = ("OARepoDOI", "__version__")
+try:
+    __version__ = version("oarepo-doi")
+except PackageNotFoundError:
+    __version__ = "0.0.0dev0+unknown"
