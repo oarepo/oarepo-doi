@@ -11,13 +11,11 @@
 from __future__ import annotations
 
 import uuid
-from typing import TYPE_CHECKING, Any, ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
-from invenio_communities.communities.records.models import CommunityMetadata
 from invenio_db import db
 from invenio_oauthclient.models import _secret_key
 from invenio_users_resources.records.models import AggregateMetadata
-from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy_utils import EncryptedType, Timestamp
 from sqlalchemy_utils.types import UUIDType
 
@@ -35,16 +33,11 @@ class CommunityDoiSettings(db.Model, Timestamp):
         primary_key=True,
         default=uuid.uuid4,
     )
-
-    @declared_attr
-    def community_slug(self) -> Any:
-        """Community slug foreign key."""
-        return db.Column(
-            db.String(255),  # pyright: ignore[reportCallIssue]
-            db.ForeignKey(CommunityMetadata.slug, ondelete="CASCADE"),  # pyright: ignore[reportCallIssue]
-            unique=True,
-        )
-
+    community_slug = db.Column(
+        db.String(255),  # pyright: ignore[reportCallIssue]
+        unique=True,
+        nullable=False,
+    )
     prefix = db.Column(db.String(255), nullable=False)  # pyright: ignore[reportCallIssue]
     username = db.Column(db.String(255), nullable=False)  # pyright: ignore[reportCallIssue]
     password = db.Column(EncryptedType(type_in=db.Text, key=_secret_key), nullable=False)  # pyright: ignore[reportCallIssue]

@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-03-27 11:31+0100\n"
-"PO-Revision-Date: 2025-08-11 12:14+0200\n"
+"PO-Revision-Date: 2026-05-14 13:57+0200\n"
 "Last-Translator: \n"
 "Language-Team: cs <LL@li.org>\n"
 "Language: cs\n"
@@ -425,3 +425,19 @@ msgstr "Detail DOI konfigurace"
 #: /Users/alzbetapokorna/cesnet/model/upload5/oarepo-doi/oarepo_doi/settings/components.py:29
 msgid "Community not found"
 msgstr "Komunita nenalezena"
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:61
+msgid ""
+"Settings for this community already exist. Please edit the existing settings"
+" instead of creating a new one."
+msgstr ""
+"Konfigurace pro tuto komunitu již existuje. Místo vytváření nové prosím "
+"upravte stávající konfiguraci."
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:62
+msgid ""
+"Default community settings are already defined. Please edit the existing "
+"default settings instead of creating a new one."
+msgstr ""
+"Defaultní konfigurace již existuje. Místo vytváření nové prosím upravte "
+"stávající."

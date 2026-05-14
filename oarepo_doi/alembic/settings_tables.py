@@ -35,13 +35,7 @@ def upgrade() -> None:
             sqlalchemy_utils.types.encrypted.encrypted_type.EncryptedType(),  # type: ignore[attr-defined]
             nullable=False,
         ),
-        sa.Column("community_slug", sa.String(length=255), nullable=True),
-        sa.ForeignKeyConstraint(
-            ["community_slug"],
-            ["communities_metadata.slug"],
-            name=op.f("fk_community_doi_settings_community_slug_communities_metadata"),
-            ondelete="CASCADE",
-        ),
+        sa.Column("community_slug", sa.String(length=255), nullable=False),
         sa.PrimaryKeyConstraint("id", name=op.f("pk_community_doi_settings")),
         sa.UniqueConstraint("community_slug", name=op.f("uq_community_doi_settings_community_slug")),
     )

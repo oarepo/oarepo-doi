@@ -69,7 +69,10 @@ class DataCiteRecordAwareClient(DataCiteClient):
         else:
             community = record.get("communities", {}).get("default", None)
         slug = community_slug_for_credentials(community)
-        return db.session.query(CommunityDoiSettings).filter_by(community_slug=slug).first()
+
+        return (
+            db.session.query(CommunityDoiSettings).filter_by(community_slug=slug).first() if slug else None
+        ) or db.session.query(CommunityDoiSettings).filter_by(community_slug="*").first()
 
     @property
     def api(self) -> DataCiteRESTClient:
