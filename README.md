@@ -3,14 +3,17 @@
 OARepo DOI adds community-specific DOI configuration to OARepo/InvenioRDM
 installations. It provides a DOI settings service and administration views, and
 extends the DataCite PID provider so DOI registration can use credentials
-configured for the record's default community.
+configured for the record's default community or for the default fallback
+configuration.
 
 ## Features
 
 - Stores DataCite credentials per community.
 - Resolves DOI credentials from a record's default community.
-- Falls back to the standard global DataCite configuration when no
-  community-specific settings exist.
+- Supports a default DOI settings record with `community_slug` set to `*`,
+  used when the record has no matching community DOI settings.
+- Falls back to the standard global DataCite configuration when neither
+  community-specific nor default DOI settings exist.
 - Registers DOI settings in the Invenio administration interface.
 - Keeps DataCite passwords encrypted in the database.
 
@@ -25,14 +28,17 @@ pip install oarepo-doi
 
 ## DOI Settings
 
-Each DOI settings record connects a community to DataCite credentials:
+Each DOI settings record connects a community, or the default fallback, to
+DataCite credentials:
 
-- `community_slug`: slug of the community using these DOI credentials
+- `community_slug`: slug of the community using these DOI credentials, or `*`
+  for default DOI settings
 - `prefix`: DataCite DOI prefix
 - `username`: DataCite username
 - `password`: DataCite password, stored encrypted
 
 Only one DOI settings record can exist for a given community slug.
+Only one default DOI settings record with `community_slug` set to `*` can exist.
 
 The service is registered under the `community-doi` service id and uses the
 `doi-settings` search alias.
@@ -62,8 +68,21 @@ Example payload:
 }
 ```
 
+Default fallback settings use `*` as the community slug:
+
+```json
+{
+  "community_slug": "*",
+  "prefix": "10.12345",
+  "username": "datacite-user",
+  "password": "datacite-password"
+}
+```
+
 When a DOI settings record is created or updated, the referenced community must
 exist. If the community slug cannot be found, the service returns a bad request.
+The special `*` community slug is reserved for default DOI settings and does not
+need to match an existing community.
 
 ## DataCite Integration
 
@@ -78,14 +97,18 @@ looks up DOI settings for the record's default community.
 
 When community DOI settings are found, DOI generation uses the community prefix
 and the DataCite API client is created from the community username, password and
-prefix. When no community DOI settings are found, the implementation falls back
-to the standard InvenioRDM DataCite client and global `DATACITE_*`
-configuration.
+prefix. When no settings exist for the record's default community, the client
+tries the default DOI settings record where `community_slug` is `*`. This default
+record also applies to records without a default community.
+
+If neither community-specific nor default DOI settings are found, the
+implementation falls back to the standard InvenioRDM DataCite client and global
+`DATACITE_*` configuration.
 
 ## Configuration
 
 The DataCite client also respects the standard global DataCite configuration
-when no community settings are available, including:
+when no community-specific or `*` DOI settings are available, including:
 
 ```python
 DATACITE_PREFIX = "10.12345"
