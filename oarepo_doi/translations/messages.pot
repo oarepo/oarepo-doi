@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-14 12:56+0200\n"
+"POT-Creation-Date: 2026-05-14 13:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,11 +22,17 @@ msgid "Newest"
 msgstr ""
 
 #: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:51
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:83
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:92
 msgid "Community not found"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:61
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:62
+msgid ""
+"Default community settings are already defined. Please edit the existing "
+"default settings instead of creating a new one."
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:70
 msgid ""
 "Settings for this community already exist. Please edit the existing "
 "settings instead of creating a new one."

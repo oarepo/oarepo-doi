@@ -389,3 +389,9 @@ msgid ""
 "Settings for this community already exist. Please edit the existing settings"
 " instead of creating a new one."
 msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:62
+msgid ""
+"Default community settings are already defined. Please edit the existing "
+"default settings instead of creating a new one."
+msgstr ""

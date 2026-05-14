@@ -55,6 +55,15 @@ class DoiSettingsComponent(ServiceComponent):
             )
 
             if existing_settings:
+                if data["community_slug"] == "*":
+                    abort(
+                        400,
+                        description=_(
+                            "Default community settings are already defined. "
+                            "Please edit the existing default settings instead of creating a new one."
+                        ),
+                    )
+
                 abort(
                     400,
                     description=_(
