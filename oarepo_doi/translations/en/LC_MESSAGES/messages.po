@@ -383,3 +383,9 @@ msgstr ""
 #: /Users/alzbetapokorna/cesnet/model/upload5/oarepo-doi/oarepo_doi/settings/components.py:29
 msgid "Community not found"
 msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:61
+msgid ""
+"Settings for this community already exist. Please edit the existing settings"
+" instead of creating a new one."
+msgstr ""

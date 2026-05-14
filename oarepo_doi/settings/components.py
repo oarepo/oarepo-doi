@@ -19,6 +19,8 @@ from invenio_i18n import lazy_gettext as _
 from invenio_records_resources.services.records.components import ServiceComponent
 from sqlalchemy.exc import NoResultFound
 
+from oarepo_doi.settings.models import CommunityDoiSettings
+
 if TYPE_CHECKING:
     from flask_principal import Identity
 
@@ -42,10 +44,24 @@ class DoiSettingsComponent(ServiceComponent):
             record.username = data["username"]
             record.password = data["password"]
             record.community_slug = data["community_slug"]
-            try:
-                db.session.query(CommunityMetadata).filter_by(slug=data["community_slug"]).one()
-            except NoResultFound:
-                abort(400, description=_("Community not found"))
+            if data["community_slug"] != "*":  # fallback value
+                try:
+                    db.session.query(CommunityMetadata).filter_by(slug=data["community_slug"]).one()
+                except NoResultFound:
+                    abort(400, description=_("Community not found"))
+
+            existing_settings = (
+                db.session.query(CommunityDoiSettings).filter_by(community_slug=data["community_slug"]).one_or_none()
+            )
+
+            if existing_settings:
+                abort(
+                    400,
+                    description=_(
+                        "Settings for this community already exist. "
+                        "Please edit the existing settings instead of creating a new one."
+                    ),
+                )
 
     def update(
         self,
