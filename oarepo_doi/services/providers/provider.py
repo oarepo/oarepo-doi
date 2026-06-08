@@ -28,16 +28,22 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
         _ = kwargs
         if self.client is None:
             raise RuntimeError("DataCite client is not configured")
-        return str(self.client.for_record(record).generate_doi(record))
+        return str(self.client.generate_doi(record))
 
     def register(self, pid: PersistentIdentifier, record: Record, **kwargs: Any) -> Any:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Register a DOI via the DataCite API."""
         if self.client is None:
             raise RuntimeError("DataCite client is not configured")
-        self.client.for_record(record)
-        return super().register(pid, record, **kwargs)
+        with self.client.for_record(record):
+            return super().register(pid, record, **kwargs)
 
-    def update(self, pid: PersistentIdentifier, record: Record, url: str | None = None, **kwargs: Any) -> Any:  # pyright: ignore[reportIncompatibleMethodOverride]
+    def update(
+        self,
+        pid: PersistentIdentifier,
+        record: Record | dict[str, Any] | None = None,
+        url: str | None = None,
+        **kwargs: Any,
+    ) -> Any:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Update metadata associated with a DOI.
 
         This can be called before/after a DOI is registered.
@@ -47,16 +53,16 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
         """
         if self.client is None:
             raise RuntimeError("DataCite client is not configured")
-        self.client.for_record(record)
-        return super().update(pid, record, url=url, **kwargs)
+        with self.client.for_record(record):
+            return super().update(pid, record, url=url, **kwargs)
 
     def restore(self, pid: PersistentIdentifier, **kwargs: Any) -> Any:
         """Restore previously deactivated DOI."""
         record = kwargs.get("record")
         if self.client is None:
             raise RuntimeError("DataCite client is not configured")
-        self.client.for_record(record)
-        return super().restore(pid, **kwargs)
+        with self.client.for_record(record):
+            return super().restore(pid, **kwargs)
 
     def delete(self, pid: PersistentIdentifier, **kwargs: Any) -> Any:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Delete/unregister a registered DOI.
@@ -68,5 +74,18 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
         record = kwargs.get("record")
         if self.client is None:
             raise RuntimeError("DataCite client is not configured")
-        self.client.for_record(record)
-        return super().delete(pid, **kwargs)
+        with self.client.for_record(record):
+            return super().delete(pid, **kwargs)
+
+    def validate(
+        self,
+        record: Any = None,
+        identifier: Any = None,
+        provider: Any = None,
+        **kwargs: Any,
+    ) -> Any:
+        """Validate the attributes of the identifier."""
+        if self.client is None:
+            raise RuntimeError("DataCite client is not configured")
+        with self.client.for_record(record):
+            return super().validate(record, identifier=identifier, provider=provider, **kwargs)
