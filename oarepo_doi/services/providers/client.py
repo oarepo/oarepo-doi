@@ -10,6 +10,8 @@
 
 from __future__ import annotations
 
+from contextlib import contextmanager
+from contextvars import ContextVar
 from typing import TYPE_CHECKING, Any
 
 from datacite import DataCiteRESTClient
@@ -21,7 +23,11 @@ from oarepo_doi.settings.models import CommunityDoiSettings
 from ..utils import community_slug_for_credentials
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from invenio_records_resources.records.api import Record
+
+_record_ctx: ContextVar[Any] = ContextVar("datacite_record", default=None)
 
 
 class DataCiteRecordAwareClient(DataCiteClient):
@@ -36,17 +42,20 @@ class DataCiteRecordAwareClient(DataCiteClient):
     ) -> None:
         """Construct."""
         super().__init__(name, config_prefix, config_overrides, **kwargs)
-        self._record = None
 
-    def for_record(self, record: Record) -> DataCiteClient:
-        """Set record context and return self."""
-        self._record = record
-        return self
+    @contextmanager
+    def for_record(self, record: Record | None) -> Iterator[DataCiteClient]:
+        """Set record context for the current execution context."""
+        token = _record_ctx.set(record)
+        try:
+            yield self
+        finally:
+            _record_ctx.reset(token)
 
     @property
     def record(self) -> Any:
-        """Set record."""
-        return self._record
+        """Get record for the current execution context."""
+        return _record_ctx.get()
 
     def generate_doi(self, record: Record) -> str:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Generate a DOI."""
@@ -77,18 +86,19 @@ class DataCiteRecordAwareClient(DataCiteClient):
     @property
     def api(self) -> DataCiteRESTClient:
         """DataCite REST API client instance."""
-        doi_settings = self.get_doi_settings(self._record)  # pyright: ignore[reportArgumentType]
+        record = self.record
+        if record is None:
+            return super().api
+        doi_settings = self.get_doi_settings(record)
         if doi_settings is None:
             return super().api
         test_mode_default = True
         test_mode_cfg = self.cfg("test_mode", test_mode_default)
         test_mode = test_mode_cfg if isinstance(test_mode_cfg, bool) else test_mode_default
 
-        self._api = DataCiteRESTClient(
+        return DataCiteRESTClient(
             doi_settings.username,
             doi_settings.password,
             doi_settings.prefix,
             test_mode,
         )
-
-        return self._api

@@ -20,9 +20,8 @@ from invenio_rdm_records.services.pids.providers.datacite import DataCitePIDProv
 def test_api_uses_community_datacite_credentials(app, doi_client, doi_record):
     """The DataCite API client is built from the current record's community."""
     with patch("oarepo_doi.services.providers.client.DataCiteRESTClient") as datacite_rest_client:
-        doi_client.for_record(doi_record)
-
-        assert doi_client.api is datacite_rest_client.return_value
+        with doi_client.for_record(doi_record):
+            assert doi_client.api is datacite_rest_client.return_value
         datacite_rest_client.assert_called_once_with(
             "community-user",
             "community-password",

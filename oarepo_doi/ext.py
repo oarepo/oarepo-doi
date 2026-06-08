@@ -19,6 +19,10 @@ from .config import (
     DOI_SETTINGS_FACETS,
     DOI_SETTINGS_SEARCH,
     DOI_SETTINGS_SORT_OPTIONS,
+    RDM_PARENT_PERSISTENT_IDENTIFIER_PROVIDERS,
+    RDM_PARENT_PERSISTENT_IDENTIFIERS,
+    RDM_PERSISTENT_IDENTIFIER_PROVIDERS,
+    RDM_PERSISTENT_IDENTIFIERS,
 )
 
 if TYPE_CHECKING:
@@ -43,6 +47,22 @@ class OARepoDOI:
 
     def init_config(self, app: Flask) -> None:
         """Initialize configuration."""
+        app.config.setdefault(
+            "RDM_PERSISTENT_IDENTIFIER_PROVIDERS",
+            RDM_PERSISTENT_IDENTIFIER_PROVIDERS,
+        )
+        app.config.setdefault(
+            "RDM_PERSISTENT_IDENTIFIERS",
+            RDM_PERSISTENT_IDENTIFIERS,
+        )
+        app.config.setdefault(
+            "RDM_PARENT_PERSISTENT_IDENTIFIER_PROVIDERS",
+            RDM_PARENT_PERSISTENT_IDENTIFIER_PROVIDERS,
+        )
+        app.config.setdefault(
+            "RDM_PARENT_PERSISTENT_IDENTIFIERS",
+            RDM_PARENT_PERSISTENT_IDENTIFIERS,
+        )
         app.config.setdefault("DOI_SETTINGS_SEARCH", DOI_SETTINGS_SEARCH)
         app.config.setdefault("DOI_SETTINGS_FACETS", DOI_SETTINGS_FACETS)
         app.config.setdefault("DOI_SETTINGS_SORT_OPTIONS", DOI_SETTINGS_SORT_OPTIONS)
