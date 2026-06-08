@@ -10,13 +10,40 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from collections.abc import Callable
+from functools import wraps
+from inspect import signature
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from invenio_rdm_records.services.pids.providers.datacite import DataCitePIDProvider
 
 if TYPE_CHECKING:
     from invenio_pidstore.models import PersistentIdentifier
     from invenio_records_resources.records.api import Record
+
+F = TypeVar("F", bound=Callable[..., Any])
+
+
+def with_record_context(fn: F) -> F:  # noqa: UP047
+    """Bind record to DataCite client while executing provider method."""
+    sig = signature(fn)
+
+    @wraps(fn)
+    def wrapper(self: DataCiteRecordAwareProvider, *args: Any, **kwargs: Any) -> Any:
+        if self.client is None:
+            raise RuntimeError("DataCite client is not configured")
+
+        bound = sig.bind_partial(self, *args, **kwargs)
+        record = bound.arguments.get("record")
+        if record is None:
+            extra_kwargs = bound.arguments.get("kwargs", {})
+            if isinstance(extra_kwargs, dict):
+                record = extra_kwargs.get("record")
+
+        with self.client.for_record(record):
+            return fn(self, *args, **kwargs)
+
+    return cast("F", wrapper)
 
 
 class DataCiteRecordAwareProvider(DataCitePIDProvider):
@@ -30,13 +57,12 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
             raise RuntimeError("DataCite client is not configured")
         return str(self.client.generate_doi(record))
 
+    @with_record_context
     def register(self, pid: PersistentIdentifier, record: Record, **kwargs: Any) -> Any:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Register a DOI via the DataCite API."""
-        if self.client is None:
-            raise RuntimeError("DataCite client is not configured")
-        with self.client.for_record(record):
-            return super().register(pid, record, **kwargs)
+        return super().register(pid, record, **kwargs)
 
+    @with_record_context
     def update(
         self,
         pid: PersistentIdentifier,
@@ -51,19 +77,14 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
         :param record: the record metadata for the DOI.
         :returns: `True` if is updated successfully.
         """
-        if self.client is None:
-            raise RuntimeError("DataCite client is not configured")
-        with self.client.for_record(record):
-            return super().update(pid, record, url=url, **kwargs)
+        return super().update(pid, record, url=url, **kwargs)
 
+    @with_record_context
     def restore(self, pid: PersistentIdentifier, **kwargs: Any) -> Any:
         """Restore previously deactivated DOI."""
-        record = kwargs.get("record")
-        if self.client is None:
-            raise RuntimeError("DataCite client is not configured")
-        with self.client.for_record(record):
-            return super().restore(pid, **kwargs)
+        return super().restore(pid, **kwargs)
 
+    @with_record_context
     def delete(self, pid: PersistentIdentifier, **kwargs: Any) -> Any:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Delete/unregister a registered DOI.
 
@@ -71,12 +92,9 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
         Otherwise, also it's deleted also remotely.
         :returns: `True` if is deleted successfully.
         """
-        record = kwargs.get("record")
-        if self.client is None:
-            raise RuntimeError("DataCite client is not configured")
-        with self.client.for_record(record):
-            return super().delete(pid, **kwargs)
+        return super().delete(pid, **kwargs)
 
+    @with_record_context
     def validate(
         self,
         record: Any = None,
@@ -85,7 +103,4 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
         **kwargs: Any,
     ) -> Any:
         """Validate the attributes of the identifier."""
-        if self.client is None:
-            raise RuntimeError("DataCite client is not configured")
-        with self.client.for_record(record):
-            return super().validate(record, identifier=identifier, provider=provider, **kwargs)
+        return super().validate(record, identifier=identifier, provider=provider, **kwargs)

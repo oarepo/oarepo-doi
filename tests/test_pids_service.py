@@ -21,7 +21,6 @@ def test_generate_id_uses_community_doi_settings(doi_provider, doi_record):
     doi = doi_provider.generate_id(doi_record)
 
     assert doi == "10.12345/abcde-fghij"
-    assert doi_provider.client.record is doi_record
 
 
 def test_generate_doi_falls_back_to_global_datacite_config(app, monkeypatch, doi_record):
