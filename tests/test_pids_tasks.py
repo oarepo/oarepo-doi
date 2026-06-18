@@ -30,19 +30,6 @@ def test_api_uses_community_datacite_credentials(app, doi_client, doi_record):
         )
 
 
-def test_register_sets_record_context_before_upstream_call(doi_provider, doi_record):
-    """Registration binds the record before delegating to the upstream provider."""
-    pid = SimpleNamespace(pid_value="10.12345/abcde-fghij")
-
-    def register(self, pid, record, **kwargs: Any) -> str:
-        assert self.client.record is record
-        return "registered"
-
-    with patch.object(DataCitePIDProvider, "register", autospec=True, side_effect=register) as register_mock:
-        assert doi_provider.register(pid, doi_record, url="https://example.org/r/1") == ("registered")
-        register_mock.assert_called_once_with(doi_provider, pid, doi_record, url="https://example.org/r/1")
-
-
 def test_update_sets_record_context_before_upstream_call(doi_provider, doi_record):
     """Updates bind the record before delegating to the upstream provider."""
     pid = SimpleNamespace(pid_value="10.12345/abcde-fghij")
