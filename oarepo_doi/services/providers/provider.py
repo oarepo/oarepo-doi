@@ -15,7 +15,10 @@ from functools import wraps
 from inspect import signature
 from typing import TYPE_CHECKING, Any, TypeVar, cast
 
+from datacite.errors import DataCiteError
+from invenio_rdm_records.services.pids.providers.base import PIDProvider as BasePIDProvider
 from invenio_rdm_records.services.pids.providers.datacite import DataCitePIDProvider
+from invenio_rdm_records.utils import ChainObject
 
 if TYPE_CHECKING:
     from invenio_pidstore.models import PersistentIdentifier
@@ -46,6 +49,17 @@ def with_record_context(fn: F) -> F:  # noqa: UP047
     return cast("F", wrapper)
 
 
+def _is_restricted(record: Any) -> bool:
+    if isinstance(record, ChainObject):
+        return bool(record._child["access"]["record"] == "restricted")  # noqa: SLF001
+    return bool(record["access"]["record"] == "restricted")
+
+
+def _is_datacite_already_taken(error: Any) -> bool:
+    text = str(error)
+    return bool("This DOI has already been taken" in text)
+
+
 class DataCiteRecordAwareProvider(DataCitePIDProvider):
     """DOI record aware provider."""
 
@@ -59,8 +73,24 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
 
     @with_record_context
     def register(self, pid: PersistentIdentifier, record: Record, **kwargs: Any) -> Any:  # pyright: ignore[reportIncompatibleMethodOverride]
-        """Register a DOI via the DataCite API."""
-        return super().register(pid, record, **kwargs)
+        """Register DOI or update DOI if already taken."""
+        if _is_restricted(record):
+            return False
+
+        local_success = BasePIDProvider.register(self, pid)
+        if not local_success:
+            return False
+
+        try:
+            doc = self.serializer.dump_obj(record)
+            url = kwargs["url"]
+            self.client.api.public_doi(metadata=doc, url=url, doi=pid.pid_value)  # pyright: ignore[reportOptionalMemberAccess]
+            return True  # noqa: TRY300
+
+        except DataCiteError as e:
+            if _is_datacite_already_taken(e):
+                return self.update(pid, record=record, url=kwargs.get("url"))
+            return False
 
     @with_record_context
     def update(
