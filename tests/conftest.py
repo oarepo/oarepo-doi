@@ -34,9 +34,13 @@ def doi_record():
     class Record(dict):
         """Small record double supporting both mapping and attribute access."""
 
-        pid = SimpleNamespace(pid_value="abcde-fghij")
+        pid = SimpleNamespace(
+            pid_value="abcde-fghij",
+            is_registered=lambda: True,
+            register=lambda: True,
+        )
 
-    return Record(communities={"default": "test-community"})
+    return Record(communities={"default": "test-community"}, access={"record": "public"})
 
 
 @pytest.fixture
