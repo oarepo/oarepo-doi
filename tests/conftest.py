@@ -35,7 +35,7 @@ def doi_record():
         """Small record double supporting both mapping and attribute access."""
 
         pid = SimpleNamespace(
-            pid_value="abcde-fghijk",
+            pid_value="abcde-fghij",
             is_registered=lambda: True,
             register=lambda: True,
         )
