@@ -37,7 +37,7 @@ RDM_PERSISTENT_IDENTIFIERS = {
         "validator": idutils.is_doi,  # pyright: ignore[reportAttributeAccessIssue]
         "normalizer": idutils.normalize_doi,  # pyright: ignore[reportAttributeAccessIssue]
         "is_enabled": DataCiteRecordAwareProvider.is_enabled,
-        "ui": {"default_selected": "not_needed"},  # "yes", "no" or "not_needed"
+        "ui": {"default_selected": "no"},  # "yes", "no" or "not_needed"
     }
 }
 
