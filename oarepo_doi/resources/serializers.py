@@ -16,6 +16,7 @@ from flask_resources import BaseListSchema, MarshmallowSerializer
 from flask_resources.serializers import BaseSerializerSchema, JSONSerializer
 from oarepo_runtime import current_runtime
 
+#TODO: move to documentation
 """
 class DataCite43JSONSerializer(MarshmallowSerializer):
 
