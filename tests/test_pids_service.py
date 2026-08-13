@@ -11,8 +11,7 @@
 from __future__ import annotations
 
 from types import SimpleNamespace
-from unittest.mock import patch
-
+from unittest.mock import Mock, patch
 import pytest
 
 from oarepo_doi.services.providers.client import DataCiteRecordAwareClient
@@ -63,6 +62,16 @@ def test_register_publishes_doi_to_datacite(app, doi_provider, doi_record):
         doi=pid.pid_value,
     )
 
+def test_get_doi_settings_client(app, doi_record):
+    client = DataCiteRecordAwareClient("datacite")
+    doi_settings = SimpleNamespace(prefix="10.12345")
+    query = Mock()
+    query.filter_by.return_value.first.return_value = doi_settings
+
+
+    with patch("oarepo_doi.services.providers.client.db.session.query", return_value=query):
+        result = client.get_doi_settings(doi_record)
+    assert result is doi_settings
 
 
 def test_generate_id_requires_configured_client(doi_record):
