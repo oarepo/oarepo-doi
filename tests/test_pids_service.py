@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
+
 import pytest
 
 from oarepo_doi.services.providers.client import DataCiteRecordAwareClient
@@ -41,10 +42,9 @@ def test_generate_doi_falls_back_to_global_datacite_config(app, monkeypatch, doi
     assert doi == "10.99999/global.abcde-fghij"
 
 
-def test_register_publishes_doi_to_datacite(app, doi_provider, doi_record):
+def test_register_publishes_doi_to_datacite(app, doi_provider, doi_record, doi_pid):
     """Provider registers PID locally and publishes DOI metadata to DataCite."""
-    pid = SimpleNamespace(pid_value="10.12345/abcde-fghij")
-    metadata = {"doi": pid.pid_value}
+    metadata = {"doi": doi_pid.pid_value}
     doi_provider.serializer = SimpleNamespace(dump_obj=lambda record: metadata)
 
     with (
@@ -54,24 +54,23 @@ def test_register_publishes_doi_to_datacite(app, doi_provider, doi_record):
             return_value=True,
         ),
     ):
-        assert doi_provider.register(pid, doi_record, url="https://example.org/records/1") is True
+        assert doi_provider.register(doi_pid, doi_record, url="https://example.org/records/1") is True
 
     datacite_rest_client.return_value.public_doi.assert_called_once_with(
         metadata=metadata,
         url="https://example.org/records/1",
-        doi=pid.pid_value,
+        doi=doi_pid.pid_value,
     )
 
-def test_get_doi_settings_client(app, doi_record):
-    client = DataCiteRecordAwareClient("datacite")
-    doi_settings = SimpleNamespace(prefix="10.12345")
-    query = Mock()
-    query.filter_by.return_value.first.return_value = doi_settings
 
+def test_get_doi_settings_client(app, doi_record, doi_record_settings):
+    client = DataCiteRecordAwareClient("datacite")
+    query = Mock()
+    query.filter_by.return_value.first.return_value = doi_record_settings
 
     with patch("oarepo_doi.services.providers.client.db.session.query", return_value=query):
         result = client.get_doi_settings(doi_record)
-    assert result is doi_settings
+    assert result is doi_record_settings
 
 
 def test_generate_id_requires_configured_client(doi_record):
