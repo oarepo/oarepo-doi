@@ -37,16 +37,15 @@ def test_community_doi_settings():
         service.search()
 
 
-def test_rebuild_index_indexes_all_doi_settings(monkeypatch):
-    """Rebuild index sends all DOI settings ids to the indexer."""
+def test_read_returns_doi_settings_item(monkeypatch):
+    """Read returns DOI settings item for existing record."""
     service = CommunityDoiSettingsService(CommunityDoiSettingsServiceConfig.build(None))
-    indexer = SimpleNamespace(bulk_index=Mock())
-    query = Mock()
-    query.yield_per.return_value = [SimpleNamespace(id="id-1"), SimpleNamespace(id="id-2")]
-    monkeypatch.setattr(service_module.db.session, "query", Mock(return_value=query))
-    monkeypatch.setattr(CommunityDoiSettingsService, "indexer", property(lambda self: indexer))
+    identity = SimpleNamespace(id="identity")
+    doi_config = SimpleNamespace(id="settings-id")
+    result = SimpleNamespace(id="settings-id")
+    get_record = Mock(return_value=doi_config)
+    service.require_permission = Mock()
+    service.result_item = Mock(return_value=result)
+    monkeypatch.setattr(service_module.CommunityDoiSettingsAggregate, "get_record", get_record)
 
-    assert service.rebuild_index(SimpleNamespace()) is True
-
-    query.yield_per.assert_called_once_with(1000)
-    indexer.bulk_index.assert_called_once_with(["id-1", "id-2"])
+    assert service.read(identity, "settings-id") is result

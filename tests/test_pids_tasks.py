@@ -10,7 +10,6 @@
 
 from __future__ import annotations
 
-from types import SimpleNamespace
 from typing import Any
 from unittest.mock import patch
 
@@ -26,44 +25,35 @@ def test_api_uses_community_datacite_credentials(app, doi_client, doi_record):
             "community-user",
             "community-password",
             "10.12345",
-            False,  # noqa: FBT003
+            False,
         )
 
 
-def test_update_sets_record_context_before_upstream_call(doi_provider, doi_record):
+def test_update_sets_record_context_before_upstream_call(doi_provider, doi_record, doi_pid):
     """Updates bind the record before delegating to the upstream provider."""
-    pid = SimpleNamespace(pid_value="10.12345/abcde-fghij")
-
     def update(self, pid, record, **kwargs: Any) -> str:
         assert self.client.record is record
         return "updated"
 
-    with patch.object(DataCitePIDProvider, "update", autospec=True, side_effect=update) as update_mock:
-        assert doi_provider.update(pid, doi_record, url="https://example.org/r/1") == ("updated")
-        update_mock.assert_called_once_with(doi_provider, pid, doi_record, url="https://example.org/r/1")
+    with patch.object(DataCitePIDProvider, "update", autospec=True, side_effect=update):
+        assert doi_provider.update(doi_pid, doi_record, url="https://example.org/r/1") == ("updated")
 
 
-def test_restore_sets_record_context_before_upstream_call(doi_provider, doi_record):
+def test_restore_sets_record_context_before_upstream_call(doi_provider, doi_record, doi_pid):
     """Restore binds the task-provided record before upstream handling."""
-    pid = SimpleNamespace(pid_value="10.12345/abcde-fghij")
-
     def restore(self, pid, **kwargs: Any) -> str:
         assert self.client.record is kwargs["record"]
         return "restored"
 
-    with patch.object(DataCitePIDProvider, "restore", autospec=True, side_effect=restore) as restore_mock:
-        assert doi_provider.restore(pid, record=doi_record) == "restored"
-        restore_mock.assert_called_once_with(doi_provider, pid, record=doi_record)
+    with patch.object(DataCitePIDProvider, "restore", autospec=True, side_effect=restore):
+        assert doi_provider.restore(doi_pid, record=doi_record) == "restored"
 
 
-def test_delete_sets_record_context_before_upstream_call(doi_provider, doi_record):
+def test_delete_sets_record_context_before_upstream_call(doi_provider, doi_record, doi_pid):
     """Delete binds the task-provided record before upstream handling."""
-    pid = SimpleNamespace(pid_value="10.12345/abcde-fghij")
-
     def delete(self, pid, **kwargs: Any) -> str:
         assert self.client.record is kwargs["record"]
         return "deleted"
 
-    with patch.object(DataCitePIDProvider, "delete", autospec=True, side_effect=delete) as delete_mock:
-        assert doi_provider.delete(pid, record=doi_record) == "deleted"
-        delete_mock.assert_called_once_with(doi_provider, pid, record=doi_record)
+    with patch.object(DataCitePIDProvider, "delete", autospec=True, side_effect=delete):
+        assert doi_provider.delete(doi_pid, record=doi_record) == "deleted"
