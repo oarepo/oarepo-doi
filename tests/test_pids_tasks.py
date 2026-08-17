@@ -13,9 +13,12 @@ from invenio_rdm_records.services.pids.providers.datacite import DataCitePIDProv
 
 def test_api_uses_community_datacite_credentials(app, doi_client, doi_record):
     """The DataCite API client is built from the current record's community."""
-    with patch("oarepo_doi.services.providers.client.DataCiteRESTClient") as datacite_rest_client:
-        with doi_client.for_record(doi_record):
-            assert doi_client.api is datacite_rest_client.return_value
+    with (
+        patch("oarepo_doi.services.providers.client.DataCiteRESTClient") as datacite_rest_client,
+        doi_client.for_record(doi_record),
+    ):
+        assert doi_client.api is datacite_rest_client.return_value
+
 
 def test_update_sets_record_context_before_upstream_call(doi_provider, doi_record, doi_pid):
     """Updates bind the record before delegating to the upstream provider."""
