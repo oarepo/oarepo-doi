@@ -59,24 +59,30 @@ DATACITE_ENABLED = True
 This package registers its community-aware provider and DOI configuration, but
 does not change `DATACITE_ENABLED`.
 
-## How DOI settings are selected
+## DataCite integration
 
-When the provider handles a record, it resolves settings in this order:
+The package provides two record-aware DataCite classes:
+
+- `oarepo_doi.services.providers.client:DataCiteRecordAwareClient`
+- `oarepo_doi.services.providers.provider:DataCiteRecordAwareProvider`
+
+For DOI generation, the provider passes the current record directly to the
+client. For registration, update, restore, and delete operations, it binds the
+record to the client context before delegating to the standard InvenioRDM
+provider. The client uses that record to select DOI settings in this order:
 
 1. Settings whose `community_slug` matches the record's default community.
 2. The fallback settings record whose `community_slug` is `*`.
 3. The standard InvenioRDM DataCite client and its global `DATACITE_*`
    configuration.
 
-The selected settings supply the DataCite username, password, and DOI prefix.
-DOI formatting continues to use the configured DataCite format. With the
-default format, a generated DOI has the form `{prefix}/{id}`.
+Community settings supply the DataCite username, password, and DOI prefix. DOI
+formatting still uses `DATACITE_FORMAT`; with its default value, a generated DOI
+has the form `{prefix}/{id}`. The `*` fallback also applies when the record has
+no default community.
 
-
-## Global DataCite fallback
-
-Keep global DataCite configuration in the host application. It is used whenever
-no matching community or `*` fallback setting exists. For example:
+Keep global DataCite configuration in the host application. It is used when no
+community-specific or fallback settings exist:
 
 ```python
 DATACITE_PREFIX = "10.12345"
@@ -87,8 +93,8 @@ DATACITE_TEST_MODE = True
 ```
 
 `DATACITE_TEST_MODE` is also used when a community-specific DataCite REST
-client is created. If it is not configured as a boolean, the package defaults
-to test mode.
+client is created. If it is missing or not a boolean, the package defaults to
+test mode.
 
 ## Multiple-model DataCite serialization
 
