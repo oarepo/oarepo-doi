@@ -8,7 +8,7 @@ from __future__ import annotations
 import idutils
 from invenio_i18n import lazy_gettext as _
 from invenio_rdm_records.resources.serializers import (
-    DataCite43JSONSerializer,  # pyright: ignore[reportAttributeAccessIssue]
+    DataCite45JSONSerializer,  # pyright: ignore[reportAttributeAccessIssue]
 )
 
 from oarepo_doi.services.providers.client import DataCiteRecordAwareClient
@@ -41,7 +41,7 @@ RDM_PARENT_PERSISTENT_IDENTIFIER_PROVIDERS = [
     DataCiteRecordAwareProvider(
         "datacite",
         client=DataCiteRecordAwareClient("datacite", config_prefix="DATACITE"),
-        serializer=DataCite43JSONSerializer(schema_context={"is_parent": True}),
+        serializer=DataCite45JSONSerializer(schema_context={"is_parent": True}),
         label=_("Concept DOI"),
     ),
 ]
