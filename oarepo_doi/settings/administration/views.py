@@ -49,7 +49,7 @@ class DOIListView(AdminResourceListView):
     resource_config = "doi_settings_resource"
 
     title = _("DOI Configuration")
-    category = "Site management"
+    category = _("Site management")
     pid_path = "id"
     icon = "world"
     order = 1
