@@ -44,6 +44,21 @@ After adding the package to an existing application, run that application
 database migration workflow so that the `community_doi_settings` table is
 created.
 
+To use DOI registration, [enable the DataCite provider](#enabling-datacite-doi-registration)
+in the host application.
+
+## Enabling DataCite DOI registration
+
+InvenioRDM disables the DataCite provider by default. Enable it in the host
+application configuration:
+
+```python
+DATACITE_ENABLED = True
+```
+
+This package registers its community-aware provider and DOI configuration, but
+does not change `DATACITE_ENABLED`.
+
 ## How DOI settings are selected
 
 When the provider handles a record, it resolves settings in this order:
@@ -56,6 +71,7 @@ When the provider handles a record, it resolves settings in this order:
 The selected settings supply the DataCite username, password, and DOI prefix.
 DOI formatting continues to use the configured DataCite format. With the
 default format, a generated DOI has the form `{prefix}/{id}`.
+
 
 ## Global DataCite fallback
 
