@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2026 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2026 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """Tests for Alembic migrations."""
 
 from __future__ import annotations
@@ -13,6 +8,7 @@ from __future__ import annotations
 from unittest.mock import Mock
 
 from oarepo_doi.alembic import settings_tables
+
 
 def test_settings_tables_upgrade_creates_community_doi_settings_table(monkeypatch):
     """Settings table migration creates community DOI settings table."""
@@ -34,4 +30,3 @@ def test_settings_tables_upgrade_creates_community_doi_settings_table(monkeypatc
         "password",
         "community_slug",
     }
-

@@ -1,19 +1,14 @@
-#
-# Copyright (c) 2026 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2026 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """Tests for DOI extension configuration initialization."""
 
 from __future__ import annotations
 
 from types import SimpleNamespace
-from unittest.mock import Mock
+from typing import Self
 
-from oarepo_doi.ext import OARepoDOI, api_finalize_app, finalize_app
+from oarepo_doi.ext import OARepoDOI
 
 
 class ServiceConfig:
@@ -22,8 +17,9 @@ class ServiceConfig:
     service_id = "doi-service"
 
     @classmethod
-    def build(cls, app):
+    def build(cls, app) -> Self:
         """Build service config."""
+        _ = app
         return cls()
 
 
@@ -69,9 +65,7 @@ def test_config(app):
     OARepoDOI().init_config(app)
 
     provider_names = [provider.name for provider in app.config["RDM_PERSISTENT_IDENTIFIER_PROVIDERS"]]
-    parent_provider_names = [
-        provider.name for provider in app.config["RDM_PARENT_PERSISTENT_IDENTIFIER_PROVIDERS"]
-    ]
+    parent_provider_names = [provider.name for provider in app.config["RDM_PARENT_PERSISTENT_IDENTIFIER_PROVIDERS"]]
 
     assert provider_names == ["oai", "datacite"]
     assert parent_provider_names == ["oai", "datacite"]

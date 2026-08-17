@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2025 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2025 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """DOI extension."""
 
 from __future__ import annotations
@@ -47,11 +42,8 @@ class OARepoDOI:
 
     def init_config(self, app: Flask) -> None:
         """Initialize configuration."""
-
         app.config.setdefault("RDM_PERSISTENT_IDENTIFIER_PROVIDERS", [])
-        if not any(
-            provider.name == "datacite" for provider in app.config["RDM_PERSISTENT_IDENTIFIER_PROVIDERS"]
-        ):
+        if not any(provider.name == "datacite" for provider in app.config["RDM_PERSISTENT_IDENTIFIER_PROVIDERS"]):
             app.config["RDM_PERSISTENT_IDENTIFIER_PROVIDERS"].extend(RDM_PERSISTENT_IDENTIFIER_PROVIDERS)
         app.config.setdefault("RDM_PERSISTENT_IDENTIFIERS", {}).setdefault(
             "doi",

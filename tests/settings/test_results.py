@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2026 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2026 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """Tests for DOI settings results."""
 
 from __future__ import annotations
@@ -30,7 +25,6 @@ def test_community_doi_settings():
         "id": "settings-id",
         "links": {"self": "/doi_settings/settings-id"},
     }
-
 
 
 def test_community_doi_settings_item():

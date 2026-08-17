@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2025 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2025 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """DOI settings administration views."""
 
 from __future__ import annotations
@@ -65,7 +60,7 @@ class DOIListView(AdminResourceListView):
     display_edit = True
     display_create = True
 
-    item_field_list: ClassVar[dict[str, dict[str, Any]]] = {
+    item_field_list: ClassVar[dict[str, dict[str, Any]]] = {  # ty: ignore[invalid-attribute-override]
         "community_slug": {"text": _("Community"), "order": 1, "width": 4},
         "prefix": {"text": _("Prefix"), "order": 2, "width": 4},
         "username": {"text": _("Datacite ID"), "order": 3, "width": 4},
@@ -123,7 +118,7 @@ class DOIDetailView(AdminResourceDetailView):
     list_view_name = "oarepo_doi"
     pid_path = "id"
 
-    item_field_list: ClassVar[dict[str, dict[str, Any]]] = {
+    item_field_list: ClassVar[dict[str, dict[str, Any]]] = {  # ty: ignore[invalid-attribute-override]
         "community_slug": {"text": _("Community"), "order": 1, "width": 4},
         "prefix": {"text": _("Prefix"), "order": 2, "width": 4},
         "username": {"text": _("Datacite ID"), "order": 3, "width": 4},

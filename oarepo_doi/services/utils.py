@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2025 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2025 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """DOI oarepo provider."""
 
 from __future__ import annotations
@@ -25,6 +20,8 @@ def community_slug_for_credentials(value: str | UUID | None) -> Any:
     """
     if not value:
         return None
+    if isinstance(value, UUID):
+        value = str(value)
     try:
         UUID(value, version=4)  # type: ignore[arg-type]
         search = current_communities.service._search(  # noqa: SLF001

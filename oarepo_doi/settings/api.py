@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2025 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2025 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """DOI settings api."""
 
 from __future__ import annotations
@@ -60,7 +55,7 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
         """Create a domain."""
         return CommunityDoiSettingsAggregate(
             data,
-            model=CommunityDoiSettingsAggregateModel(model_obj=CommunityDoiSettings()),  # pyright: ignore[reportArgumentType,reportIncompatibleVariableOverride]
+            model=CommunityDoiSettingsAggregateModel(model_obj=CommunityDoiSettings()),  # ty: ignore[invalid-argument-type]
         )
 
     @classmethod
@@ -78,4 +73,4 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
     def delete(self, force: bool = True) -> Any:
         """Delete the domain."""
         if self.model is not None:
-            db.session.delete(self.model.model_obj)  # pyright: ignore[reportAttributeAccessIssue]
+            db.session.delete(self.model.model_obj)  # ty: ignore[unresolved-attribute]

@@ -1,17 +1,12 @@
-#
-# Copyright (c) 2025 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2025 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """DOI setting database and aggregation model."""
 
 from __future__ import annotations
 
 import uuid
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING
 
 from invenio_db import db
 from invenio_oauthclient.models import _secret_key
@@ -46,7 +41,8 @@ class CommunityDoiSettings(db.Model, Timestamp):
 class CommunityDoiSettingsAggregateModel(AggregateMetadata):
     """Model class that does not correspond to a database table."""
 
-    _properties: ClassVar[list[str]] = [
+    # Properties of this object that can be accessed.
+    _properties: tuple[str, ...] = (
         "id",
         "community_slug",
         "prefix",
@@ -54,16 +50,16 @@ class CommunityDoiSettingsAggregateModel(AggregateMetadata):
         "password",
         "created",
         "updated",
-    ]
-    """Properties of this object that can be accessed."""
+    )
 
-    _set_properties: ClassVar[list[str]] = [
+    # Properties of this object that can be set.
+
+    _set_properties: tuple[str, ...] = (
         "community_slug",
         "prefix",
         "username",
         "password",
-    ]
-    """Properties of this object that can be set."""
+    )
 
     @property
     def model_obj(self) -> Model:
