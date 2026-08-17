@@ -11,20 +11,6 @@ from flask_resources import BaseListSchema, MarshmallowSerializer
 from flask_resources.serializers import BaseSerializerSchema, JSONSerializer
 from oarepo_runtime import current_runtime
 
-# TODO: move to documentation
-"""
-class DataCite43JSONSerializer(MarshmallowSerializer):
-
-    def __init__(self, **options):
-            super().__init__(
-            format_serializer_cls=JSONSerializer,
-            object_schema_cls=MultipleModelsSchema, <-- nase schema hier
-            list_schema_cls=BaseListSchema,
-            schema_kwargs={"dumpers": [JournalDataciteDumper()]},  # Order matters
-            **options,
-        )
-"""
-
 
 class OarepoDataciteJSONSerializer(MarshmallowSerializer):
     """Marshmallow based DataCite schema v4.3 serializer for records."""
