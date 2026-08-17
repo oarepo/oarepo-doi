@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-03-27 11:31+0100\n"
-"PO-Revision-Date: 2026-05-14 13:57+0200\n"
+"PO-Revision-Date: 2026-08-17 13:06+0200\n"
 "Last-Translator: \n"
 "Language-Team: cs <LL@li.org>\n"
 "Language: cs\n"
@@ -15,424 +15,14 @@ msgstr ""
 "Generated-By: Babel 2.14.0\n"
 "X-Generator: Poedit 3.5\n"
 
-#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:13
-msgid "Assign DOI"
-msgstr "Přidělit DOI"
-
-#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:25
-msgid "Request for DOI assignment"
-msgstr "Žádost o přidělení DOI"
-
-#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:53
-#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:58
-msgid "Request DOI assignment"
-msgstr "Žádost o přidělení DOI"
-
-#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:63
-msgid "Click to assign DOI."
-msgstr "Kliknutím přidělíte DOI."
-
-#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:66
-msgid "Request permission to assign DOI."
-msgstr "Žádost o povolení pro přiřazení DOI."
-
-#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:70
-msgid ""
-"Permission to assign DOI requested. You will be notified about the decision "
-"by email."
-msgstr ""
-"Zažádáno o povolení pro přidělení DOI. O rozhodnutí budete informováni "
-"e-mailem."
-
-#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:75
-msgid ""
-"You have been asked to approve the request to assign DOI to a record. You "
-"can approve or reject the request."
-msgstr ""
-"Byli jste požádáni o schválení žádosti o přiřazení DOI k záznamu. Žádost "
-"můžete schválit nebo zamítnout."
-
-#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:79
-msgid "Permission to assign DOI requested. "
-msgstr "Zažádáno o povolení k přidělení DOI. "
-
-#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:82
-msgid "Submit request to get permission to assign DOI."
-msgstr "Podejte žádost o povolení k přidělení DOI."
-
-#: /Users/alzbetapokorna/cesnet/oarepo/oarepo-doi/oarepo_doi/types/doi.py:56
-msgid "DOI assignment requested"
-msgstr "Zažádáno o přidělení DOI"
-
-#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:14
-msgid "Cancel DOI registration"
-msgstr "Zrušit registraci DOI"
-
-#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:25
-msgid "Request for deletion of a registered DOI"
-msgstr "Žádost o vymazání registrovaného DOI"
-
-#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:45
-#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:50
-msgid "Request DOI cancellation"
-msgstr "Žádost o zrušení DOI"
-
-#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:48
-msgid "DOI cancellation requested"
-msgstr "Zažádáno o zrušení DOI"
-
-#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:55
-msgid "Click to cancel DOI registration."
-msgstr "Kliknutím zrušíte registraci DOI."
-
-#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:58
-msgid "Request permission to cancel DOI registration."
-msgstr "Žádost o povolení zrušit registraci DOI."
-
-#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:62
-msgid ""
-"Permission to cancel DOI registration requested. You will be notified about "
-"the decision by email."
-msgstr ""
-"Žádost o povolení zrušit registraci DOI. O rozhodnutí budete informováni "
-"e-mailem."
-
-#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:67
-msgid ""
-"You have been asked to approve the request to cancel DOI registration to a "
-"record. You can approve or reject the request."
-msgstr ""
-"Byli jste požádáni o schválení žádosti o zrušení registrace DOI. Žádost "
-"můžete schválit nebo zamítnout."
-
-#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:71
-msgid "Permission to cancel DOI registration requested. "
-msgstr "Žádost o povolení zrušit registraci DOI. "
-
-#: /Users/alzbetapokorna/cesnet/26/43/oarepo-doi/oarepo_doi/types/doi.py:74
-msgid "Submit request to get permission to cancel DOI registration."
-msgstr "Podejte žádost o povolení zrušit registraci DOI."
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/actions/doi.py:129
-msgid "Return for correction"
-msgstr "Vrátit k opravě"
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:9
-#, python-brace-format
-msgid "DOI assignment request for '{topic_title}' has been approved"
-msgstr "Žádost o přiřazení DOI pro záznam \"{topic_title}\" byla schválena"
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:23
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:25
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:23
-msgid "This is an auto-generated message. To manage notifications, visit your"
-msgstr ""
-"Toto je automaticky generovaná zpráva. Pokud tyto zprávy nechcete nadále "
-"dostávat, změňte si nastavení ve svém profilu."
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:23
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:25
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:21
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:23
-msgid "account settings"
-msgstr "nastavení účtu"
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:29
-#, python-format
-msgid ""
-"\n"
-"Your request to assign a DOI to the record \"%(topic_title)s\" has been approved. You can view the updated record at\n"
-"%(link)s\n"
-"    "
-msgstr ""
-" Vaše žádost o přiřazení DOI k záznamu “%(topic_title)s” byla schválena. Aktualizovaný záznam si můžete prohlédnout na adrese\n"
-"%(link)s "
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:9
-#, python-brace-format
-msgid "Request for DOI assignment to record '{topic_title}' was declined"
-msgstr "Žádost o přiřazení DOI k záznamu ‚{topic_title}‘ byla zamítnuta."
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:13
-#, python-format
-msgid ""
-"\n"
-"<p>\n"
-"Request for assigning a DOI to the record \"%(topic_title)s\" was declined. You can see the request details at\n"
-"<a href=\"%(link)s\">%(link)s</a>\n"
-"</p>\n"
-"    "
-msgstr ""
-"\n"
-"<p>\n"
-"Žádost o přiřazení DOI k záznamu “%(topic_title)s” byla zamítnuta. Podrobnosti o žádosti naleznete na adrese\n"
-"<a href=“%(link)s”>%(link)s</a>\n"
-"</p> "
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:27
-#, python-format
-msgid ""
-"\n"
-"Request for assigning a DOI to the record \"%(topic_title)s\" was declined. You can see the request details at\n"
-"%(link)s\n"
-"    "
-msgstr ""
-" Žádost o přiřazení DOI k záznamu “%(topic_title)s” byla zamítnuta. Podrobnosti o žádosti naleznete na adrese\n"
-"%(link)s\n"
-" \n"
-"."
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:8
-#, python-brace-format
-msgid "Request to assign DOI to record {topic_title}"
-msgstr "Žádost o přiřazení DOI k záznamu {topic_title}"
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:31
-#, python-format
-msgid ""
-"\n"
-"    You have been asked to approve a DOI assignment for the record \"%(topic_title)s\".\n"
-"    Accept or Decline the request at %(link)s\n"
-"    "
-msgstr ""
-" Byli jste požádáni o schválení přiřazení DOI pro záznam “%(topic_title)s”.\n"
-"    Schvalte nebo zamítněte žádost na adrese %(link)s "
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:9
-#, python-brace-format
-msgid "DOI deletion request for '{topic_title}' has been approved"
-msgstr "Žádost o odstranění DOI pro ‚{topic_title}‘ byla schválena."
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:13
-#, python-format
-msgid ""
-"\n"
-"<p>\n"
-"Your request to delete the DOI from the record \"%(topic_title)s\" has been approved. You can view the updated record at\n"
-"<a href=\"%(link)s\">%(link)s</a>\n"
-"</p>\n"
-"    "
-msgstr ""
-"\n"
-"<p>\n"
-"Vaše žádost o odstranění DOI pro záznam “%(topic_title)s” byla schválena. Aktualizovaný záznam si můžete prohlédnout na adrese\n"
-"<a href=“%(link)s”>%(link)s</a>\n"
-"</p> "
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:27
-#, python-format
-msgid ""
-"\n"
-"Your request to delete the DOI from the record \"%(topic_title)s\" has been approved. You can view the updated record at\n"
-"%(link)s\n"
-"    "
-msgstr ""
-" Vaše žádost o odstranění DOI pro záznam “%(topic_title)s” byla schválena. Aktualizovaný záznam si můžete prohlédnout na adrese\n"
-"%(link)s "
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:9
-#, python-brace-format
-msgid "Request for DOI deletion from record '{topic_title}' was declined"
-msgstr "Žádost o odstranění DOI pro záznam ‚{topic_title}‘ byla zamítnuta."
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:13
-#, python-format
-msgid ""
-"\n"
-"<p>\n"
-"Request for deleting the DOI from the record \"%(topic_title)s\" was declined. You can see the request details at\n"
-"<a href=\"%(link)s\">%(link)s</a>\n"
-"</p>\n"
-"    "
-msgstr ""
-" <p>\n"
-"Žádost o odstranění DOI pro záznam “%(topic_title)s” byla zamítnuta. Podrobnosti o žádosti naleznete na adrese\n"
-"<a href=“%(link)s”>%(link)s</a>\n"
-"</p>\n"
-". "
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:27
-#, python-format
-msgid ""
-"\n"
-"Request for deleting the DOI from the record \"%(topic_title)s\" was declined. You can see the request details at\n"
-"%(link)s\n"
-"    "
-msgstr ""
-"\n"
-"Žádost o vymazání DOI pro záznam “%(topic_title)s” byla zamítnuta. Podrobnosti o žádosti naleznete na adrese\n"
-"%(link)s\n"
-". "
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:8
-#, python-brace-format
-msgid "Request to delete DOI from record {topic_title}"
-msgstr "Žádost o odstranění DOI pro záznam {topic_title}"
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:12
-#, python-format
-msgid ""
-"\n"
-"    <p>\n"
-"    You have been asked to approve a DOI deletion for the record \"%(topic_title)s\".\n"
-"    </p>\n"
-"    <p>\n"
-"        <a type=\"button\" href='%(link)s'>Accept or Decline the request</a>\n"
-"    </p>\n"
-"    "
-msgstr ""
-"\n"
-"    <p>\n"
-" Byli jste požádáni o schválení odstranění DOI pro záznam “%(topic_title)s”.\n"
-"    </p>\n"
-" <p>\n"
-" <a type=“button” href=‘%(link)s’>Schválit nebo zamítnout žádost</a>\n"
-" </p> "
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:29
-#, python-format
-msgid ""
-"\n"
-"    You have been asked to approve a DOI deletion for the record \"%(topic_title)s\".\n"
-"    Accept or Decline the request at %(link)s\n"
-"    "
-msgstr ""
-"\n"
-"    Byli jste požádáni o schválení odstranění DOI pro záznam “%(topic_title)s”.\n"
-"    Schvalte nebo zamítněte žádost na adrese %(link)s\n"
-". "
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:13
-#, python-format
-msgid ""
-"\n"
-"<p>\n"
-"Your request to assign a DOI to the record \"%(topic_title)s\" has been approved. You can view the updated record at\n"
-"<a href=\"%(link)s\">%(link)s</a>\n"
-"</p>\n"
-"    "
-msgstr ""
-"\n"
-"<p>\n"
-"Vaše žádost o přidělení DOI záznamu \"%(topic_title)s\" byla schválena. Aktualizovaný záznam si můžete prohlédnout na adrese\n"
-"<a href=\"%(link)s\">%(link)s</a>\n"
-"</p>\n"
-"    "
-
-#: /Users/alzbetapokorna/cesnet/14/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:12
-#, python-format
-msgid ""
-"\n"
-"    <p>\n"
-"    You have been asked to approve a DOI assignment for the record \"%(topic_title)s\".\n"
-"    </p>\n"
-"    <p>\n"
-"        <a type=\"button\" href='%(link)s'>Accept or Decline the request</a>\n"
-"    </p>\n"
-"    "
-msgstr ""
-"\n"
-"    <p>\n"
-"     Byli jste požádáni o schválení přiřazení DOI pro záznam \"%(topic_title)s\".\n"
-"    </p>\n"
-"    <p>\n"
-"        <a type=\"button\" href='%(link)s'>Schválit nebo zamítnout žádost</a>\n"
-"    </p>\n"
-"    "
-
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.accept.jinja:31
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.decline.jinja:31
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/assign-doi-request-event.submit.jinja:33
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.accept.jinja:31
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.decline.jinja:31
-#: /Users/alzbetapokorna/cesnet/14/up/oarepo-doi/oarepo_doi/templates/semantic-ui/invenio_notifications/delete-doi-request-event.submit.jinja:33
-#, python-format
-msgid ""
-"\n"
-"    This is an auto-generated message. To manage notifications, visit your account setting at: %(account_settings_link)s.\n"
-"    "
-msgstr ""
-"Toto je automaticky generovaná zpráva. Pokud tyto zprávy nechcete nadále "
-"dostávat, změňte si nastavení ve svém profilu na %(account_settings_link)s."
-
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/config.py:48
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/config.py:40
 msgid "Newest"
 msgstr "Nejnovější"
 
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:25
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:4
-msgid "Community slug"
-msgstr "Identifikátor komunity"
-
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:5
-msgid "Username"
-msgstr "Přihlašovací jméno"
-
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:21
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:53
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:108
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/facets.py:6
-msgid "Prefix"
-msgstr ""
-
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:13
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:54
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:109
-msgid "Datacite ID"
-msgstr ""
-
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:17
-msgid "Password"
-msgstr "Heslo"
-
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:52
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:107
-msgid "Community"
-msgstr "Komunita"
-
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:55
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:110
-msgid "Created"
-msgstr "Vytvořeno"
-
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:111
-msgid "Updated"
-msgstr "Aktualizováno"
-
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:39
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:44
-msgid "DOI Configuration"
-msgstr "DOI Konfigurace"
-
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:72
-msgid "Create DOI configuration"
-msgstr "Vytvoření DOI konfigurace"
-
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:85
-msgid "Edit DOI configuration"
-msgstr "Editace DOI konfigurace"
-
-#: /Users/alzbetapokorna/cesnet/model/preklad/oarepo-doi/oarepo_doi/settings/administration/views.py:97
-msgid "DOI configuration detail"
-msgstr "Detail DOI konfigurace"
-
-#: /Users/alzbetapokorna/cesnet/model/upload5/oarepo-doi/oarepo_doi/settings/components.py:19
-#: /Users/alzbetapokorna/cesnet/model/upload5/oarepo-doi/oarepo_doi/settings/components.py:29
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:51
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:92
 msgid "Community not found"
 msgstr "Komunita nenalezena"
-
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:61
-msgid ""
-"Settings for this community already exist. Please edit the existing settings"
-" instead of creating a new one."
-msgstr ""
-"Konfigurace pro tuto komunitu již existuje. Místo vytváření nové prosím "
-"upravte stávající konfiguraci."
 
 #: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:62
 msgid ""
@@ -441,3 +31,82 @@ msgid ""
 msgstr ""
 "Defaultní konfigurace již existuje. Místo vytváření nové prosím upravte "
 "stávající."
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:70
+msgid ""
+"Settings for this community already exist. Please edit the existing settings"
+" instead of creating a new one."
+msgstr ""
+"Konfigurace pro tuto komunitu již existuje. Místo vytváření nové prosím "
+"upravte stávající konfiguraci."
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:41
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/facets.py:16
+msgid "Community slug"
+msgstr "Identifikátor komunity"
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/facets.py:17
+msgid "Username"
+msgstr "Přihlašovací jméno"
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:37
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:70
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:128
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/facets.py:18
+msgid "Prefix"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:29
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:71
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:129
+msgid "Datacite ID"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:33
+msgid "Password"
+msgstr "Heslo"
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:56
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:61
+msgid "DOI Configuration"
+msgstr "DOI Konfigurace"
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:69
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:127
+msgid "Community"
+msgstr "Komunita"
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:72
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:130
+msgid "Created"
+msgstr "Vytvořeno"
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:90
+msgid "Create DOI configuration"
+msgstr "Vytvoření DOI konfigurace"
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:104
+msgid "Edit DOI configuration"
+msgstr "Editace DOI konfigurace"
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:117
+msgid "DOI configuration detail"
+msgstr "Detail DOI konfigurace"
+
+#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:131
+msgid "Updated"
+msgstr "Aktualizováno"
+
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/config.py:23
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/config.py:31
+msgid "DOI"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/config.py:45
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/config.py:54
+msgid "Concept DOI"
+msgstr "Koncepční DOI"
+
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:52
+msgid "Site management"
+msgstr "Správa webu"
