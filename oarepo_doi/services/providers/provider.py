@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2025 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2025 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """DOI record aware provider."""
 
 from __future__ import annotations
@@ -63,7 +58,7 @@ def _is_datacite_already_taken(error: Any) -> bool:
 class DataCiteRecordAwareProvider(DataCitePIDProvider):
     """DOI record aware provider."""
 
-    def generate_id(self, record: Record, **kwargs: Any) -> str:
+    def generate_id(self, record: Record | dict[str, Any], **kwargs: Any) -> str:
         """Generate a unique DOI."""
         # Delegate to client
         _ = kwargs
@@ -72,11 +67,18 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
         return str(self.client.generate_doi(record))
 
     @with_record_context
-    def register(self, pid: PersistentIdentifier, record: Record, **kwargs: Any) -> Any:  # pyright: ignore[reportIncompatibleMethodOverride]
+    def register(
+        self,
+        pid: PersistentIdentifier,
+        record: Record | dict[str, Any] | None = None,
+        **kwargs: Any,
+    ) -> bool:
         """Register DOI or update DOI if already taken."""
-        if _is_restricted(record):
+        if record is None or _is_restricted(record):
             return False
-
+        client = self.client
+        if client is None:
+            raise RuntimeError("DataCite client is not configured")
         local_success = BasePIDProvider.register(self, pid)
         if not local_success:
             return False
@@ -84,8 +86,8 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
         try:
             doc = self.serializer.dump_obj(record)
             url = kwargs["url"]
-            self.client.api.public_doi(metadata=doc, url=url, doi=pid.pid_value)  # pyright: ignore[reportOptionalMemberAccess]
-            return True  # noqa: TRY300
+            client.api.public_doi(metadata=doc, url=url, doi=pid.pid_value)  # pyright: ignore[reportOptionalMemberAccess]
+            return True
 
         except DataCiteError as e:
             if _is_datacite_already_taken(e):
@@ -115,14 +117,19 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
         return super().restore(pid, **kwargs)
 
     @with_record_context
-    def delete(self, pid: PersistentIdentifier, **kwargs: Any) -> Any:  # pyright: ignore[reportIncompatibleMethodOverride]
+    def delete(
+        self,
+        pid: PersistentIdentifier,
+        soft_delete: bool = False,
+        **kwargs: Any,
+    ) -> bool:
         """Delete/unregister a registered DOI.
 
         If the PID has not been reserved then it's deleted only locally.
         Otherwise, also it's deleted also remotely.
         :returns: `True` if is deleted successfully.
         """
-        return super().delete(pid, **kwargs)
+        return super().delete(pid, soft_delete=soft_delete, **kwargs)
 
     @with_record_context
     def validate(

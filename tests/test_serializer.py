@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2026 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2026 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """Tests for resource serializers."""
 
 from __future__ import annotations
@@ -55,6 +50,3 @@ def test_multiple_models_schema_no_datacite_export(monkeypatch):
 
     with pytest.raises(RuntimeError, match="No Datacite serializer defined for test-schema"):
         MultipleModelsSchema().dump(record)
-
-
-

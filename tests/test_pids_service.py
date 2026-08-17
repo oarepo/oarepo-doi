@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2026 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2026 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """PID service-style tests for the record-aware DataCite provider."""
 
 from __future__ import annotations
@@ -33,7 +28,7 @@ def test_generate_doi_falls_back_to_global_datacite_config(app, monkeypatch, doi
     app.config.update(
         DATACITE_PREFIX="10.99999",
         DATACITE_USERNAME="global-user",
-        DATACITE_PASSWORD="global-password",
+        DATACITE_PASSWORD="global-password",  # noqa: S106
         DATACITE_FORMAT="{prefix}/global.{id}",
     )
 

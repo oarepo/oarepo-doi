@@ -1,10 +1,8 @@
+# SPDX-FileCopyrightText: 2026 CESNET z.s.p.o.
+# SPDX-License-Identifier: MIT
+
 
 from __future__ import annotations
-
-from importlib import util
-from importlib.metadata import PackageNotFoundError
-from pathlib import Path
-from unittest.mock import Mock
 
 
 def test_version():

@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2026 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2026 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """Tests for DOI settings components."""
 
 from __future__ import annotations
@@ -52,9 +47,8 @@ def test_create(monkeypatch):
 
     assert record.prefix == "10.12345"
     assert record.username == "datacite-user"
-    assert record.password == "datacite-password"
+    assert record.password == "datacite-password"  # noqa: S105
     assert record.community_slug == "test-community"
-
 
 
 def test_create_rejects_duplicate(monkeypatch):
@@ -77,4 +71,3 @@ def test_update_rejects_missing_community(monkeypatch):
 
     with pytest.raises(BadRequest):
         component.update(SimpleNamespace(), data=_doi_settings_data(), record=SimpleNamespace())
-

@@ -1,22 +1,17 @@
-#
-# Copyright (c) 2025 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2025 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """Oarepo multiple model serializers."""
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Protocol, cast
 
 from flask_resources import BaseListSchema, MarshmallowSerializer
 from flask_resources.serializers import BaseSerializerSchema, JSONSerializer
 from oarepo_runtime import current_runtime
 
-#TODO: move to documentation
+# TODO: move to documentation
 """
 class DataCite43JSONSerializer(MarshmallowSerializer):
 
@@ -45,6 +40,12 @@ class OarepoDataciteJSONSerializer(MarshmallowSerializer):
         )
 
 
+class _ObjectSerializer(Protocol):
+    """Serializer capable of serializing one object."""
+
+    def dump_obj(self, obj: Any) -> Any: ...
+
+
 class MultipleModelsSchema(BaseSerializerSchema):
     """Multiple model repository serializer."""
 
@@ -62,4 +63,4 @@ class MultipleModelsSchema(BaseSerializerSchema):
         if datacite_serializer is None:
             raise RuntimeError(f"No Datacite serializer defined for {obj.data['$schema']}")
 
-        return datacite_serializer.dump_obj(obj)  # pyright: ignore[reportAttributeAccessIssue]
+        return cast("_ObjectSerializer", datacite_serializer).dump_obj(obj)

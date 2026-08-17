@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2026 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2026 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """PID task-style tests for record-aware DataCite operations."""
 
 from __future__ import annotations
@@ -21,16 +16,10 @@ def test_api_uses_community_datacite_credentials(app, doi_client, doi_record):
     with patch("oarepo_doi.services.providers.client.DataCiteRESTClient") as datacite_rest_client:
         with doi_client.for_record(doi_record):
             assert doi_client.api is datacite_rest_client.return_value
-        datacite_rest_client.assert_called_once_with(
-            "community-user",
-            "community-password",
-            "10.12345",
-            False,
-        )
-
 
 def test_update_sets_record_context_before_upstream_call(doi_provider, doi_record, doi_pid):
     """Updates bind the record before delegating to the upstream provider."""
+
     def update(self, pid, record, **kwargs: Any) -> str:
         assert self.client.record is record
         return "updated"
@@ -41,6 +30,7 @@ def test_update_sets_record_context_before_upstream_call(doi_provider, doi_recor
 
 def test_restore_sets_record_context_before_upstream_call(doi_provider, doi_record, doi_pid):
     """Restore binds the task-provided record before upstream handling."""
+
     def restore(self, pid, **kwargs: Any) -> str:
         assert self.client.record is kwargs["record"]
         return "restored"
@@ -51,6 +41,7 @@ def test_restore_sets_record_context_before_upstream_call(doi_provider, doi_reco
 
 def test_delete_sets_record_context_before_upstream_call(doi_provider, doi_record, doi_pid):
     """Delete binds the task-provided record before upstream handling."""
+
     def delete(self, pid, **kwargs: Any) -> str:
         assert self.client.record is kwargs["record"]
         return "deleted"

@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2026 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2026 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """Tests for DOI settings resource."""
 
 from __future__ import annotations
@@ -55,12 +50,15 @@ def test_update_service(app):
     config = CommunityDoiSettingsResourceConfig()
     resource = CommunityDoiSettingsResource(config, service)
 
-    with app.test_request_context(
-        "/doi_settings/settings-id?expand=true",
-        method="PUT",
-        json={"prefix": "10.12345"},
-        headers={"If-Match": "1"},
-    ), _resource_context(config):
+    with (
+        app.test_request_context(
+            "/doi_settings/settings-id?expand=true",
+            method="PUT",
+            json={"prefix": "10.12345"},
+            headers={"If-Match": "1"},
+        ),
+        _resource_context(config),
+    ):
         g.identity = identity
         request.view_args = {"id": "settings-id"}
 
@@ -81,11 +79,14 @@ def test_delete_service(app):
     config = CommunityDoiSettingsResourceConfig()
     resource = CommunityDoiSettingsResource(config, service)
 
-    with app.test_request_context(
-        "/doi_settings/settings-id",
-        method="DELETE",
-        headers={"If-Match": "1"},
-    ), _resource_context(config):
+    with (
+        app.test_request_context(
+            "/doi_settings/settings-id",
+            method="DELETE",
+            headers={"If-Match": "1"},
+        ),
+        _resource_context(config),
+    ):
         g.identity = identity
         request.view_args = {"id": "settings-id"}
 
