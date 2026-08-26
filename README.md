@@ -194,8 +194,8 @@ keeps its OAI configuration. The extension appends its `datacite` provider to
 both provider lists and adds its default `doi` mappings. The resulting lists
 contain both OAI and DataCite providers.
 
-For the underlying InvenioRDM DOI behavior, DataCite configuration, and
-`RDM_PERSISTENT_IDENTIFIERS` options, see the official
+For the underlying InvenioRDM DOI behavior, DataCite configuration, `RDM_PERSISTENT_IDENTIFIERS`, and
+`RDM_PARENT_PERSISTENT_IDENTIFIER` options, see the official
 [InvenioRDM DOI registration documentation](https://inveniordm.docs.cern.ch/operate/customize/dois/).
 
 To replace the DOI setup entirely, define a provider named `datacite` and the
