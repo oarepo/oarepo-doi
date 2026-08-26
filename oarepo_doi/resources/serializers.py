@@ -13,7 +13,7 @@ from oarepo_runtime import current_runtime
 
 
 class OarepoDataciteJSONSerializer(MarshmallowSerializer):
-    """Marshmallow based DataCite schema v4.3 serializer for records."""
+    """Marshmallow based DataCite schema v4.5 serializer for records."""
 
     def __init__(self, **options: Any) -> None:
         """Construct."""
