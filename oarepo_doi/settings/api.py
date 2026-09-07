@@ -51,7 +51,7 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
 
     @classmethod
     @override
-    def create(cls, data: dict, id_: str | UUID | None = None, **kwargs: Any) -> BaseAggregate:
+    def create(cls, data: dict, id_: str | UUID | None = None, **kwargs: Any) -> BaseAggregate:  # ty: ignore[invalid-method-override]
         """Create a domain."""
         return CommunityDoiSettingsAggregate(
             data,
@@ -60,7 +60,7 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
 
     @classmethod
     @override
-    def get_record(cls, id_: UUID | str, with_deleted: bool = False) -> Record:
+    def get_record(cls, id_: UUID | str, with_deleted: bool = False) -> Record:  # ty: ignore[invalid-method-override]
         """Get the user via the specified ID."""
         with db.session.no_autoflush:
             settings = CommunityDoiSettings.query.get(id_)
