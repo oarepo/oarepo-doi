@@ -2,7 +2,7 @@
 
 Contributions are welcome, and they are greatly appreciated! Every little bit
 helps, and credit will always be given. Additional documentation can be found
-in the [OARepo documentation](https://nrp-cz.github.io/).
+in the [OARepo documentation](https://nrp-cz.github.io/docs/).
 
 ## Types of Contributions
 
@@ -29,7 +29,7 @@ is open to whoever wants to implement it.
 ### Write Documentation
 
 OARepo Theme could always use more documentation, whether as part of the
-official [NRP docs](https://nrp-cz.github.io/), in README.md, docstrings, or even on
+official [NRP docs](https://nrp-cz.github.io/docs/), in README.md, docstrings, or even on
 the web in blog posts, articles, and such.
 
 ### Submit Feedback
