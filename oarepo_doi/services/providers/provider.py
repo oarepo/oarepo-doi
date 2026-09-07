@@ -86,7 +86,7 @@ class DataCiteRecordAwareProvider(DataCitePIDProvider):
         try:
             doc = self.serializer.dump_obj(record)
             url = kwargs["url"]
-            client.api.public_doi(metadata=doc, url=url, doi=pid.pid_value)  # type: ignore[union-attr]
+            client.api.public_doi(metadata=doc, url=url, doi=pid.pid_value)  # pyright: ignore[reportOptionalMemberAccess]
             return True
 
         except DataCiteError as e:
