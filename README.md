@@ -59,6 +59,15 @@ DATACITE_ENABLED = True
 This package registers its community-aware provider and DOI configuration, but
 does not change `DATACITE_ENABLED`.
 
+## DOI per community
+
+DOI per community means that each community can have its own DOI configuration independently of other communities. 
+DOI settings are therefore not defined globally for the whole repository instance, but separately for each specific community.
+
+Each community can have its own prefix and credentials for the DOI provider. 
+This allows multiple communities within a single repository instance to use different DOI accounts.
+
+
 ## DataCite integration
 
 The package provides two record-aware DataCite classes:
