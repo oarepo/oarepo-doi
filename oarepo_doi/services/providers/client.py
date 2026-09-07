@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2025 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2025 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """DOI record aware client."""
 
 from __future__ import annotations
@@ -57,7 +52,7 @@ class DataCiteRecordAwareClient(DataCiteClient):
         """Get record for the current execution context."""
         return _record_ctx.get()
 
-    def generate_doi(self, record: Record) -> str:  # pyright: ignore[reportIncompatibleMethodOverride]
+    def generate_doi(self, record: Record | dict[str, Any]) -> str:
         """Generate a DOI."""
         doi_settings = self.get_doi_settings(record)
         if not doi_settings:
@@ -68,9 +63,11 @@ class DataCiteRecordAwareClient(DataCiteClient):
             doi_format = "{prefix}/{id}"
         if callable(doi_format):
             return str(doi_format(prefix, record))
-        return str(doi_format.format(prefix=prefix, id=record.pid.pid_value))  # pyright: ignore[reportAttributeAccessIssue]
+        pid = getattr(record, "pid", None)
+        record_id = pid.pid_value if pid is not None else record["id"]
+        return str(doi_format.format(prefix=prefix, id=record_id))
 
-    def get_doi_settings(self, record: Record) -> CommunityDoiSettings | Any:
+    def get_doi_settings(self, record: Record | dict[str, Any]) -> CommunityDoiSettings | Any:
         """Get doi configuration for the record."""
         parent = getattr(record, "parent", None)
         if parent is not None:

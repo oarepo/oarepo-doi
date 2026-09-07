@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2025 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2025 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """DOI settings api."""
 
 from __future__ import annotations
@@ -56,16 +51,16 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
 
     @classmethod
     @override
-    def create(cls, data: dict, id_: str | UUID | None = None, **kwargs: Any) -> BaseAggregate:
+    def create(cls, data: dict, id_: str | UUID | None = None, **kwargs: Any) -> BaseAggregate:  # ty: ignore[invalid-method-override]
         """Create a domain."""
         return CommunityDoiSettingsAggregate(
             data,
-            model=CommunityDoiSettingsAggregateModel(model_obj=CommunityDoiSettings()),  # pyright: ignore[reportArgumentType,reportIncompatibleVariableOverride]
+            model=CommunityDoiSettingsAggregateModel(model_obj=CommunityDoiSettings()),  # ty: ignore[invalid-argument-type]
         )
 
     @classmethod
     @override
-    def get_record(cls, id_: UUID | str, with_deleted: bool = False) -> Record:
+    def get_record(cls, id_: UUID | str, with_deleted: bool = False) -> Record:  # ty: ignore[invalid-method-override]
         """Get the user via the specified ID."""
         with db.session.no_autoflush:
             settings = CommunityDoiSettings.query.get(id_)
@@ -78,4 +73,4 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
     def delete(self, force: bool = True) -> Any:
         """Delete the domain."""
         if self.model is not None:
-            db.session.delete(self.model.model_obj)  # pyright: ignore[reportAttributeAccessIssue]
+            db.session.delete(self.model.model_obj)  # ty: ignore[unresolved-attribute]

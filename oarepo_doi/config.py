@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2025 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2025 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """DOI configuration."""
 
 from __future__ import annotations
@@ -13,7 +8,7 @@ from __future__ import annotations
 import idutils
 from invenio_i18n import lazy_gettext as _
 from invenio_rdm_records.resources.serializers import (
-    DataCite43JSONSerializer,  # pyright: ignore[reportAttributeAccessIssue]
+    DataCite45JSONSerializer,  # pyright: ignore[reportAttributeAccessIssue]
 )
 
 from oarepo_doi.services.providers.client import DataCiteRecordAwareClient
@@ -34,8 +29,8 @@ RDM_PERSISTENT_IDENTIFIERS = {
         "providers": ["datacite"],
         "required": True,
         "label": _("DOI"),
-        "validator": idutils.is_doi,  # pyright: ignore[reportAttributeAccessIssue]
-        "normalizer": idutils.normalize_doi,  # pyright: ignore[reportAttributeAccessIssue]
+        "validator": idutils.is_doi,  # ty: ignore[unresolved-attribute]
+        "normalizer": idutils.normalize_doi,  # ty: ignore[unresolved-attribute]
         "is_enabled": DataCiteRecordAwareProvider.is_enabled,
         "ui": {"default_selected": "no"},  # "yes", "no" or "not_needed"
     }
@@ -46,7 +41,7 @@ RDM_PARENT_PERSISTENT_IDENTIFIER_PROVIDERS = [
     DataCiteRecordAwareProvider(
         "datacite",
         client=DataCiteRecordAwareClient("datacite", config_prefix="DATACITE"),
-        serializer=DataCite43JSONSerializer(schema_context={"is_parent": True}),
+        serializer=DataCite45JSONSerializer(schema_context={"is_parent": True}),
         label=_("Concept DOI"),
     ),
 ]
@@ -57,8 +52,8 @@ RDM_PARENT_PERSISTENT_IDENTIFIERS = {
         "required": True,
         "condition": lambda rec: rec.pids.get("doi", {}).get("provider") == "datacite",
         "label": _("Concept DOI"),
-        "validator": idutils.is_doi,  # pyright: ignore[reportAttributeAccessIssue]
-        "normalizer": idutils.normalize_doi,  # pyright: ignore[reportAttributeAccessIssue]
+        "validator": idutils.is_doi,  # ty: ignore[unresolved-attribute]
+        "normalizer": idutils.normalize_doi,  # ty: ignore[unresolved-attribute]
         "is_enabled": DataCiteRecordAwareProvider.is_enabled,
     },
 }

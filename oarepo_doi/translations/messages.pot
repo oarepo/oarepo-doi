@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-14 13:57+0200\n"
+"POT-Creation-Date: 2026-08-17 13:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,81 +17,95 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/config.py:40
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/config.py:23
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/config.py:31
+msgid "DOI"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/config.py:45
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/config.py:54
+msgid "Concept DOI"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/config.py:84
 msgid "Newest"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:51
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:92
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/components.py:46
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/components.py:87
 msgid "Community not found"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:62
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/components.py:57
 msgid ""
 "Default community settings are already defined. Please edit the existing "
 "default settings instead of creating a new one."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/components.py:70
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/components.py:65
 msgid ""
 "Settings for this community already exist. Please edit the existing "
 "settings instead of creating a new one."
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:41
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/facets.py:16
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:36
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/facets.py:11
 msgid "Community slug"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/facets.py:17
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/facets.py:12
 msgid "Username"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:37
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:70
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:128
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/facets.py:18
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:32
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:65
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:123
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/facets.py:13
 msgid "Prefix"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:29
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:71
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:129
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:24
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:66
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:124
 msgid "Datacite ID"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:33
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:28
 msgid "Password"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:56
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:61
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:51
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:56
 msgid "DOI Configuration"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:69
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:127
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:52
+msgid "Site management"
+msgstr ""
+
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:64
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:122
 msgid "Community"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:72
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:130
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:67
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:125
 msgid "Created"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:90
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:85
 msgid "Create DOI configuration"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:104
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:99
 msgid "Edit DOI configuration"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:117
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:112
 msgid "DOI configuration detail"
 msgstr ""
 
-#: /Users/alzbetapokorna/cesnet/2026/oarepo-doi/oarepo_doi/settings/administration/views.py:131
+#: /Users/alzbetapokorna/cesnet/2026/refaktor14/oarepo-doi/oarepo_doi/settings/administration/views.py:126
 msgid "Updated"
 msgstr ""
 

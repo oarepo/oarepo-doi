@@ -1,14 +1,12 @@
-#
-# Copyright (c) 2026 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2026 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """PID service-style tests for the record-aware DataCite provider."""
 
 from __future__ import annotations
+
+from types import SimpleNamespace
+from unittest.mock import Mock, patch
 
 import pytest
 
@@ -26,7 +24,7 @@ def test_generate_id_uses_community_doi_settings(doi_provider, doi_record):
 def test_generate_doi_falls_back_to_global_datacite_config(app, monkeypatch, doi_record):
     """Without community settings the client behaves like the upstream client."""
     client = DataCiteRecordAwareClient("datacite")
-    monkeypatch.setattr(client, "get_doi_settings", lambda record: None)  # noqa: ARG005
+    monkeypatch.setattr(client, "get_doi_settings", lambda record: None)
     app.config.update(
         DATACITE_PREFIX="10.99999",
         DATACITE_USERNAME="global-user",
@@ -37,6 +35,37 @@ def test_generate_doi_falls_back_to_global_datacite_config(app, monkeypatch, doi
     doi = client.generate_doi(doi_record)
 
     assert doi == "10.99999/global.abcde-fghij"
+
+
+def test_register_publishes_doi_to_datacite(app, doi_provider, doi_record, doi_pid):
+    """Provider registers PID locally and publishes DOI metadata to DataCite."""
+    metadata = {"doi": doi_pid.pid_value}
+    doi_provider.serializer = SimpleNamespace(dump_obj=lambda record: metadata)
+
+    with (
+        patch("oarepo_doi.services.providers.client.DataCiteRESTClient") as datacite_rest_client,
+        patch(
+            "oarepo_doi.services.providers.provider.BasePIDProvider.register",
+            return_value=True,
+        ),
+    ):
+        assert doi_provider.register(doi_pid, doi_record, url="https://example.org/records/1") is True
+
+    datacite_rest_client.return_value.public_doi.assert_called_once_with(
+        metadata=metadata,
+        url="https://example.org/records/1",
+        doi=doi_pid.pid_value,
+    )
+
+
+def test_get_doi_settings_client(app, doi_record, doi_record_settings):
+    client = DataCiteRecordAwareClient("datacite")
+    query = Mock()
+    query.filter_by.return_value.first.return_value = doi_record_settings
+
+    with patch("oarepo_doi.services.providers.client.db.session.query", return_value=query):
+        result = client.get_doi_settings(doi_record)
+    assert result is doi_record_settings
 
 
 def test_generate_id_requires_configured_client(doi_record):

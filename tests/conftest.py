@@ -1,11 +1,6 @@
-#
-# Copyright (c) 2026 CESNET z.s.p.o.
-#
-# This file is a part of oarepo-doi (see http://github.com/oarepo/oarepo-doi).
-#
-# oarepo-runtime is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
-#
+# SPDX-FileCopyrightText: 2026 CESNET z.s.p.o
+# SPDX-License-Identifier: MIT
+
 """Pytest fixtures for OARepo DOI tests."""
 
 from __future__ import annotations
@@ -54,6 +49,12 @@ def doi_record_settings():
 
 
 @pytest.fixture
+def doi_pid():
+    """PID-like object with a DOI value."""
+    return SimpleNamespace(pid_value="10.12345/abcde-fghij")
+
+
+@pytest.fixture
 def doi_client(app, doi_record_settings, monkeypatch):
     """Record-aware DataCite client with community settings mocked."""
     client = DataCiteRecordAwareClient(
@@ -65,7 +66,7 @@ def doi_client(app, doi_record_settings, monkeypatch):
             "DATACITE_TEST_MODE": False,
         },
     )
-    monkeypatch.setattr(client, "get_doi_settings", lambda record: doi_record_settings)  # noqa: ARG005
+    monkeypatch.setattr(client, "get_doi_settings", lambda record: doi_record_settings)
     return client
 
 
