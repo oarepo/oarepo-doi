@@ -172,7 +172,7 @@ def test_get_all_records_with_doi(monkeypatch):
 
     result = cli.get_all_records_with_doi()
 
-    assert result == [
+    assert list(result) == [
         ("10.1234/first", records[0], None),
         ("2", records[1], None),
         ("<unknown>", records[2], None),

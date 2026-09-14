@@ -5,12 +5,17 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import click
 from flask.cli import with_appcontext
 from invenio_access.permissions import system_identity
 from invenio_pidstore.errors import PIDDoesNotExistError
 from invenio_pidstore.models import PersistentIdentifier
 from invenio_rdm_records.proxies import current_rdm_records_service
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 
 @click.group("doi")
@@ -159,14 +164,13 @@ def get_records_for_identifiers(identifiers: tuple) -> list:
     return records
 
 
-def get_all_records_with_doi() -> list:
+def get_all_records_with_doi() -> Iterator:
     """Scan all published records containing a DOI."""
     results = current_rdm_records_service.scan(
         system_identity,
         params={"q": "_exists_:pids.doi.identifier"},
     )
 
-    records = []
     for record in results:
         doi = get_doi_from_record(record)
         identifier = None
@@ -177,10 +181,7 @@ def get_all_records_with_doi() -> list:
         if identifier is None:
             identifier = record.get("id", "<unknown>")
 
-        record_entry = (identifier, record, None)
-        records.append(record_entry)
-
-    return records
+        yield identifier, record, None
 
 
 def get_doi_from_record(record: dict | None) -> dict | None:
