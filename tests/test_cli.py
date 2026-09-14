@@ -132,3 +132,121 @@ def test_doi_with_fail(app, monkeypatch):
     assert "FAILED  10.1234/failed: record lookup failed" in result.output
     assert "Updated: 2; skipped: 0; failed: 1" in result.output
     assert "1 DOI update(s) failed" in result.output
+
+
+def test_get_records_for_identifiers(monkeypatch):
+    resolved_record = {"id": "1"}
+    resolve = Mock(
+        side_effect=[
+            SimpleNamespace(to_dict=Mock(return_value=resolved_record)),
+            RuntimeError("resolve failed"),
+        ],
+    )
+    monkeypatch.setattr(
+        cli,
+        "current_rdm_records_service",
+        SimpleNamespace(pids=SimpleNamespace(resolve=resolve)),
+    )
+
+    records = cli.get_records_for_identifiers(("10.1234/first", "10.1234/failed"))
+
+    assert records == [
+        ("10.1234/first", resolved_record, None),
+        ("10.1234/failed", None, "resolve failed"),
+    ]
+    assert resolve.call_count == 2
+
+
+def test_get_all_records_with_doi(monkeypatch):
+    records = [
+        {"id": "1", "pids": {"doi": {"identifier": "10.1234/first"}}},
+        {"id": "2", "pids": {"doi": {}}},
+        {"pids": {}},
+    ]
+    scan = Mock(return_value=records)
+    monkeypatch.setattr(
+        cli,
+        "current_rdm_records_service",
+        SimpleNamespace(scan=scan),
+    )
+
+    result = cli.get_all_records_with_doi()
+
+    assert result == [
+        ("10.1234/first", records[0], None),
+        ("2", records[1], None),
+        ("<unknown>", records[2], None),
+    ]
+    scan.assert_called_once_with(
+        cli.system_identity,
+        params={"q": "_exists_:pids.doi.identifier"},
+    )
+
+
+def test_doi_update_handles_pid_and_update_errors(app, monkeypatch):
+    app.cli.add_command(cli.doi_cli)
+
+    records = [
+        (
+            "missing-identifier",
+            {"id": "1", "pids": {"doi": {"provider": "datacite"}}},
+            None,
+        ),
+        (
+            "10.1234/missing-pid",
+            {
+                "id": "2",
+                "pids": {"doi": {"identifier": "10.1234/missing-pid", "provider": "datacite"}},
+            },
+            None,
+        ),
+        (
+            "10.1234/unregistered",
+            {
+                "id": "3",
+                "pids": {"doi": {"identifier": "10.1234/unregistered", "provider": "datacite"}},
+            },
+            None,
+        ),
+        (
+            "10.1234/update-failed",
+            {
+                "id": "4",
+                "pids": {"doi": {"identifier": "10.1234/update-failed", "provider": "datacite"}},
+            },
+            None,
+        ),
+    ]
+    monkeypatch.setattr(cli, "get_records_for_identifiers", Mock(return_value=records))
+
+    unregistered_pid = SimpleNamespace(is_registered=lambda: False, status="N")
+    registered_pid = SimpleNamespace(is_registered=lambda: True, status="R")
+
+    def get_pid(*, pid_type, pid_value):
+        assert pid_type == "doi"
+        if pid_value == "10.1234/missing-pid":
+            raise cli.PIDDoesNotExistError(pid_type, pid_value)
+        if pid_value == "10.1234/unregistered":
+            return unregistered_pid
+        return registered_pid
+
+    monkeypatch.setattr(cli, "PersistentIdentifier", SimpleNamespace(get=get_pid))
+
+    register_or_update = Mock(side_effect=RuntimeError("DataCite unavailable"))
+    monkeypatch.setattr(
+        cli,
+        "current_rdm_records_service",
+        SimpleNamespace(pids=SimpleNamespace(register_or_update=register_or_update)),
+    )
+
+    result = app.test_cli_runner().invoke(
+        args=["doi", "update", "first", "second", "third", "fourth"],
+    )
+
+    assert result.exit_code == 1
+    assert "SKIPPED missing-identifier: DOI has no identifier" in result.output
+    assert "FAILED  10.1234/missing-pid: DOI does not exist in PIDStore" in result.output
+    assert "SKIPPED 10.1234/unregistered: PID is not registered (N)" in result.output
+    assert "FAILED  10.1234/update-failed (record 4): DataCite unavailable" in result.output
+    assert "Updated: 0; skipped: 2; failed: 2" in result.output
+    assert register_or_update.call_count == 1
