@@ -68,6 +68,8 @@ oarepo_doi = "oarepo_doi"
 [project.entry-points."invenio_search.mappings"]
 doi-settings = "oarepo_doi.settings.mappings"
 
+[project.entry-points."flask.commands"]
+doi = "oarepo_doi.cli:doi_cli"
 
 [tool.hatch.build.targets.sdist]
 include = [
