@@ -32,6 +32,7 @@ class DoiSettingsComponent(ServiceComponent):
         record: CommunityDoiSettingsAggregate | None = None,
         **kwargs: Any,
     ) -> None:
+        #fjefoefjows
         """Inject fields into the record."""
         __, __ = identity, kwargs
         if record is not None and data is not None:
