@@ -18,7 +18,7 @@ from oarepo_doi.settings.models import CommunityDoiSettings
 from ..utils import community_slug_for_credentials
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
     from invenio_records_resources.records.api import Record
 
@@ -39,7 +39,7 @@ class DataCiteRecordAwareClient(DataCiteClient):
         super().__init__(name, config_prefix, config_overrides, **kwargs)
 
     @contextmanager
-    def for_record(self, record: Record | None) -> Iterator[DataCiteClient]:
+    def for_record(self, record: Record | None) -> Generator[DataCiteClient]:
         """Set record context for the current execution context."""
         token = _record_ctx.set(record)
         try:
