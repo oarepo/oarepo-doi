@@ -56,6 +56,9 @@ oarepo_doi_settings = "oarepo_doi.settings.views:create_api_blueprint"
 [project.entry-points."invenio_base.finalize_app"]
 oarepo_doi = "oarepo_doi.ext:finalize_app"
 
+[project.entry-points."invenio_base.secret_key"]
+oarepo_doi = "oarepo_doi.settings.utils:rebuild_doi_settings_passwords"
+
 [project.entry-points."invenio_db.alembic"]
 oarepo_doi = "oarepo_doi:alembic"
 
