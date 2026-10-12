@@ -94,7 +94,10 @@ class CommunityDoiSettingsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
 
     service_id = "community-doi"
     record_cls = CommunityDoiSettingsAggregate
-    schema = FromConfig("DOI_SETTINGS_SERVICE_SCHEMA", CommunityDoiSettingsSchema)  # pyright: ignore[reportAssignmentType,reportIncompatibleVariableOverride]
+    schema: type[CommunityDoiSettingsSchema] | FromConfig = FromConfig(
+        "DOI_SETTINGS_SERVICE_SCHEMA",
+        CommunityDoiSettingsSchema,
+    )
     indexer_queue_name = "community-doi"
     index_dumper = None
 
@@ -108,7 +111,7 @@ class CommunityDoiSettingsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
 
     links_search: Mapping[str, Link] = pagination_links("{+api}/doi_settings{?args*}")  # pyright: ignore[reportIncompatibleVariableOverride]
 
-    components: list[type[DoiSettingsComponent]] = [DoiSettingsComponent]  # noqa: RUF012 # pyright: ignore[reportIncompatibleVariableOverride]
+    components: tuple[type[DoiSettingsComponent], ...] = (DoiSettingsComponent,)
 
 
 class CommunityDoiSettingsService(RecordService):

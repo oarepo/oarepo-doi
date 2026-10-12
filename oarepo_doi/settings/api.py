@@ -24,7 +24,8 @@ if TYPE_CHECKING:
 class CommunityDoiSettingsAggregate(BaseAggregate):
     """An aggregate of information about a community doi settings."""
 
-    model_cls = CommunityDoiSettingsAggregateModel  # pyright: ignore[reportAssignmentType]
+    model_cls = CommunityDoiSettingsAggregateModel  # ty: ignore[invalid-assignment]
+
     """The model class for the request."""
 
     dumper = SearchDumper(  # pyright: ignore[reportAssignmentType]
@@ -47,7 +48,7 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
     index = IndexField("doi-settings-doi-settings-v1.0.0", search_alias="doi-settings")
 
     """Needed to emulate pid access."""
-    pid = AggregatePID("id")  # pyright: ignore[reportAssignmentType]
+    pid = AggregatePID("id")  # ty: ignore[invalid-assignment]
 
     @classmethod
     @override
