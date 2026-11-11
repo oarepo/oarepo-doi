@@ -17,7 +17,7 @@ class CommunityDoiSettingsSchema(BaseRecordSchema):
     password = fields.String(required=True)
     community_slug = fields.String(required=True)
 
-    class Meta:  # ty: ignore[invalid-attribute-override]
+    class Meta:  # ty: ignore[incompatible-attribute-override]
         """Metadata class."""
 
         strict = True

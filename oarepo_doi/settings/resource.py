@@ -24,7 +24,7 @@ class CommunityDoiSettingsResourceConfig(RecordResourceConfig):
     """DOI settings resource configuration."""
 
     blueprint_name: str | None = "oarepo_doi_settings"
-    url_prefix: str = "/doi_settings"  # pyright: ignore[reportIncompatibleVariableOverride]
+    url_prefix: str | None = "/doi_settings"
 
     routes: Any = {  # noqa: RUF012
         "list": "",
