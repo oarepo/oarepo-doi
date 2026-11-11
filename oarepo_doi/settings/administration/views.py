@@ -60,7 +60,7 @@ class DOIListView(AdminResourceListView):
     display_edit = True
     display_create = True
 
-    item_field_list: ClassVar[dict[str, dict[str, Any]]] = {  # ty: ignore[invalid-attribute-override]
+    item_field_list: ClassVar[dict[str, dict[str, Any]]] = {  # ty: ignore[incompatible-attribute-override]
         "community_slug": {"text": _("Community"), "order": 1, "width": 4},
         "prefix": {"text": _("Prefix"), "order": 2, "width": 4},
         "username": {"text": _("Datacite ID"), "order": 3, "width": 4},
@@ -118,7 +118,7 @@ class DOIDetailView(AdminResourceDetailView):
     list_view_name = "oarepo_doi"
     pid_path = "id"
 
-    item_field_list: ClassVar[dict[str, dict[str, Any]]] = {  # ty: ignore[invalid-attribute-override]
+    item_field_list: ClassVar[dict[str, dict[str, Any]]] = {  # ty: ignore[incompatible-attribute-override]
         "community_slug": {"text": _("Community"), "order": 1, "width": 4},
         "prefix": {"text": _("Prefix"), "order": 2, "width": 4},
         "username": {"text": _("Datacite ID"), "order": 3, "width": 4},

@@ -29,8 +29,8 @@ RDM_PERSISTENT_IDENTIFIERS = {
         "providers": ["datacite"],
         "required": True,
         "label": _("DOI"),
-        "validator": idutils.is_doi,  # ty: ignore[unresolved-attribute]
-        "normalizer": idutils.normalize_doi,  # ty: ignore[unresolved-attribute]
+        "validator": idutils.is_doi,  # ty: ignore[missing-attribute]
+        "normalizer": idutils.normalize_doi,  # ty: ignore[missing-attribute]
         "is_enabled": DataCiteRecordAwareProvider.is_enabled,
         "ui": {"default_selected": "no"},  # "yes", "no" or "not_needed"
     }
@@ -52,8 +52,8 @@ RDM_PARENT_PERSISTENT_IDENTIFIERS = {
         "required": True,
         "condition": lambda rec: rec.pids.get("doi", {}).get("provider") == "datacite",
         "label": _("Concept DOI"),
-        "validator": idutils.is_doi,  # ty: ignore[unresolved-attribute]
-        "normalizer": idutils.normalize_doi,  # ty: ignore[unresolved-attribute]
+        "validator": idutils.is_doi,  # ty: ignore[missing-attribute]
+        "normalizer": idutils.normalize_doi,  # ty: ignore[missing-attribute]
         "is_enabled": DataCiteRecordAwareProvider.is_enabled,
     },
 }

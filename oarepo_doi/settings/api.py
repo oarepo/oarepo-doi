@@ -52,7 +52,7 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
 
     @classmethod
     @override
-    def create(cls, data: dict, id_: str | UUID | None = None, **kwargs: Any) -> BaseAggregate:  # ty: ignore[invalid-method-override]
+    def create(cls, data: dict, id_: str | UUID | None = None, **kwargs: Any) -> BaseAggregate:  # ty: ignore[incompatible-method-override]
         """Create a domain."""
         return CommunityDoiSettingsAggregate(
             data,
@@ -61,7 +61,7 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
 
     @classmethod
     @override
-    def get_record(cls, id_: UUID | str, with_deleted: bool = False) -> Record:  # ty: ignore[invalid-method-override]
+    def get_record(cls, id_: UUID | str, with_deleted: bool = False) -> Record:  # ty: ignore[incompatible-method-override]
         """Get the user via the specified ID."""
         with db.session.no_autoflush:
             settings = CommunityDoiSettings.query.get(id_)
@@ -74,4 +74,4 @@ class CommunityDoiSettingsAggregate(BaseAggregate):
     def delete(self, force: bool = True) -> Any:
         """Delete the domain."""
         if self.model is not None:
-            db.session.delete(self.model.model_obj)  # ty: ignore[unresolved-attribute]
+            db.session.delete(self.model.model_obj)  # ty: ignore[missing-attribute]

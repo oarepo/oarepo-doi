@@ -43,10 +43,12 @@ if TYPE_CHECKING:
     from flask_principal import Identity
     from invenio_db.uow import UnitOfWork
     from invenio_records.api import RecordBase
+    from invenio_records_resources.services.records.components import ServiceComponent
     from invenio_records_resources.services.records.results import (
         RecordItem,
         RecordList,
     )
+
 log = logging.getLogger(__name__)
 
 
@@ -94,10 +96,11 @@ class CommunityDoiSettingsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
 
     service_id = "community-doi"
     record_cls = CommunityDoiSettingsAggregate
-    schema: type[CommunityDoiSettingsSchema] | FromConfig = FromConfig(
+    schema = FromConfig(  # ty: ignore[invalid-assignment]
         "DOI_SETTINGS_SERVICE_SCHEMA",
         CommunityDoiSettingsSchema,
     )
+
     indexer_queue_name = "community-doi"
     index_dumper = None
 
@@ -109,9 +112,9 @@ class CommunityDoiSettingsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
         "self": Link("{+api}/doi_settings/{id}"),
     }  # pyright: ignore[reportIncompatibleVariableOverride]
 
-    links_search: Mapping[str, Link] = pagination_links("{+api}/doi_settings{?args*}")  # pyright: ignore[reportIncompatibleVariableOverride]
+    links_search = pagination_links("{+api}/doi_settings{?args*}")
 
-    components: tuple[type[DoiSettingsComponent], ...] = (DoiSettingsComponent,)
+    components: tuple[type[ServiceComponent], ...] = (DoiSettingsComponent,)
 
 
 class CommunityDoiSettingsService(RecordService):

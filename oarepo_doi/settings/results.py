@@ -19,7 +19,7 @@ class CommunityDoiSettingsItem(RecordItem):
     """Single DOI settings."""
 
     @override
-    def __init__(  # ty: ignore[invalid-method-override]
+    def __init__(  # ty: ignore[incompatible-method-override]
         self,
         service: Any,
         identity: Identity,
